@@ -1,5 +1,4 @@
-﻿using LicenseHubApp.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -9,27 +8,32 @@ using System.Threading.Tasks;
 using static System.Reflection.Metadata.BlobBuilder;
 using System.Windows.Forms;
 
+using LicenseHubApp.Models;
+
+
 namespace LicenseHubApp.Repositories
 {
-    internal class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
-        async Task IUserRepository.Add(UserModel user)
+        public UserRepository(DataContext dataContext)
         {
-            using var context = new DataContext();
+            this.context = dataContext;
+        }
+
+        public async Task Add(UserModel user)
+        {
             context.Users.Add(user);
             await context.SaveChangesAsync();
         }
 
-        async Task IUserRepository.Delete(UserModel user)
+        public async Task Delete(UserModel user)
         {
-            using var context = new DataContext();
             context.Users.Remove(user);
             await context.SaveChangesAsync();
         }
 
-        async Task IUserRepository.Edit(UserModel user, string? name=null, string? password=null, bool? isAdmin=null)
+        public async Task Edit(UserModel user, string? name=null, string? password=null, bool? isAdmin=null)
         {
-            using var context = new DataContext();
             var userToUpdate = await context.Users.FindAsync(user);
             if (userToUpdate != null)
             {
@@ -44,11 +48,15 @@ namespace LicenseHubApp.Repositories
             }
         }
 
-        IEnumerable<UserModel> IUserRepository.GetAll()
+        public async Task<IEnumerable<UserModel>> GetAll()
         {
-            using var context = new DataContext();
-            var users = context.Users;
-            return users.ToList();
+            var users = await context.Users.ToListAsync();
+            return users;
+        }
+
+        public bool IsIdUnique(int id)
+        {
+            return !context.Users.Any(user => user.Id == id);
         }
 
     }

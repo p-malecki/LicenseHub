@@ -5,26 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System.Security.Cryptography;
 
 
 namespace LicenseHubApp.Models
 {
-    internal class UserModel
+    public class UserModel: ValidatableModel
     {
-        [Required(ErrorMessage = "Id is Required")]
-        public required string Id { get; set; }
+        // Fields
+        private string _name;
 
+        // Properties - to Validate
+        [DisplayName("User ID")]
+        [Range(0, int.MaxValue, ErrorMessage = "ID must be non negative")]
+        public int Id { get; set; }
+
+        [DisplayName("User Name")]
         [Required(ErrorMessage = "Name is Required")]
         [StringLength(50, MinimumLength = 3)]
-        public required string Name { get; set; }
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && value.Length is >= 3 and <= 50)
+                {
+                    _name = value;
+                }
+            }
+        }
 
+        [DisplayName("User Password")]
         [Required(ErrorMessage = "Password is Required")]
         [MaxLength(50)]
         [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Incorrect Password Format")]
-        public required string Password { get; set; }
+        public string Password { get; set; }
 
-        [Required(ErrorMessage = "IsAdmin is Required")]
-        public required bool IsAdmin { get; set; }
-
+        [DisplayName("User IsAdmin")]
+        public bool IsAdmin { get; set; }
     }
 }

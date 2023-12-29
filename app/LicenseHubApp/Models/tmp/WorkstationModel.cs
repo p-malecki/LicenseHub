@@ -17,7 +17,7 @@ namespace LicenseHubApp.Models
         public string BiosVersion { get; set; }
         public string Os { get; set; }
         public string OsBitVersion { get; set; }
-        public List<IWorkstationProduct> ProductsInstalled { get; set; }
+        //public List<IWorkstationProduct> ProductsInstalled { get; set; }
 
     }
 }

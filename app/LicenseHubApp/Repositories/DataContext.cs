@@ -12,9 +12,9 @@ using LicenseHubApp.Models;
 
 namespace LicenseHubApp.Repositories
 {
-    internal class DataContext : DbContext
+    public class DataContext : DbContext
     {
-        public DbSet<UserModel> Users { get; set; }
+        public virtual DbSet<UserModel> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
