@@ -1,7 +1,10 @@
 using LicenseHubApp.Models;
+using LicenseHubApp.Presenters;
 using LicenseHubApp.Repositories;
+using LicenseHubApp.Views.Forms;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
+
 
 namespace LicenseHubApp
 {
@@ -17,7 +20,10 @@ namespace LicenseHubApp
         [STAThread]
         static void Main(string[] args)
         {
-            // create connectionString with absolute path to [project]\Data\database.db
+            ApplicationConfiguration.Initialize();
+
+
+            // Create connectionString with absolute path to [project]\Data\database.db
             var connectionString = "";
             var solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;
             var path = Path.Combine(solutionDirectory, "Data\\database.db");
@@ -26,36 +32,33 @@ namespace LicenseHubApp
             builder.DataSource = Path.GetFullPath(
                 Path.Combine(path, builder.DataSource));
             connectionString = builder.ToString();
-
             System.Configuration.ConfigurationManager.AppSettings["ConnectionString"] = connectionString;
 
 
-            ApplicationConfiguration.Initialize();
-            //Application.Run(new Form1());
-
-
-
-
+            // Database
             var dataContext = new DataContext();
             if (!dataContext.IsDatabaseConnected())
                 throw new Exception("Database is not connected.");
 
-
+            // Repositories
             IUserRepository repository = new UserRepository(dataContext);
-            var user = new UserModel() { Id = 123, Name = "abcd", Password = "Password1#", IsAdmin = false };
+
+            // Utils
+            var authenticationManager = AuthenticationManager.GetInstance(repository);
+
+            var loginForm = new LoginForm();
+            var loginPresenter = new LoginPresenter(loginForm, authenticationManager);
 
 
-            repository.Add(user);
-            var all = repository.GetAll().Result.ToList();
-            foreach (var u in all)
-                Console.WriteLine(u.Id);
+
+            // Run main loop
+            Application.Run(loginForm);
 
 
-            repository.Delete(user);
-            all = repository.GetAll().Result.ToList();
-            foreach (var u in all)
-                Console.WriteLine(u.Id);
 
+            // DEBUG database quick actions
+            //var user = new UserModel() { Id = 0, Username = "admin", Password = "Admin123@", IsAdmin = true };
+            //repository.Add(user);
         }
     }
 }
