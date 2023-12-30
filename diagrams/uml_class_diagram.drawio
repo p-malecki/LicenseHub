@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram name="Page-1" id="c4acf3e9-155e-7222-9cf6-157b1a14988f">
-        <mxGraphModel dx="2294" dy="4692" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="4681" background="none" math="0" shadow="0">
+        <mxGraphModel dx="748" dy="4164" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="3300" pageHeight="4681" background="none" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -334,7 +334,7 @@
                 <mxCell id="138" value="+ PromoteToAdmin(User u): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="669" vertex="1">
                     <mxGeometry y="190" width="360" height="26" as="geometry"/>
                 </mxCell>
-                <mxCell id="113" value="- ValidatePassword(string password): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="669" vertex="1">
+                <mxCell id="98" value="+ ChangePassword(User u): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="669" vertex="1">
                     <mxGeometry y="216" width="360" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="677" value="" style="group" parent="668" vertex="1" connectable="0">
@@ -344,7 +344,7 @@
                     <mxGeometry width="110" height="30" as="geometry"/>
                 </mxCell>
                 <mxCell id="84" value="User" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" parent="677" vertex="1">
-                    <mxGeometry x="156" y="42" width="220" height="164" as="geometry">
+                    <mxGeometry x="156" y="42" width="220" height="112" as="geometry">
                         <mxRectangle x="1030" y="360" width="100" height="30" as="alternateBounds"/>
                     </mxGeometry>
                 </mxCell>
@@ -359,12 +359,6 @@
                 </mxCell>
                 <mxCell id="96" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" parent="84" vertex="1">
                     <mxGeometry y="104" width="220" height="8" as="geometry"/>
-                </mxCell>
-                <mxCell id="98" value="+ ChangePassword(): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="84" vertex="1">
-                    <mxGeometry y="112" width="220" height="26" as="geometry"/>
-                </mxCell>
-                <mxCell id="131" value="+ PromoteToAdmin(): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="84" vertex="1">
-                    <mxGeometry y="138" width="220" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="679" style="edgeStyle=none;html=1;fontColor=#FAFAFA;entryX=1;entryY=0;entryDx=0;entryDy=0;" parent="668" source="678" target="669" edge="1">
                     <mxGeometry relative="1" as="geometry">
@@ -1643,7 +1637,7 @@
                 <mxCell id="1240" value="&lt;p data-pm-slice=&quot;1 1 [&amp;quot;bulletList&amp;quot;,null,&amp;quot;listItem&amp;quot;,null]&quot;&gt;periodic reminders backups&lt;/p&gt;" style="strokeWidth=1;shadow=0;dashed=0;align=center;html=1;shape=mxgraph.mockup.text.stickyNote2;fontColor=#666666;mainText=;fontSize=17;whiteSpace=wrap;fillColor=#ffffcc;strokeColor=#F62E00;fontFamily=Helvetica;" parent="1" vertex="1">
                     <mxGeometry x="3021" y="-2423" width="262" height="39" as="geometry"/>
                 </mxCell>
-                <mxCell id="1250" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;html=1;labelBackgroundColor=default;strokeColor=default;fontFamily=Helvetica;fontSize=24;fontColor=default;endArrow=open;endFill=0;endSize=24;" edge="1" parent="1" source="455" target="1024">
+                <mxCell id="1250" style="edgeStyle=orthogonalEdgeStyle;shape=connector;rounded=0;html=1;labelBackgroundColor=default;strokeColor=default;fontFamily=Helvetica;fontSize=24;fontColor=default;endArrow=open;endFill=0;endSize=24;" parent="1" source="455" target="1024" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="6335" y="207"/>
