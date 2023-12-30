@@ -2,17 +2,27 @@
 {
     public sealed class UserManager
     {
+        private static readonly object LockObject = new();
         private static UserManager _instance;
         private static IUserRepository _repository;
         private IEnumerable<UserModel> _userList;
+
         private UserManager() { }
 
         public static UserManager GetInstance(IUserRepository repository)
         {
+            // Double-check locking for thread safety
             if (_instance == null)
             {
-                _instance = new UserManager();
-                _repository = repository;
+                lock (LockObject)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new UserManager();
+                        _repository = repository;
+                    }
+                }
+
             }
             return _instance;
         }
@@ -26,14 +36,14 @@
             return _userList;
         }
 
-        public void AddUser(int id, string name, string password, bool isAdmin)
+        public void AddUser(int id, string username, string password, bool isAdmin)
         {
             try
             {
                 var user = new UserModel
                 {
                     Id = id,
-                    Name = name,
+                    Username = username,
                     Password = password,
                     IsAdmin = isAdmin
                 };
@@ -57,7 +67,7 @@
                     if (!_repository.IsIdUnique(user.Id))
                         _ = _repository.Add(user);
                     else
-                        _ = _repository.Edit(user, user.Name, user.Password, user.IsAdmin);
+                        _ = _repository.Edit(user, user.Username, user.Password, user.IsAdmin);
                     LoadAllUsers();
                 }
                 else
