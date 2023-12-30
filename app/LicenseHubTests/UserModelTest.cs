@@ -1,136 +1,165 @@
-namespace LicenseHubTests
+using LicenseHubApp.Models;
+
+namespace LicenseHubTests;
+
+public class UserModelTest
 {
-    [TestFixture]
-    public class UserModelTest
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(int.MaxValue)]
+    public void Given_CorrectId_When_ValidatingModel_ReturnTrue(int id)
     {
-        [SetUp]
-        public void Setup()
+        // Arrange
+        var model = new UserModel
         {
-        }
+            Id = id,
+            Username = "abcd",
+            Password = "Abcd123#",
+            IsAdmin = false
+        };
 
-        [Test]
-        [TestCase(0, ExpectedResult = true)]
-        [TestCase(int.MaxValue, ExpectedResult = true)]
-        [TestCase(int.MinValue, ExpectedResult = false)]
-        [TestCase(-1, ExpectedResult = false)]
-        public bool Test_IdCorrectness(int id)
+        // Act and Assert
+        Assert.True(model.Validate());
+    }
+
+    [Theory]
+    [InlineData(int.MinValue)]
+    [InlineData(-1)]
+    public void Given_IncorrectId_When_ValidatingModel_ReturnFalse(int id)
+    {
+        // Arrange
+        var model = new UserModel
         {
-            // Arrange
-            var model = new UserModel
-            {
-                Id = id,
-                Username = "abcd",
-                Password = "Abcd123#",
-                IsAdmin = false
-            };
+            Id = id,
+            Username = "abcd",
+            Password = "Abcd123#",
+            IsAdmin = false
+        };
 
-            // Act and Assert
-            return model.Validate();
-        }
+        // Act and Assert
+        Assert.False(model.Validate());
+    }
 
-        [Test]
-        [TestCase("", ExpectedResult = false)]
-        [TestCase("ab", ExpectedResult = false)]
-        [TestCase("abc", ExpectedResult = true)]
-        [TestCase("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx", ExpectedResult = true)]
-        [TestCase("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy", ExpectedResult = false)]
-        public bool Test_UsernameCorrectness(string username)
+
+    [Theory]
+    [InlineData("abc")]
+    [InlineData("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx")]
+    public void Given_CorrectUsername_When_ValidatingModel_ReturnTrue(string username)
+    {
+        // Arrange
+        var model = new UserModel
         {
-            // Arrange
-            var model = new UserModel
-            {
-                Id = 1,
-                Username = username,
-                Password = "Abcd123#",
-                IsAdmin = false
-            };
+            Id = 1,
+            Username = username,
+            Password = "Abcd123#",
+            IsAdmin = false
+        };
 
-            // Act and Assert
-            return model.Validate();
-        }
+        // Act and Assert
+        Assert.True(model.Validate());
+    }
 
-        [Test]
-        [TestCase("Abc123#")] // to short
-        [TestCase("Abcde123")] // #
-        [TestCase("abcd123#")] // A
-        [TestCase("ABCD123#")] // a
-        [TestCase("abcdefh#")] // 1
-        [TestCase("Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvw1#")] // to long
-        public void Test_IncorrectPassword_ReturnFalse(string password)
+    [Theory]
+    [InlineData("")]
+    [InlineData("ab")]
+    [InlineData("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy")]
+    public void Given_IncorrectUsername_When_ValidatingModel_ReturnFalse(string username)
+    {
+        // Arrange
+        var model = new UserModel
         {
-            // Arrange
-            var model = new UserModel
-            {
-                Id = 1,
-                Username = "abc",
-                Password = password,
-                IsAdmin = false
-            };
+            Id = 1,
+            Username = username,
+            Password = "Abcd123#",
+            IsAdmin = false
+        };
 
-            // Act
-            var isValid = model.Validate();
+        // Act and Assert
+        Assert.False(model.Validate());
+    }
 
-            // Assert
-            Assert.That(isValid, Is.False);
-        }
 
-        [Test]
-        [TestCase("Abcd123#")]
-        [TestCase("Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv1#")]
-        public void Test_CorrectPassword_ReturnTrue(string password)
+    [Theory]
+    [InlineData("Abcd123#")]
+    [InlineData("Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv1#")]
+    public void Given_CorrectPassword_When_ValidatingModel_ReturnTrue(string password)
+    {
+        // Arrange
+        var model = new UserModel
         {
-            // Arrange
-            var model = new UserModel
-            {
-                Id = 1,
-                Username = "abc",
-                Password = password,
-                IsAdmin = false
-            };
+            Id = 1,
+            Username = "abc",
+            Password = password,
+            IsAdmin = false
+        };
 
-            // Act
-            var isValid = model.Validate();
+        // Act
+        var isValid = model.Validate();
 
-            // Assert
-            Assert.That(isValid, Is.True);
-        }
+        // Assert
+        Assert.True(isValid);
+    }
 
-        [Test]
-        public void Test_MissingName()
+    [Theory]
+    [InlineData("Abc123#")] // to short
+    [InlineData("Abcde123")] // #
+    [InlineData("abcd123#")] // A
+    [InlineData("ABCD123#")] // a
+    [InlineData("abcdefh#")] // 1
+    [InlineData("Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvw1#")] // to long
+    public void Given_IncorrectPassword_When_ValidatingModel_ReturnFalse(string password)
+    {
+        // Arrange
+        var model = new UserModel
         {
-            // Arrange
-            var model = new UserModel
-            {
-                Id = 1,
-                Password = "Abcd123#",
-                IsAdmin = false
-            };
+            Id = 1,
+            Username = "abc",
+            Password = password,
+            IsAdmin = false
+        };
 
-            // Act
-            var isValid = model.Validate();
+        // Act
+        var isValid = model.Validate();
 
-            // Assert
-            Assert.That(isValid, Is.False);
-        }
+        // Assert
+        Assert.False(isValid);
+    }
 
-        [Test]
-        public void Test_MissingPassword()
+
+    [Fact]
+    public void Given_MissingUsernameInModel_When_ValidatingModel_ReturnFalse()
+    {
+        // Arrange
+        var model = new UserModel
         {
-            // Arrange
-            var model = new UserModel
-            {
-                Id = 1,
-                Username = "abc",
-                IsAdmin = false
-            };
+            Id = 1,
+            Password = "Abcd123#",
+            IsAdmin = false
+        };
 
-            // Act
-            var isValid = model.Validate();
+        // Act
+        var isValid = model.Validate();
 
-            // Assert
-            Assert.That(isValid, Is.False);
-        }
+        // Assert
+        Assert.False(isValid);
+    }
 
+    [Fact]
+    public void Given_MissingPasswordInModel_When_ValidatingModel_ReturnFalse()
+    {
+        // Arrange
+        var model = new UserModel
+        {
+            Id = 1,
+            Username = "abc",
+            IsAdmin = false
+        };
 
+        // Act
+        var isValid = model.Validate();
+
+        // Assert
+        Assert.False(isValid);
     }
 }
