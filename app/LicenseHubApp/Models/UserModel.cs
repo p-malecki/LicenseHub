@@ -4,33 +4,33 @@ using System.ComponentModel;
 
 namespace LicenseHubApp.Models
 {
-    public class UserModel: ValidatableModel
+    public class UserModel : ValidatableModel
     {
         // Fields
-        private string _name;
+        private string _username;
 
         // Properties - to Validate
         [DisplayName("User ID")]
-        [Range(0, int.MaxValue, ErrorMessage = "ID must be non negative")]
+        [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
         public int Id { get; set; }
 
-        [DisplayName("User Name")]
-        [Required(ErrorMessage = "Name is Required")]
+        [DisplayName("Username")]
+        [Required(ErrorMessage = "{0} is Required")]
         [StringLength(50, MinimumLength = 3)]
-        public string Name
+        public string Username
         {
-            get => _name;
+            get => _username;
             set
             {
                 if (!string.IsNullOrEmpty(value) && value.Length is >= 3 and <= 50)
                 {
-                    _name = value;
+                    _username = value;
                 }
             }
         }
 
         [DisplayName("User Password")]
-        [Required(ErrorMessage = "Password is Required")]
+        [Required(ErrorMessage = "{0} is Required")]
         [MaxLength(50)]
         [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", ErrorMessage = "Incorrect Password Format")]
         public string Password { get; set; }

@@ -1,22 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 
 using LicenseHubApp.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.IO;
 
 
 namespace LicenseHubApp.Repositories
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

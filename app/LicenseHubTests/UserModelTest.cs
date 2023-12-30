@@ -19,7 +19,7 @@ namespace LicenseHubTests
             var model = new UserModel
             {
                 Id = id,
-                Name = "abcd",
+                Username = "abcd",
                 Password = "Abcd123#",
                 IsAdmin = false
             };
@@ -34,13 +34,13 @@ namespace LicenseHubTests
         [TestCase("abc", ExpectedResult = true)]
         [TestCase("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwx", ExpectedResult = true)]
         [TestCase("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy", ExpectedResult = false)]
-        public bool Test_NameCorrectness(string name)
+        public bool Test_UsernameCorrectness(string username)
         {
             // Arrange
             var model = new UserModel
             {
                 Id = 1,
-                Name = name,
+                Username = username,
                 Password = "Abcd123#",
                 IsAdmin = false
             };
@@ -62,7 +62,7 @@ namespace LicenseHubTests
             var model = new UserModel
             {
                 Id = 1,
-                Name = "abc",
+                Username = "abc",
                 Password = password,
                 IsAdmin = false
             };
@@ -83,7 +83,7 @@ namespace LicenseHubTests
             var model = new UserModel
             {
                 Id = 1,
-                Name = "abc",
+                Username = "abc",
                 Password = password,
                 IsAdmin = false
             };
@@ -120,7 +120,7 @@ namespace LicenseHubTests
             var model = new UserModel
             {
                 Id = 1,
-                Name = "abc",
+                Username = "abc",
                 IsAdmin = false
             };
 

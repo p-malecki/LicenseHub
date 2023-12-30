@@ -16,7 +16,7 @@ namespace LicenseHubApp.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Username = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     Password = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
                     IsAdmin = table.Column<bool>(type: "INTEGER", nullable: false)
                 },

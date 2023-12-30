@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LicenseHubApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231229205506_InitialCreate")]
+    [Migration("20231230013915_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,12 +28,12 @@ namespace LicenseHubApp.Migrations
                     b.Property<bool>("IsAdmin")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
