@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Reflection.Metadata.BlobBuilder;
 using System.Windows.Forms;
+using Microsoft.EntityFrameworkCore;
+
 
 using LicenseHubApp.Models;
 
@@ -32,17 +34,14 @@ namespace LicenseHubApp.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task Edit(UserModel user, string? name=null, string? password=null, bool? isAdmin=null)
+        public async Task Edit(UserModel user, string name, string password, bool isAdmin)
         {
             var userToUpdate = await context.Users.FindAsync(user);
             if (userToUpdate != null)
             {
-                if (name != null)
-                    userToUpdate.Name = name;
-                if (password != null)
-                    userToUpdate.Password = password;
-                if (isAdmin != null)
-                    userToUpdate.IsAdmin = isAdmin.Value;
+                userToUpdate.Name = name;
+                userToUpdate.Password = password;
+                userToUpdate.IsAdmin = isAdmin;
 
                 await context.SaveChangesAsync();
             }
@@ -50,8 +49,7 @@ namespace LicenseHubApp.Repositories
 
         public async Task<IEnumerable<UserModel>> GetAll()
         {
-            var users = await context.Users.ToListAsync();
-            return users;
+            return await context.Users.ToListAsync();
         }
 
         public bool IsIdUnique(int id)
