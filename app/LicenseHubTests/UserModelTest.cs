@@ -15,6 +15,7 @@ namespace LicenseHubTests
         [TestCase(-1, ExpectedResult = false)]
         public bool Test_IdCorrectness(int id)
         {
+            // Arrange
             var model = new UserModel
             {
                 Id = id,
@@ -23,6 +24,7 @@ namespace LicenseHubTests
                 IsAdmin = false
             };
 
+            // Act and Assert
             return model.Validate();
         }
 
@@ -34,6 +36,7 @@ namespace LicenseHubTests
         [TestCase("abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxy", ExpectedResult = false)]
         public bool Test_NameCorrectness(string name)
         {
+            // Arrange
             var model = new UserModel
             {
                 Id = 1,
@@ -41,7 +44,8 @@ namespace LicenseHubTests
                 Password = "Abcd123#",
                 IsAdmin = false
             };
-            
+
+            // Act and Assert
             return model.Validate();
         }
 
@@ -54,6 +58,7 @@ namespace LicenseHubTests
         [TestCase("Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvw1#")] // to long
         public void Test_IncorrectPassword_ReturnFalse(string password)
         {
+            // Arrange
             var model = new UserModel
             {
                 Id = 1,
@@ -62,7 +67,10 @@ namespace LicenseHubTests
                 IsAdmin = false
             };
 
+            // Act
             var isValid = model.Validate();
+
+            // Assert
             Assert.That(isValid, Is.False);
         }
 
@@ -71,6 +79,7 @@ namespace LicenseHubTests
         [TestCase("Abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuv1#")]
         public void Test_CorrectPassword_ReturnTrue(string password)
         {
+            // Arrange
             var model = new UserModel
             {
                 Id = 1,
@@ -79,13 +88,17 @@ namespace LicenseHubTests
                 IsAdmin = false
             };
 
+            // Act
             var isValid = model.Validate();
+
+            // Assert
             Assert.That(isValid, Is.True);
         }
 
         [Test]
         public void Test_MissingName()
         {
+            // Arrange
             var model = new UserModel
             {
                 Id = 1,
@@ -93,13 +106,17 @@ namespace LicenseHubTests
                 IsAdmin = false
             };
 
+            // Act
             var isValid = model.Validate();
+
+            // Assert
             Assert.That(isValid, Is.False);
         }
 
         [Test]
         public void Test_MissingPassword()
         {
+            // Arrange
             var model = new UserModel
             {
                 Id = 1,
@@ -107,7 +124,10 @@ namespace LicenseHubTests
                 IsAdmin = false
             };
 
+            // Act
             var isValid = model.Validate();
+
+            // Assert
             Assert.That(isValid, Is.False);
         }
 
