@@ -15,6 +15,7 @@ namespace LicenseHubApp.Repositories
         }
 
         public virtual DbSet<UserModel> Users { get; set; }
+        public virtual DbSet<CompanyModel> Companies { get; set; }
 
         public bool IsDatabaseConnected()
         {
