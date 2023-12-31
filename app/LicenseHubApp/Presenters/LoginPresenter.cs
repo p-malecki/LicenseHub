@@ -1,13 +1,5 @@
 ﻿using LicenseHubApp.Views.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using LicenseHubApp.Models.ModelManagers;
 
 
 namespace LicenseHubApp.Presenters

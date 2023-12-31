@@ -1,4 +1,5 @@
 using LicenseHubApp.Models;
+using LicenseHubApp.Models.ModelManagers;
 using LicenseHubApp.Presenters;
 using LicenseHubApp.Repositories;
 using LicenseHubApp.Views.Forms;
@@ -10,9 +11,6 @@ namespace LicenseHubApp
 {
     internal static class Program
     {
-        public static IConfiguration Configuration;
-
-
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
@@ -58,7 +56,7 @@ namespace LicenseHubApp
 
             // DEBUG database quick actions
             //var user = new UserModel() { Id = 0, Username = "admin", Password = "Admin123@", IsAdmin = true };
-            //repository.Add(user);
+            //repository.AddAsync(user);
         }
     }
 }

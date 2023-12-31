@@ -1,4 +1,4 @@
-﻿namespace LicenseHubApp.Models
+﻿namespace LicenseHubApp.Models.Managers
 {
     public sealed class UserManager
     {
@@ -22,14 +22,13 @@
                         _repository = repository;
                     }
                 }
-
             }
             return _instance;
         }
 
         public void LoadAllUsers()
         {
-            _userList = _repository.GetAll().Result.ToList();
+            _userList = _repository.GetAllAsync().Result.ToList();
         }
         public IEnumerable<UserModel> GetAllUsers()
         {
@@ -65,9 +64,9 @@
                 if (user.Validate())
                 {
                     if (!_repository.IsIdUnique(user.Id))
-                        _ = _repository.Add(user);
+                        _ = _repository.AddAsync(user);
                     else
-                        _ = _repository.Edit(user, user.Username, user.Password, user.IsAdmin);
+                        _ = _repository.EditAsync(user.Id, user);
                     LoadAllUsers();
                 }
                 else
@@ -87,7 +86,7 @@
             {
                 if (!_repository.IsIdUnique(user.Id))
                 {
-                    var a = _repository.Delete(user);
+                    var a = _repository.DeleteAsync(user.Id);
 
                 }
                 else

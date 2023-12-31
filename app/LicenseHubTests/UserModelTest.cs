@@ -1,6 +1,6 @@
+namespace LicenseHubTests;
 using LicenseHubApp.Models;
 
-namespace LicenseHubTests;
 
 public class UserModelTest
 {

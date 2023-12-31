@@ -2,12 +2,12 @@
 {
     public interface IUserRepository
     {
-        Task Add(UserModel user);
-        Task Edit(UserModel user, string username, string password, bool isAdmin);
-        Task Delete(UserModel user);
-        Task<UserModel?> FindUser(string username);
-        Task<IEnumerable<UserModel>> GetAll();
-
+        Task AddAsync(UserModel user);
+        Task EditAsync(int modelId, UserModel updatedModel);
+        Task DeleteAsync(int id);
+        Task<UserModel?> GetUserByIdAsync(int id);
+        Task<UserModel?> GetUserByUsernameAsync(string username);
+        Task<IList<UserModel>> GetAllAsync();
         bool IsIdUnique(int id);
     }
 }

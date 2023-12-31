@@ -11,37 +11,45 @@ namespace LicenseHubApp.Repositories
             this.context = dataContext;
         }
 
-        public async Task Add(UserModel user)
+        public async Task AddAsync(UserModel user)
         {
             context.Users.Add(user);
             await context.SaveChangesAsync();
         }
 
-        public async Task Delete(UserModel user)
+        public async Task DeleteAsync(int id)
         {
-            context.Users.Remove(user);
-            await context.SaveChangesAsync();
+            var modelToDelete = await GetUserByIdAsync(id);
+            if (modelToDelete != null)
+            {
+                context.Users.Remove(modelToDelete);
+                await context.SaveChangesAsync();
+            }
         }
 
-        public async Task Edit(UserModel user, string username, string password, bool isAdmin)
+        public async Task EditAsync(int modelId, UserModel updatedModel)
         {
-            var userToUpdate = await context.Users.FindAsync(user);
-            if (userToUpdate != null)
+            var modelToUpdate = await GetUserByIdAsync(modelId);
+            if (modelToUpdate != null)
             {
-                userToUpdate.Username = username;
-                userToUpdate.Password = password;
-                userToUpdate.IsAdmin = isAdmin;
+                modelToUpdate.Username = updatedModel.Username;
+                modelToUpdate.Password = updatedModel.Password;
+                modelToUpdate.IsAdmin = updatedModel.IsAdmin;
 
                 await context.SaveChangesAsync();
             }
         }
 
-        public async Task<UserModel?> FindUser(string username)
+        public async Task<UserModel?> GetUserByIdAsync(int id)
+        {
+            return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+        public async Task<UserModel?> GetUserByUsernameAsync(string username)
         {
             return await context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
-        public async Task<IEnumerable<UserModel>> GetAll()
+        public async Task<IList<UserModel>> GetAllAsync()
         {
             return await context.Users.ToListAsync();
         }

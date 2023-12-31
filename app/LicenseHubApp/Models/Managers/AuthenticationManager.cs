@@ -1,4 +1,4 @@
-﻿namespace LicenseHubApp.Models
+﻿namespace LicenseHubApp.Models.Managers
 {
     public class AuthenticationManager
     {
@@ -6,7 +6,7 @@
         private static AuthenticationManager _instance;
         private static IUserRepository _repository;
         private UserModel? _currentlyLoggedUser;
-        
+
         public static int FailedAttempts = 0;
 
 
@@ -34,7 +34,7 @@
         {
             try
             {
-                var user = _repository.FindUser(username)?.Result;
+                var user = _repository.GetUserByUsernameAsync(username)?.Result;
                 if (user == null)
                     throw new InvalidDataException($"User {username} doesn't exist.");
 
@@ -81,7 +81,7 @@
 
 public class IncorrectPasswordException : Exception
 {
-    public IncorrectPasswordException() : base("Incorrect password.") {}
-    public IncorrectPasswordException(string message) : base(message) {}
-    public IncorrectPasswordException(string message, Exception innerException) : base(message, innerException) {}
+    public IncorrectPasswordException() : base("Incorrect password.") { }
+    public IncorrectPasswordException(string message) : base(message) { }
+    public IncorrectPasswordException(string message, Exception innerException) : base(message, innerException) { }
 }

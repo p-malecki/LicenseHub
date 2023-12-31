@@ -6,9 +6,6 @@ namespace LicenseHubApp.Models
 {
     public class UserModel : ValidatableModel
     {
-        // Fields
-        private string _username;
-
         // Properties - to Validate
         [DisplayName("User ID")]
         [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
@@ -17,17 +14,7 @@ namespace LicenseHubApp.Models
         [DisplayName("Username")]
         [Required(ErrorMessage = "{0} is Required")]
         [StringLength(50, MinimumLength = 3)]
-        public string Username
-        {
-            get => _username;
-            set
-            {
-                if (!string.IsNullOrEmpty(value) && value.Length is >= 3 and <= 50)
-                {
-                    _username = value;
-                }
-            }
-        }
+        public string Username { get; set; }
 
         [DisplayName("User Password")]
         [Required(ErrorMessage = "{0} is Required")]
