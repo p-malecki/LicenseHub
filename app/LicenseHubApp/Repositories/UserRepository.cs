@@ -19,7 +19,7 @@ namespace LicenseHubApp.Repositories
 
         public async Task DeleteAsync(int id)
         {
-            var modelToDelete = await GetUserByIdAsync(id);
+            var modelToDelete = await GetModelByIdAsync(id);
             if (modelToDelete != null)
             {
                 context.Users.Remove(modelToDelete);
@@ -29,7 +29,7 @@ namespace LicenseHubApp.Repositories
 
         public async Task EditAsync(int modelId, UserModel updatedModel)
         {
-            var modelToUpdate = await GetUserByIdAsync(modelId);
+            var modelToUpdate = await GetModelByIdAsync(modelId);
             if (modelToUpdate != null)
             {
                 modelToUpdate.Username = updatedModel.Username;
@@ -40,7 +40,7 @@ namespace LicenseHubApp.Repositories
             }
         }
 
-        public async Task<UserModel?> GetUserByIdAsync(int id)
+        public async Task<UserModel?> GetModelByIdAsync(int id)
         {
             return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }

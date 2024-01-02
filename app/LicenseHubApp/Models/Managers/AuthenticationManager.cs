@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Models.Managers
 {
-    public class AuthenticationManager
+    public sealed class AuthenticationManager
     {
         private static readonly object LockObject = new();
         private static AuthenticationManager _instance;
@@ -25,7 +25,6 @@
                         _repository = repository;
                     }
                 }
-
             }
             return _instance;
         }

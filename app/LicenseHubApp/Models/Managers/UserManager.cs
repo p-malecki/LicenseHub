@@ -1,14 +1,13 @@
-﻿namespace LicenseHubApp.Models.Managers
+﻿using System.Data;
+
+namespace LicenseHubApp.Models.Managers
 {
-    public sealed class UserManager
+    public class UserManager : BaseModelManager<UserModel>
     {
         private static readonly object LockObject = new();
         private static UserManager _instance;
-        private static IUserRepository _repository;
-        private IEnumerable<UserModel> _userList;
 
         private UserManager() { }
-
         public static UserManager GetInstance(IUserRepository repository)
         {
             // Double-check locking for thread safety
@@ -19,99 +18,56 @@
                     if (_instance == null)
                     {
                         _instance = new UserManager();
-                        _repository = repository;
+                        Repository = repository;
                     }
                 }
             }
             return _instance;
         }
 
-        public void LoadAllUsers()
+        public void ValidateUsername(UserModel model, string newUsername)
         {
-            _userList = _repository.GetAllAsync().Result.ToList();
-        }
-        public IEnumerable<UserModel> GetAllUsers()
-        {
-            return _userList;
+            var isUsernameUnique = !ModelList.Any(u => (u.Username == newUsername) && (u.Id != model.Id));
+            if (!isUsernameUnique)
+            {
+                throw new InvalidOperationException($"USer with Username {newUsername} already exists.");
+            }
         }
 
-        public void AddUser(int id, string username, string password, bool isAdmin)
+        public void ValidateAdminChange(UserModel model, bool newIsAdmin)
+        {
+            if (!newIsAdmin && ModelList.Count(u => u.IsAdmin) == 1)
+            {
+                throw new InvalidOperationException($"Unable to remove the last admin privileges.");
+            }
+        }
+
+        public new void Delete(UserModel model)
         {
             try
             {
-                var user = new UserModel
+                if (model.IsAdmin && GetAll().Count(u => u.IsAdmin) == 1)
                 {
-                    Id = id,
-                    Username = username,
-                    Password = password,
-                    IsAdmin = isAdmin
-                };
+                    throw new InvalidOperationException($"Unable to delete the last user with administrator privileges.");
 
-                if (!_repository.IsIdUnique(user.Id))
-                    throw new InvalidOperationException($"User with ID {user.Id} already exists.");
-                SaveUser(user);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-        public void SaveUser(UserModel user)
-        {
-            try
-            {
-                if (user.Validate())
+                }
+
+                if (!Repository.IsIdUnique(model.Id))
                 {
-                    if (!_repository.IsIdUnique(user.Id))
-                        _ = _repository.AddAsync(user);
-                    else
-                        _ = _repository.EditAsync(user.Id, user);
-                    LoadAllUsers();
+                    var a = Repository.DeleteAsync(model.Id);
                 }
                 else
                 {
-                    throw new InvalidOperationException("Model validation failed.");
+                    Type objtype = model.GetType();
+                    throw new InvalidOperationException($"{objtype.Name} with ID {model.Id} does not exist.");
                 }
+                LoadAll();
             }
             catch (Exception e)
             {
                 Console.WriteLine($"{e.Message}");
                 throw;
             }
-        }
-        public void DeleteUser(UserModel user)
-        {
-            try
-            {
-                if (!_repository.IsIdUnique(user.Id))
-                {
-                    var a = _repository.DeleteAsync(user.Id);
-
-                }
-                else
-                {
-                    throw new InvalidOperationException($"User with ID {user.Id} does not exist.");
-                }
-                LoadAllUsers();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"{e.Message}");
-                throw;
-            }
-        }
-
-        public void ChangeUserPassword(UserModel user, string newPassword)
-        {
-            user.Password = newPassword;
-            SaveUser(user);
-        }
-
-        public void PromoteUserToAdmin(UserModel user)
-        {
-            user.IsAdmin = true;
-            SaveUser(user);
         }
 
     }

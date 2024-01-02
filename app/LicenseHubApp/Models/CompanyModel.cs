@@ -1,13 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LicenseHubApp.Models
 {
-    public class CompanyModel : ValidatableModel
+    [PrimaryKey(nameof(CompanyModel.Name), nameof(CompanyModel.Nip))]
+    [Index(nameof(CompanyModel.Name), IsUnique = true)]
+    [Index(nameof(CompanyModel.Nip), IsUnique = true)]
+    public class CompanyModel : ValidatableModel, IModelWithId
     {
         // Properties - to Validate
         [DisplayName("Company ID")]
         [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [DisplayName("Company Name")]
