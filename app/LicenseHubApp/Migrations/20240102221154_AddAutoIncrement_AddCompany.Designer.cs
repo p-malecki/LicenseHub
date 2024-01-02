@@ -2,6 +2,7 @@
 using LicenseHubApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,31 +10,35 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LicenseHubApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240102221154_AddAutoIncrement_AddCompany")]
+    partial class AddAutoIncrement_AddCompany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
 
             modelBuilder.Entity("LicenseHubApp.Models.CompanyModel", b =>
                 {
-                    b.Property<string>("Name")
-                        .HasMaxLength(96)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Nip")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Localizations")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(96)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nip")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -41,13 +46,7 @@ namespace LicenseHubApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Name", "Nip");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
-
-                    b.HasIndex("Nip")
-                        .IsUnique();
+                    b.HasKey("Id");
 
                     b.ToTable("Companies");
                 });
@@ -72,9 +71,6 @@ namespace LicenseHubApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique();
 
                     b.ToTable("Users");
                 });
