@@ -7,10 +7,6 @@ public interface ILoginView
     string Password { get; set; }
     string IncorrectLoginMessage { get; set; }
 
-    //Events
-    event EventHandler LoginButtonClicked;
-
-    // Methods
-    //void ShowMessage(string message);
-
+    // Events
+    event EventHandler LoginBtnClicked;
 }

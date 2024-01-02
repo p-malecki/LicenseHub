@@ -4,6 +4,7 @@ namespace LicenseHubApp.Views.Forms
 {
     public partial class LoginForm : Form, ILoginView
     {
+        // Constructor
         public LoginForm()
         {
             InitializeComponent();
@@ -14,10 +15,11 @@ namespace LicenseHubApp.Views.Forms
         {
             btnLogin.Click += delegate
             {
-                LoginButtonClicked?.Invoke(this, EventArgs.Empty);
+                LoginBtnClicked?.Invoke(this, EventArgs.Empty);
             };
         }
 
+        // Properties
         public string Username
         {
             get => txtUsername.Text;
@@ -34,11 +36,8 @@ namespace LicenseHubApp.Views.Forms
             set => lbIncorrectLoginMessage.Text = value;
         }
 
-        public event EventHandler LoginButtonClicked;
+        // Events
+        public event EventHandler LoginBtnClicked;
 
-        //public void ShowMessage(string message)
-        //{
-        //    MessageBox.Show(message);
-        //}
     }
 }

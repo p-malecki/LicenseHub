@@ -1,44 +1,43 @@
 ﻿using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Models.ModelManagers;
+using LicenseHubApp.Models.Managers;
 
 
 namespace LicenseHubApp.Presenters
 {
     internal class LoginPresenter
     {
-        private ILoginView _loginView;
+        private ILoginView _view;
         private AuthenticationManager _authenticator;
-
 
         public LoginPresenter(ILoginView view, AuthenticationManager authenticator)
         {
-            _loginView = view;
+            _view = view;
             _authenticator = authenticator;
-            _loginView.LoginButtonClicked += OnLoginButtonClicked;
 
-            _loginView.IncorrectLoginMessage = "";
+            _view.LoginBtnClicked += OnBtnClicked;
+            _view.IncorrectLoginMessage = "";
         }
 
-        private void OnLoginButtonClicked(object sender, EventArgs e)
+        private void OnBtnClicked(object sender, EventArgs e)
         {
-            var enteredUsername = _loginView.Username;
-            var enteredPassword = _loginView.Password;
+            var enteredUsername = _view.Username;
+            var enteredPassword = _view.Password;
 
             try
             {
                 _authenticator.Login(enteredUsername, enteredPassword);
-                _loginView.IncorrectLoginMessage = "Welcome!";
+                _view.IncorrectLoginMessage = "Welcome!";
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                _loginView.IncorrectLoginMessage = ex.Message;
+                _view.IncorrectLoginMessage = ex.Message;
             }
         }
         private void CleanViewFields()
         {
-            _loginView.Username = "";
-            _loginView.Password = "";
+            _view.Username = "";
+            _view.Password = "";
         }
     }
 }

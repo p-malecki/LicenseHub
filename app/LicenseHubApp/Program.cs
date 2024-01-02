@@ -1,5 +1,5 @@
 using LicenseHubApp.Models;
-using LicenseHubApp.Models.ModelManagers;
+using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Presenters;
 using LicenseHubApp.Repositories;
 using LicenseHubApp.Views.Forms;
@@ -43,14 +43,19 @@ namespace LicenseHubApp
 
             // Utils
             var authenticationManager = AuthenticationManager.GetInstance(repository);
+            var userManager = UserManager.GetInstance(repository);
+
 
             var loginForm = new LoginForm();
             var loginPresenter = new LoginPresenter(loginForm, authenticationManager);
 
+            var userManagementForm = new UserManagementForm();
+            var userManagementPresenter = new UserManagementPresenter(userManagementForm, userManager);
 
 
             // Run main loop
-            Application.Run(loginForm);
+            //Application.Run(loginForm);
+            Application.Run(userManagementForm);
 
 
 
