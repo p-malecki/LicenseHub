@@ -47,7 +47,6 @@
             tabControl1 = new TabControl();
             tabPageDashboard = new TabPage();
             tabPageClients = new TabPage();
-            companyManagementuc1 = new CompanyManagementUC();
             sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
             panel2.SuspendLayout();
             topBarPanel.SuspendLayout();
@@ -58,7 +57,6 @@
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             tabControl1.SuspendLayout();
-            tabPageClients.SuspendLayout();
             SuspendLayout();
             // 
             // panel2
@@ -68,7 +66,7 @@
             panel2.Dock = DockStyle.Top;
             panel2.Location = new Point(0, 0);
             panel2.Name = "panel2";
-            panel2.Size = new Size(374, 150);
+            panel2.Size = new Size(375, 150);
             panel2.TabIndex = 0;
             // 
             // label1
@@ -84,9 +82,10 @@
             // 
             btnDashboard.BackColor = Color.Gainsboro;
             btnDashboard.Dock = DockStyle.Top;
+            btnDashboard.FlatStyle = FlatStyle.Flat;
             btnDashboard.Location = new Point(3, 3);
             btnDashboard.Name = "btnDashboard";
-            btnDashboard.Size = new Size(368, 57);
+            btnDashboard.Size = new Size(369, 57);
             btnDashboard.TabIndex = 1;
             btnDashboard.Text = "Dashboard";
             btnDashboard.UseVisualStyleBackColor = false;
@@ -98,11 +97,12 @@
             topBarPanel.Dock = DockStyle.Top;
             topBarPanel.Location = new Point(0, 0);
             topBarPanel.Name = "topBarPanel";
-            topBarPanel.Size = new Size(1408, 72);
+            topBarPanel.Size = new Size(1415, 72);
             topBarPanel.TabIndex = 2;
             // 
             // lbLoggedInUser
             // 
+            lbLoggedInUser.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             lbLoggedInUser.AutoSize = true;
             lbLoggedInUser.Location = new Point(1268, 22);
             lbLoggedInUser.Name = "lbLoggedInUser";
@@ -128,8 +128,8 @@
             // 
             splitContainer1.Panel2.Controls.Add(tabControl1);
             splitContainer1.Panel2.Controls.Add(topBarPanel);
-            splitContainer1.Size = new Size(1786, 1266);
-            splitContainer1.SplitterDistance = 374;
+            splitContainer1.Size = new Size(1794, 1266);
+            splitContainer1.SplitterDistance = 375;
             splitContainer1.TabIndex = 3;
             // 
             // tableLayoutPanel2
@@ -145,16 +145,17 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tableLayoutPanel2.Size = new Size(374, 150);
+            tableLayoutPanel2.Size = new Size(375, 150);
             tableLayoutPanel2.TabIndex = 10;
             // 
             // btnSettings
             // 
             btnSettings.BackColor = Color.Gainsboro;
             btnSettings.Dock = DockStyle.Top;
+            btnSettings.FlatStyle = FlatStyle.Flat;
             btnSettings.Location = new Point(3, 3);
             btnSettings.Name = "btnSettings";
-            btnSettings.Size = new Size(368, 34);
+            btnSettings.Size = new Size(369, 34);
             btnSettings.TabIndex = 5;
             btnSettings.Text = "Settings";
             btnSettings.UseVisualStyleBackColor = false;
@@ -163,9 +164,10 @@
             // 
             btnLogout.BackColor = Color.Gainsboro;
             btnLogout.Dock = DockStyle.Top;
+            btnLogout.FlatStyle = FlatStyle.Flat;
             btnLogout.Location = new Point(3, 68);
             btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(368, 34);
+            btnLogout.Size = new Size(369, 34);
             btnLogout.TabIndex = 6;
             btnLogout.Text = "Log out";
             btnLogout.UseVisualStyleBackColor = false;
@@ -190,16 +192,17 @@
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 59F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 63F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 62F));
-            tableLayoutPanel1.Size = new Size(374, 379);
+            tableLayoutPanel1.Size = new Size(375, 379);
             tableLayoutPanel1.TabIndex = 0;
             // 
             // btnReports
             // 
             btnReports.BackColor = Color.Gainsboro;
             btnReports.Dock = DockStyle.Top;
+            btnReports.FlatStyle = FlatStyle.Flat;
             btnReports.Location = new Point(3, 319);
             btnReports.Name = "btnReports";
-            btnReports.Size = new Size(368, 56);
+            btnReports.Size = new Size(369, 56);
             btnReports.TabIndex = 8;
             btnReports.Text = "Reports";
             btnReports.UseVisualStyleBackColor = false;
@@ -208,9 +211,10 @@
             // 
             btnLicences.BackColor = Color.Gainsboro;
             btnLicences.Dock = DockStyle.Top;
+            btnLicences.FlatStyle = FlatStyle.Flat;
             btnLicences.Location = new Point(3, 256);
             btnLicences.Name = "btnLicences";
-            btnLicences.Size = new Size(368, 56);
+            btnLicences.Size = new Size(369, 56);
             btnLicences.TabIndex = 7;
             btnLicences.Text = "Licences";
             btnLicences.UseVisualStyleBackColor = false;
@@ -219,9 +223,10 @@
             // 
             btnProducts.BackColor = Color.Gainsboro;
             btnProducts.Dock = DockStyle.Top;
+            btnProducts.FlatStyle = FlatStyle.Flat;
             btnProducts.Location = new Point(3, 197);
             btnProducts.Name = "btnProducts";
-            btnProducts.Size = new Size(368, 53);
+            btnProducts.Size = new Size(369, 53);
             btnProducts.TabIndex = 4;
             btnProducts.Text = "Products";
             btnProducts.UseVisualStyleBackColor = false;
@@ -230,9 +235,10 @@
             // 
             btnClients.BackColor = Color.Gainsboro;
             btnClients.Dock = DockStyle.Top;
+            btnClients.FlatStyle = FlatStyle.Flat;
             btnClients.Location = new Point(3, 69);
             btnClients.Name = "btnClients";
-            btnClients.Size = new Size(368, 57);
+            btnClients.Size = new Size(369, 57);
             btnClients.TabIndex = 2;
             btnClients.Text = "Clients";
             btnClients.UseVisualStyleBackColor = false;
@@ -241,9 +247,10 @@
             // 
             btnOrders.BackColor = Color.Gainsboro;
             btnOrders.Dock = DockStyle.Top;
+            btnOrders.FlatStyle = FlatStyle.Flat;
             btnOrders.Location = new Point(3, 134);
             btnOrders.Name = "btnOrders";
-            btnOrders.Size = new Size(368, 57);
+            btnOrders.Size = new Size(369, 57);
             btnOrders.TabIndex = 3;
             btnOrders.Text = "Orders";
             btnOrders.UseVisualStyleBackColor = false;
@@ -253,7 +260,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 150);
             panel1.Name = "panel1";
-            panel1.Size = new Size(374, 203);
+            panel1.Size = new Size(375, 203);
             panel1.TabIndex = 9;
             // 
             // tabControl1
@@ -264,7 +271,7 @@
             tabControl1.Location = new Point(0, 72);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1408, 1194);
+            tabControl1.Size = new Size(1415, 1194);
             tabControl1.TabIndex = 3;
             // 
             // tabPageDashboard
@@ -273,28 +280,19 @@
             tabPageDashboard.Location = new Point(4, 34);
             tabPageDashboard.Name = "tabPageDashboard";
             tabPageDashboard.Padding = new Padding(3);
-            tabPageDashboard.Size = new Size(1400, 1156);
+            tabPageDashboard.Size = new Size(1407, 1156);
             tabPageDashboard.TabIndex = 0;
             tabPageDashboard.Text = "tabPageDashboard";
             // 
             // tabPageClients
             // 
-            tabPageClients.Controls.Add(companyManagementuc1);
             tabPageClients.Location = new Point(4, 34);
             tabPageClients.Name = "tabPageClients";
             tabPageClients.Padding = new Padding(3);
-            tabPageClients.Size = new Size(1400, 1156);
+            tabPageClients.Size = new Size(1407, 1156);
             tabPageClients.TabIndex = 1;
             tabPageClients.Text = "tabPageClients";
             tabPageClients.UseVisualStyleBackColor = true;
-            // 
-            // companyManagementuc1
-            // 
-            companyManagementuc1.Dock = DockStyle.Fill;
-            companyManagementuc1.Location = new Point(3, 3);
-            companyManagementuc1.Name = "companyManagementuc1";
-            companyManagementuc1.Size = new Size(1394, 1150);
-            companyManagementuc1.TabIndex = 1;
             // 
             // sqliteCommand1
             // 
@@ -307,7 +305,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1786, 1266);
+            ClientSize = new Size(1794, 1266);
             Controls.Add(splitContainer1);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -323,7 +321,6 @@
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             tabControl1.ResumeLayout(false);
-            tabPageClients.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -345,7 +342,6 @@
         private TabPage tabPageDashboard;
         private TabPage tabPageClients;
         private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
-        private CompanyManagementUC companyManagementuc1;
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;

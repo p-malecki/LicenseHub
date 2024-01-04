@@ -9,19 +9,19 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LicenseHubApp.Presenters
 {
-    internal class UserManagementPresenter
+    public class UserManagementPresenter
     {
         private readonly IUserManagementView _view;
         private readonly UserManager _manager;
-        private readonly BindingSource _usersBindingSource;
+        private readonly BindingSource _userBindingSource;
 
 
         public UserManagementPresenter(IUserManagementView view, UserManager manager)
         {
             _view = view;
             _manager = manager;
-            _usersBindingSource = new BindingSource();
-            view.SetUserListBindingSource(_usersBindingSource);
+            _userBindingSource = new BindingSource();
+            view.SetUserListBindingSource(_userBindingSource);
 
             _view.AddBtnClicked += OnAddBtnClicked;
             _view.EditBtnClicked += OnEditBtnClicked;
@@ -35,7 +35,7 @@ namespace LicenseHubApp.Presenters
 
         private void LoadAllList()
         {
-            _usersBindingSource.DataSource = _manager.GetAll();
+            _userBindingSource.DataSource = _manager.GetAll();
         }
         private void OnAddBtnClicked(object sender, EventArgs e)
         {
@@ -44,7 +44,7 @@ namespace LicenseHubApp.Presenters
 
         private void OnEditBtnClicked(object sender, EventArgs e)
         {
-            var model = (UserModel)_usersBindingSource.Current;
+            var model = (UserModel)_userBindingSource.Current;
             _view.Id = model.Id;
             _view.Username = model.Username;
             _view.IsAdmin = model.IsAdmin;
@@ -54,7 +54,7 @@ namespace LicenseHubApp.Presenters
         {
             try
             {
-                var model = (UserModel)_usersBindingSource.Current;
+                var model = (UserModel)_userBindingSource.Current;
                 _manager.Delete(model);
                 _view.IsSuccessful = true;
                 _view.Message = "User deleted successfully";

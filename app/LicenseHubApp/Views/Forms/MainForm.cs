@@ -19,15 +19,25 @@ namespace LicenseHubApp.Views.Forms
 
         private void AssociateAndRaiseViewEvents()
         {
-            btnClients.Click += delegate
+            btnDashboard.Click += delegate
             {
-                //ClientsBtnClicked?.Invoke(this, EventArgs.Empty);
+                //DashboardBtnClicked?.Invoke(this, EventArgs.Empty);
 
                 foreach (var tabPage in tabControl1.TabPages)
                 {
                     tabControl1.TabPages.Remove((TabPage)tabPage);
                 }
+                tabControl1.TabPages.Add(tabPageDashboard);
+            };
 
+            btnClients.Click += delegate
+            {
+                ClientsBtnClicked?.Invoke(this, EventArgs.Empty);
+
+                foreach (var tabPage in tabControl1.TabPages)
+                {
+                    tabControl1.TabPages.Remove((TabPage)tabPage);
+                }
                 tabControl1.TabPages.Add(tabPageClients);
             };
 
@@ -43,9 +53,11 @@ namespace LicenseHubApp.Views.Forms
         // Properties
         public string LoggedInUser
         {
-            get => lbLoggedInUser.Text;
-            set => lbLoggedInUser.Text = value;
+            get => lbLoggedInUser.Text[6..];
+            set => lbLoggedInUser.Text = "User: " + value;
         }
+
+        public Control.ControlCollection ClientTabPageCollection => tabPageClients.Controls;
 
 
         // Events

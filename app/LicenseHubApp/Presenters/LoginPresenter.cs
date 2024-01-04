@@ -3,6 +3,7 @@ using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Views.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using LicenseHubApp.Models;
+using LicenseHubApp.Repositories;
 
 
 namespace LicenseHubApp.Presenters
@@ -11,16 +12,20 @@ namespace LicenseHubApp.Presenters
     {
         private readonly ILoginView _view;
         private readonly AuthenticationManager _authenticator;
-        private readonly UserManager _userManager;
+        private readonly DataContext _dataContext;
 
-        public LoginPresenter(ILoginView view, AuthenticationManager authenticator, UserManager userManager)
+        public LoginPresenter(ILoginView view, AuthenticationManager authenticator, DataContext dataContext)
         {
             _view = view;
             _authenticator = authenticator;
-            _userManager = userManager;
+            _dataContext = dataContext;
 
             _view.LoginBtnClicked += OnBtnClicked;
             _view.IncorrectLoginMessage = "";
+
+            // DEBUG skip logging
+            _authenticator.Login("admin","1");
+            ShowMainView();
         }
 
         private void OnBtnClicked(object sender, EventArgs e)
@@ -48,7 +53,7 @@ namespace LicenseHubApp.Presenters
         private void ShowMainView()
         {
             var view = (IMainView)MainForm.GetInstance((LoginForm)_view);
-            new MainPresenter(view, _authenticator, _userManager);
+            new MainPresenter(view, _authenticator, _dataContext);
         }
     }
 }

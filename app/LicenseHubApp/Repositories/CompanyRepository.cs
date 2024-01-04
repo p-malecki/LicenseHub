@@ -32,6 +32,7 @@ namespace LicenseHubApp.Repositories
             var modelToUpdate = await GetModelByIdAsync(modelId);
             if (modelToUpdate != null)
             {
+                modelToUpdate.IsActive = updatedModel.IsActive;
                 modelToUpdate.Name = updatedModel.Name;
                 modelToUpdate.Nip = updatedModel.Nip;
                 modelToUpdate.Localizations = updatedModel.Localizations;

@@ -102,6 +102,7 @@
             Controls.Add(lbIncorrectLoginMessage);
             Controls.Add(label1);
             Controls.Add(btnLogin);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "LoginForm";
             StartPosition = FormStartPosition.CenterScreen;

@@ -18,6 +18,7 @@ namespace LicenseHubApp.Views.Forms
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();
+
             tabControl1.TabPages.Remove(tabPageUserDetails);
         }
 

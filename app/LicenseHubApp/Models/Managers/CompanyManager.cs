@@ -28,13 +28,34 @@ namespace LicenseHubApp.Models.Managers
 
         public IEnumerable<CompanyModel> FilterCompany(string filterValue)
         {
-            filterValue = filterValue.Trim();
-            return _filterStrategy.Filter(ModelList, filterValue);
+            try
+            {
+                return _filterStrategy.Filter(ModelList, filterValue);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public void SetFilterStrategy(IFilterStrategy<CompanyModel> fs)
         {
             _filterStrategy = fs;
+        }
+
+        public void Deactivate(CompanyModel model)
+        {
+            try
+            {
+                model.IsActive = false;
+                Save(model);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
     }

@@ -5,6 +5,8 @@ public interface IMainView
     // Properties
     string LoggedInUser { get; set; }
 
+    Control.ControlCollection ClientTabPageCollection { get; }
+
 
     // Events
     event EventHandler DashboardBtnClicked;

@@ -45,7 +45,7 @@ namespace LicenseHubApp
 
 
             var loginForm = LoginForm.GetInstance(null);
-            var loginPresenter = new LoginPresenter(loginForm, authenticationManager, userManager);
+            var loginPresenter = new LoginPresenter(loginForm, authenticationManager, dataContext);
 
 
             // Run main loop

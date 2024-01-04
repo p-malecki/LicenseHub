@@ -14,9 +14,9 @@ public interface IUserManagementView
 
     // Events
     event EventHandler AddBtnClicked;
-    event EventHandler SaveBtnClicked;
-    event EventHandler DeleteBtnClicked;
     event EventHandler EditBtnClicked;
+    event EventHandler DeleteBtnClicked;
+    event EventHandler SaveBtnClicked;
     event EventHandler CancelBtnClicked;
 
 
