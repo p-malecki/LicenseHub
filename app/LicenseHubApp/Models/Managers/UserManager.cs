@@ -30,13 +30,13 @@ namespace LicenseHubApp.Models.Managers
             var isUsernameUnique = !ModelList.Any(u => (u.Username == newUsername) && (u.Id != model.Id));
             if (!isUsernameUnique)
             {
-                throw new InvalidOperationException($"USer with Username {newUsername} already exists.");
+                throw new InvalidOperationException($"User with Username {newUsername} already exists.");
             }
         }
 
         public void ValidateAdminChange(UserModel model, bool newIsAdmin)
         {
-            if (!newIsAdmin && ModelList.Count(u => u.IsAdmin) == 1)
+            if (!newIsAdmin && model.IsAdmin && ModelList.Count(u => u.IsAdmin) == 1)
             {
                 throw new InvalidOperationException($"Unable to remove the last admin privileges.");
             }

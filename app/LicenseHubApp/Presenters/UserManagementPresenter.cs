@@ -11,17 +11,17 @@ namespace LicenseHubApp.Presenters
 {
     internal class UserManagementPresenter
     {
-        private IUserManagementView _view;
-        private UserManager _manager;
-        private BindingSource usersBindingSource;
+        private readonly IUserManagementView _view;
+        private readonly UserManager _manager;
+        private readonly BindingSource _usersBindingSource;
 
 
         public UserManagementPresenter(IUserManagementView view, UserManager manager)
         {
             _view = view;
             _manager = manager;
-            usersBindingSource = new BindingSource();
-            view.SetUserListBindingSource(usersBindingSource);
+            _usersBindingSource = new BindingSource();
+            view.SetUserListBindingSource(_usersBindingSource);
 
             _view.AddBtnClicked += OnAddBtnClicked;
             _view.EditBtnClicked += OnEditBtnClicked;
@@ -35,7 +35,7 @@ namespace LicenseHubApp.Presenters
 
         private void LoadAllList()
         {
-            usersBindingSource.DataSource = _manager.GetAll();
+            _usersBindingSource.DataSource = _manager.GetAll();
         }
         private void OnAddBtnClicked(object sender, EventArgs e)
         {
@@ -44,7 +44,7 @@ namespace LicenseHubApp.Presenters
 
         private void OnEditBtnClicked(object sender, EventArgs e)
         {
-            var model = (UserModel)usersBindingSource.Current;
+            var model = (UserModel)_usersBindingSource.Current;
             _view.Id = model.Id;
             _view.Username = model.Username;
             _view.IsAdmin = model.IsAdmin;
@@ -54,7 +54,7 @@ namespace LicenseHubApp.Presenters
         {
             try
             {
-                var model = (UserModel)usersBindingSource.Current;
+                var model = (UserModel)_usersBindingSource.Current;
                 _manager.Delete(model);
                 _view.IsSuccessful = true;
                 _view.Message = "User deleted successfully";
