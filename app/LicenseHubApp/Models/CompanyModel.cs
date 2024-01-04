@@ -5,16 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LicenseHubApp.Models
 {
-    [PrimaryKey(nameof(CompanyModel.Name), nameof(CompanyModel.Nip))]
-    [Index(nameof(CompanyModel.Name), IsUnique = true)]
-    [Index(nameof(CompanyModel.Nip), IsUnique = true)]
+    [PrimaryKey(nameof(Id), nameof(Name), nameof(Nip))]
+    [Index(nameof(Id), IsUnique = true)]
+    [Index(nameof(Name), IsUnique = true)]
+    [Index(nameof(Nip), IsUnique = true)]
     public class CompanyModel : ValidatableModel, IModelWithId
     {
         // Properties - to Validate
         [DisplayName("Company ID")]
-        [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
         public int Id { get; set; }
+
+        [DisplayName("Company isActive")]
+        public bool IsActive { get; set; } = true;
 
         [DisplayName("Company Name")]
         [Required(ErrorMessage = "{0} is Required")]
@@ -27,12 +31,16 @@ namespace LicenseHubApp.Models
         public string Nip { get; set; }
 
         [DisplayName("Company Localizations")]
-        public List<string> Localizations { get; set; } = new();
+        [Browsable(false)]
+        public string Localizations { get; set; } = "";
 
         [DisplayName("Company Websites")]
-        public List<string> Websites { get; set; } = new();
+        [Browsable(false)]
+        public string Websites { get; set; } = "";
 
-        [DisplayName("Company Description")] public string Description { get; set; } = "";
+        [DisplayName("Company Description")]
+        [Browsable(false)]
+        public string Description { get; set; } = "";
         //public IEmployeeManager EmployeeManager { get; set; }
         //public IWorkstationManager WorkstationManager { get; set; }
         //public IOrderManager OrderManager { get; set; }

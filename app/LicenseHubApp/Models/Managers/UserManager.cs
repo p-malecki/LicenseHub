@@ -49,7 +49,6 @@ namespace LicenseHubApp.Models.Managers
                 if (model.IsAdmin && GetAll().Count(u => u.IsAdmin) == 1)
                 {
                     throw new InvalidOperationException($"Unable to delete the last user with administrator privileges.");
-
                 }
 
                 if (!Repository.IsIdUnique(model.Id))
