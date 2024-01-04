@@ -5,7 +5,7 @@ namespace LicenseHubApp.Models.Managers
     public class UserManager : BaseModelManager<UserModel>
     {
         private static readonly object LockObject = new();
-        private static UserManager _instance;
+        private static UserManager? _instance;
 
         private UserManager() { }
         public static UserManager GetInstance(IUserRepository repository)

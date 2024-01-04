@@ -3,8 +3,8 @@
     public sealed class AuthenticationManager
     {
         private static readonly object LockObject = new();
-        private static AuthenticationManager _instance;
-        private static IUserRepository _repository;
+        private static AuthenticationManager? _instance;
+        private static IUserRepository? _repository;
         private UserModel? _currentlyLoggedUser;
 
         public static int FailedAttempts = 0;

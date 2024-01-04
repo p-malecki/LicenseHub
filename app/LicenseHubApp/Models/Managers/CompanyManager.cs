@@ -5,7 +5,7 @@ namespace LicenseHubApp.Models.Managers
     public class CompanyManager : BaseModelManager<CompanyModel>
     {
         private static readonly object LockObject = new();
-        private static CompanyManager _instance;
+        private static CompanyManager? _instance;
         private IFilterStrategy<CompanyModel> _filterStrategy;
 
         private CompanyManager() { }
