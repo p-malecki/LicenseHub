@@ -14,6 +14,7 @@ namespace LicenseHubApp.Models
         // Properties - to Validate
         [DisplayName("Company ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Browsable(false)]
         [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
         public int Id { get; set; }
 
