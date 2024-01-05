@@ -6,43 +6,12 @@ namespace LicenseHubApp.Views.Forms
     {
         private static LoginForm? _instance;
 
-        // Constructor
+        #region Constructor
         private LoginForm()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();
         }
-
-        private void AssociateAndRaiseViewEvents()
-        {
-            btnLogin.Click += delegate
-            {
-                LoginBtnClicked?.Invoke(this, EventArgs.Empty);
-            };
-        }
-
-        // Properties
-        public string Username
-        {
-            get => txtUsername.Text;
-            set => txtUsername.Text = value.Trim();
-        }
-        public string Password
-        {
-            get => txtPassword.Text;
-            set => txtPassword.Text = value.Trim();
-        }
-        public string IncorrectLoginMessage
-        { 
-            get => lbIncorrectLoginMessage.Text; 
-            set => lbIncorrectLoginMessage.Text = value;
-        }
-
-        // Events
-        public event EventHandler LoginBtnClicked;
-
-
-        // Singleton
         public static LoginForm GetInstance(Form? parentContainer)
         {
             if (_instance == null || _instance.IsDisposed)
@@ -62,5 +31,46 @@ namespace LicenseHubApp.Views.Forms
             _instance.Show();
             return _instance;
         }
+
+        private void AssociateAndRaiseViewEvents()
+        {
+            btnLogin.Click += delegate
+            {
+                LoginBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            txtPassword.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                    LoginBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+        }
+        #endregion
+
+
+        #region Properties
+        public string Username
+        {
+            get => txtUsername.Text;
+            set => txtUsername.Text = value.Trim();
+        }
+        public string Password
+        {
+            get => txtPassword.Text;
+            set => txtPassword.Text = value.Trim();
+        }
+        public string IncorrectLoginMessage
+        {
+            get => lbIncorrectLoginMessage.Text;
+            set => lbIncorrectLoginMessage.Text = value;
+        }
+        #endregion
+
+
+
+        #region Events
+        public event EventHandler LoginBtnClicked;
+
+        #endregion
+
     }
 }

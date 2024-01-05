@@ -7,14 +7,33 @@ namespace LicenseHubApp.Views.Forms
 {
     public partial class MainForm : Form, IMainView
     {
+        #region Constructor
+
         private static MainForm? _instance;
 
-
-        // Constructor
         private MainForm()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();
+        }
+        public static MainForm GetInstance(Form parentContainer)
+        {
+            if (_instance == null || _instance.IsDisposed)
+            {
+                _instance = new MainForm();
+            }
+            else
+            {
+                if (_instance.WindowState == FormWindowState.Minimized)
+                    _instance.WindowState = FormWindowState.Normal;
+                _instance.BringToFront();
+            }
+
+            parentContainer.Hide();
+            _instance.Closed += (s, args) => parentContainer.Close();
+
+            _instance.Show();
+            return _instance;
         }
 
         private void AssociateAndRaiseViewEvents()
@@ -42,15 +61,19 @@ namespace LicenseHubApp.Views.Forms
             };
 
 
-
+            btnSettings.Click += delegate
+            {
+                SettingsBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
             btnLogout.Click += delegate
             {
                 LogoutBtnClicked?.Invoke(this, EventArgs.Empty);
             };
         }
+        #endregion
 
 
-        // Properties
+        #region Properties
         public string LoggedInUser
         {
             get => lbLoggedInUser.Text[6..];
@@ -59,8 +82,10 @@ namespace LicenseHubApp.Views.Forms
 
         public Control.ControlCollection ClientTabPageCollection => tabPageClients.Controls;
 
+        #endregion
 
-        // Events
+
+        #region Events
         public event EventHandler DashboardBtnClicked;
         public event EventHandler ClientsBtnClicked;
         public event EventHandler OrdersBtnClicked;
@@ -70,26 +95,7 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler SettingsBtnClicked;
         public event EventHandler LogoutBtnClicked;
 
+        #endregion
 
-        // Singleton
-        public static MainForm GetInstance(Form parentContainer)
-        {
-            if (_instance == null || _instance.IsDisposed)
-            {
-                _instance = new MainForm();
-            }
-            else
-            {
-                if (_instance.WindowState == FormWindowState.Minimized)
-                    _instance.WindowState = FormWindowState.Normal;
-                _instance.BringToFront();
-            }
-
-            parentContainer.Hide();
-            _instance.Closed += (s, args) => parentContainer.Close();
-
-            _instance.Show();
-            return _instance;
-        }
     }
 }

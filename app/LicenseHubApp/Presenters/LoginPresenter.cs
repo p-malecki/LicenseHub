@@ -13,19 +13,21 @@ namespace LicenseHubApp.Presenters
         private readonly ILoginView _view;
         private readonly AuthenticationManager _authenticator;
         private readonly DataContext _dataContext;
+        private readonly IUserRepository _userRepository;
 
-        public LoginPresenter(ILoginView view, AuthenticationManager authenticator, DataContext dataContext)
+        public LoginPresenter(ILoginView view, AuthenticationManager authenticator, DataContext dataContext, IUserRepository userRepository)
         {
             _view = view;
             _authenticator = authenticator;
             _dataContext = dataContext;
+            _userRepository = userRepository;
 
             _view.LoginBtnClicked += OnBtnClicked;
             _view.IncorrectLoginMessage = "";
 
-            // DEBUG skip logging
-            _authenticator.Login("admin","1");
-            ShowMainView();
+            // TODO remove DEBUG skip logging
+            //_authenticator.Login("admin","1");
+            //ShowMainView();
         }
 
         private void OnBtnClicked(object sender, EventArgs e)
@@ -53,7 +55,7 @@ namespace LicenseHubApp.Presenters
         private void ShowMainView()
         {
             var view = (IMainView)MainForm.GetInstance((LoginForm)_view);
-            new MainPresenter(view, _authenticator, _dataContext);
+            new MainPresenter(view, _authenticator, _dataContext, _userRepository);
         }
     }
 }

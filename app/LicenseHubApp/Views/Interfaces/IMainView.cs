@@ -2,13 +2,15 @@
 
 public interface IMainView
 {
-    // Properties
+    #region Properties
     string LoggedInUser { get; set; }
-
     Control.ControlCollection ClientTabPageCollection { get; }
 
+    #endregion
 
-    // Events
+
+    #region Events
+
     event EventHandler DashboardBtnClicked;
     event EventHandler ClientsBtnClicked;
     event EventHandler OrdersBtnClicked;
@@ -17,4 +19,6 @@ public interface IMainView
     event EventHandler ReportsBtnClicked;
     event EventHandler SettingsBtnClicked;
     event EventHandler LogoutBtnClicked;
+
+    #endregion
 }

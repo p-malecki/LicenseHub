@@ -38,25 +38,18 @@ namespace LicenseHubApp
             if (!dataContext.IsDatabaseConnected())
                 throw new Exception("Database is not connected.");
 
-            // Repositories and managers
-            IUserRepository repository = new UserRepository(dataContext);
-            UserManager userManager = UserManager.GetInstance(repository);
-            var authenticationManager = AuthenticationManager.GetInstance(repository);
+
+            // Repository and manager needed to log in
+            IUserRepository userRepository = new UserRepository(dataContext);
+            var authenticationManager = AuthenticationManager.GetInstance(userRepository);
 
 
             var loginForm = LoginForm.GetInstance(null);
-            var loginPresenter = new LoginPresenter(loginForm, authenticationManager, dataContext);
+            var loginPresenter = new LoginPresenter(loginForm, authenticationManager, dataContext, userRepository);
 
 
             // Run main loop
             Application.Run(loginForm);
-            //Application.Run(new MainForm());
-
-
-
-            //var userManagementForm = new UserManagementForm();
-            //var userManagementPresenter = new UserManagementPresenter(userManagementForm, userManager);
-            //Application.Run(userManagementForm);
 
 
             // DEBUG database quick actions

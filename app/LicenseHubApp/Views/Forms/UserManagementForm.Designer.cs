@@ -259,6 +259,7 @@
             ClientSize = new Size(644, 334);
             Controls.Add(splitContainer1);
             Name = "UserManagementForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "UserManagementForm";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             splitContainer1.Panel1.ResumeLayout(false);

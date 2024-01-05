@@ -13,7 +13,7 @@ namespace LicenseHubApp.Views.Forms
 {
     public partial class UserManagementForm : Form, IUserManagementView
     {
-        // Constructor
+        #region Constructor
         public UserManagementForm()
         {
             InitializeComponent();
@@ -70,9 +70,10 @@ namespace LicenseHubApp.Views.Forms
             };
 
         }
+        #endregion
 
 
-        // Properties
+        #region Properties
         public int Id
         {
             get => int.Parse(txtId.Text);
@@ -97,24 +98,30 @@ namespace LicenseHubApp.Views.Forms
         public bool IsEdit { get; set; }
 
         public bool IsSuccessful { get; set; }
-
         public string Message { get; set; }
 
+        #endregion
 
-        // Events
+
+        #region Events
+
         public event EventHandler AddBtnClicked;
         public event EventHandler EditBtnClicked;
         public event EventHandler DeleteBtnClicked;
         public event EventHandler SaveBtnClicked;
         public event EventHandler CancelBtnClicked;
 
+        #endregion
 
-        // Methods
+
+        #region Methods
         public void SetUserListBindingSource(BindingSource userList)
         {
             dataGridView1.DataSource = userList;
             dataGridView1.ClearSelection();
         }
+
+        #endregion
 
     }
 }
