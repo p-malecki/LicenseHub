@@ -25,14 +25,14 @@ namespace LicenseHubApp.Models.Managers
             return _instance;
         }
 
-        public bool IsUsernameUnique(UserModel model, string newUsername)
+        public bool IsUsernameUnique(int modelId, string newUsername)
         {
-            return !ModelList.Any(u => (u.Username == newUsername) && (u.Id != model.Id));
+            return !ModelList.Any(u => (u.Username == newUsername) && (u.Id != modelId));
         }
 
-        public bool IsAdminChangeValid(UserModel model, bool newIsAdmin)
+        public bool IsAdminChangeValid(bool modelIsAdmin, bool newIsAdmin)
         {
-            return newIsAdmin || !model.IsAdmin || ModelList.Count(u => u.IsAdmin) != 1;
+            return newIsAdmin || !modelIsAdmin || ModelList.Count(u => u.IsAdmin) != 1;
         }
 
         public new void Delete(UserModel model)

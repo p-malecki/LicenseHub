@@ -81,13 +81,14 @@ namespace LicenseHubApp.Presenters
                 if (_view.IsEdit)
                 {
                     var modelBeforeChange = _manager.GetModelById(_view.Id);
-                    if (!_manager.IsUsernameUnique(modelBeforeChange, _view.Username))
+
+                    if (!_manager.IsUsernameUnique(_view.Id, _view.Username))
                         throw new InvalidOperationException($"User with Username {_view.Username} already exists.");
 
-                    if (!_manager.IsAdminChangeValid(modelBeforeChange, _view.IsAdmin))
+                    if (!_manager.IsAdminChangeValid(modelBeforeChange.IsAdmin, _view.IsAdmin))
                         throw new InvalidOperationException($"Unable to remove the last admin privileges.");
 
-                    model.Id = modelBeforeChange.Id;
+                    model.Id = _view.Id;
                     if (_view.Password.Length == 0)
                         model.Password = modelBeforeChange.Password;
 

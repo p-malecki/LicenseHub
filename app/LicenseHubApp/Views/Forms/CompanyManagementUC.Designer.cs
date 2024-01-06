@@ -75,6 +75,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridView1.Size = new Size(1164, 852);
             dataGridView1.TabIndex = 0;
             // 
@@ -150,7 +151,7 @@
             btnEditCancel.Location = new Point(442, 714);
             btnEditCancel.Name = "btnEditCancel";
             btnEditCancel.Size = new Size(107, 68);
-            btnEditCancel.TabIndex = 26;
+            btnEditCancel.TabIndex = 7;
             btnEditCancel.Text = "Cancel";
             btnEditCancel.UseVisualStyleBackColor = true;
             // 
@@ -170,7 +171,7 @@
             rtxtDescription.Name = "rtxtDescription";
             rtxtDescription.ReadOnly = true;
             rtxtDescription.Size = new Size(523, 145);
-            rtxtDescription.TabIndex = 9;
+            rtxtDescription.TabIndex = 4;
             rtxtDescription.Text = "";
             // 
             // label5
@@ -187,7 +188,7 @@
             btnToggleIsActive.Location = new Point(26, 714);
             btnToggleIsActive.Name = "btnToggleIsActive";
             btnToggleIsActive.Size = new Size(114, 68);
-            btnToggleIsActive.TabIndex = 11;
+            btnToggleIsActive.TabIndex = 5;
             btnToggleIsActive.Text = "Toggle\r\nIsActive";
             btnToggleIsActive.UseVisualStyleBackColor = true;
             // 
@@ -196,7 +197,7 @@
             btnSave.Location = new Point(280, 714);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(156, 68);
-            btnSave.TabIndex = 25;
+            btnSave.TabIndex = 6;
             btnSave.Text = "Save changes";
             btnSave.UseVisualStyleBackColor = true;
             // 
@@ -207,7 +208,7 @@
             rtxtWebsites.Name = "rtxtWebsites";
             rtxtWebsites.ReadOnly = true;
             rtxtWebsites.Size = new Size(523, 82);
-            rtxtWebsites.TabIndex = 7;
+            rtxtWebsites.TabIndex = 3;
             rtxtWebsites.Text = "";
             // 
             // label4
@@ -245,7 +246,7 @@
             txtNip.Name = "txtNip";
             txtNip.ReadOnly = true;
             txtNip.Size = new Size(523, 31);
-            txtNip.TabIndex = 3;
+            txtNip.TabIndex = 1;
             // 
             // label2
             // 
@@ -263,7 +264,7 @@
             rtxtLocalizations.Name = "rtxtLocalizations";
             rtxtLocalizations.ReadOnly = true;
             rtxtLocalizations.Size = new Size(523, 82);
-            rtxtLocalizations.TabIndex = 1;
+            rtxtLocalizations.TabIndex = 2;
             rtxtLocalizations.Text = "";
             // 
             // txtCompanyName
@@ -310,7 +311,7 @@
             btnShowDetails.Name = "btnShowDetails";
             btnShowDetails.Size = new Size(225, 68);
             btnShowDetails.TabIndex = 14;
-            btnShowDetails.Text = "Show company details ";
+            btnShowDetails.Text = "Show details ";
             btnShowDetails.UseVisualStyleBackColor = true;
             // 
             // chbSearchOnlyActiveCompanies
@@ -329,7 +330,7 @@
             btnAdd.Name = "btnAdd";
             btnAdd.Size = new Size(156, 68);
             btnAdd.TabIndex = 10;
-            btnAdd.Text = "Add new company";
+            btnAdd.Text = "Add new";
             btnAdd.UseVisualStyleBackColor = true;
             // 
             // btnEdit
@@ -338,7 +339,7 @@
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(156, 68);
             btnEdit.TabIndex = 12;
-            btnEdit.Text = "Edit company";
+            btnEdit.Text = "Edit";
             btnEdit.UseVisualStyleBackColor = true;
             // 
             // button3

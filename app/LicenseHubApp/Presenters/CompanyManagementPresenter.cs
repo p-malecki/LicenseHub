@@ -114,9 +114,11 @@ namespace LicenseHubApp.Presenters
         private void OnAddBtnClicked(object sender, EventArgs e)
         {
             _view.IsEdit = false;
+            CleanViewFields();
+            _view.CompanyIsActiveInfo = "true";
         }
 
-       
+
         private void OnCloseRightPanelBtnClicked(object sender, EventArgs e)
         {
             CleanViewFields();
@@ -125,7 +127,8 @@ namespace LicenseHubApp.Presenters
         {
             try
             {
-                ShowCurrentlySelectedModel();
+                // prep nip
+                _view.CompanyNip = _view.CompanyNip.Replace(" ", "").Replace("-", "").Replace("—", "").Replace("_", "").Replace("O", "0").Replace("o", "0");
 
                 var model = new CompanyModel()
                 {
@@ -142,11 +145,13 @@ namespace LicenseHubApp.Presenters
                     if (!_manager.IsNipValid(_view.CompanyNip))
                         throw new InvalidDataException("Incorrect NIP.");
 
+                    model.Id = _view.CompanyId;
                     _manager.Save(model);
                     _view.Message = "Company details have been saved.";
                 }
                 else
                 {
+                    model.IsActive = true;
                     _manager.Add(model);
                     _view.Message = "Company has been added.";
                 }

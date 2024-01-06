@@ -49,7 +49,7 @@ namespace LicenseHubApp.Views.Forms
             btnAdd.Click += delegate
             {
                 AddBtnClicked?.Invoke(this, EventArgs.Empty);
-                ShowOnlyRightPanel(true);
+                ShowBothPanels(true);
             };
 
             btnCloseRightPanel.Click += delegate
@@ -82,6 +82,11 @@ namespace LicenseHubApp.Views.Forms
                 if (!IsSuccessful)
                     MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
+
+            dataGridView1.SelectionChanged += delegate
+            {
+                ShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
         }
         #endregion
 
@@ -104,7 +109,7 @@ namespace LicenseHubApp.Views.Forms
         public string CompanyIsActiveInfo
         {
             get => (lbIsActiveInfo.Text == @"status: Active") ? "true" : "false";
-            set => lbIsActiveInfo.Text = (value == "True") ? "status: Active" : "status: Deactivated";
+            set => lbIsActiveInfo.Text = (value == "true") ? "status: Active" : "status: Deactivated";
         }
 
         public new string CompanyName
@@ -186,9 +191,15 @@ namespace LicenseHubApp.Views.Forms
             rtxtWebsites.ReadOnly = !editable;
             rtxtDescription.ReadOnly = !editable;
 
+            rtxtLocalizations.BackColor = editable ? Color.White: SystemColors.Control;
+            rtxtWebsites.BackColor = editable ? Color.White : SystemColors.Control;
+            rtxtDescription.BackColor = editable ? Color.White : SystemColors.Control;
+
             btnSave.Visible = editable;
             btnEditCancel.Visible = editable;
-            btnToggleIsActive.Visible = editable;
+            btnToggleIsActive.Visible = editable && IsEdit;
+
+            btnSave.Text = IsEdit ? "Save changes" : "Add company";
         }
         #endregion
 

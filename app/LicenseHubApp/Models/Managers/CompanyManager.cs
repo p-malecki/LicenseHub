@@ -64,8 +64,6 @@ namespace LicenseHubApp.Models.Managers
             if (nip == "0")
                 return true;
 
-            nip = nip.Replace(" ", "").Replace("-", "").Replace("—", "").Replace("_", "").Replace("O", "0").Replace("o", "0");
-
             if (nip.Length != 10 || nip.Any(chr => !Char.IsDigit(chr)))
                 return false;
 

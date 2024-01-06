@@ -5,8 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LicenseHubApp.Models
 {
-    [PrimaryKey(nameof(Id), nameof(Name), nameof(Nip))]
-    [Index(nameof(Id), IsUnique = true)]
+    [PrimaryKey(nameof(Id))]
     [Index(nameof(Name), IsUnique = true)]
     [Index(nameof(Nip), IsUnique = true)]
     public class CompanyModel : ValidatableModel, IModelWithId
