@@ -25,21 +25,14 @@ namespace LicenseHubApp.Models.Managers
             return _instance;
         }
 
-        public void ValidateUsername(UserModel model, string newUsername)
+        public bool IsUsernameUnique(UserModel model, string newUsername)
         {
-            var isUsernameUnique = !ModelList.Any(u => (u.Username == newUsername) && (u.Id != model.Id));
-            if (!isUsernameUnique)
-            {
-                throw new InvalidOperationException($"User with Username {newUsername} already exists.");
-            }
+            return !ModelList.Any(u => (u.Username == newUsername) && (u.Id != model.Id));
         }
 
-        public void ValidateAdminChange(UserModel model, bool newIsAdmin)
+        public bool IsAdminChangeValid(UserModel model, bool newIsAdmin)
         {
-            if (!newIsAdmin && model.IsAdmin && ModelList.Count(u => u.IsAdmin) == 1)
-            {
-                throw new InvalidOperationException($"Unable to remove the last admin privileges.");
-            }
+            return newIsAdmin || !model.IsAdmin || ModelList.Count(u => u.IsAdmin) != 1;
         }
 
         public new void Delete(UserModel model)

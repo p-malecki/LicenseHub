@@ -57,7 +57,7 @@ namespace LicenseHubApp.Presenters
                 var model = (UserModel)_userBindingSource.Current;
                 _manager.Delete(model);
                 _view.IsSuccessful = true;
-                _view.Message = "User deleted successfully";
+                _view.Message = "You’ve deleted user.";
                 LoadAllList();
             }
             catch (Exception ex)
@@ -81,21 +81,23 @@ namespace LicenseHubApp.Presenters
                 if (_view.IsEdit)
                 {
                     var modelBeforeChange = _manager.GetModelById(_view.Id);
-                    _manager.ValidateUsername(modelBeforeChange, _view.Username);
-                    _manager.ValidateAdminChange(modelBeforeChange, _view.IsAdmin);
+                    if (!_manager.IsUsernameUnique(modelBeforeChange, _view.Username))
+                        throw new InvalidOperationException($"User with Username {_view.Username} already exists.");
+
+                    if (!_manager.IsAdminChangeValid(modelBeforeChange, _view.IsAdmin))
+                        throw new InvalidOperationException($"Unable to remove the last admin privileges.");
 
                     model.Id = modelBeforeChange.Id;
                     if (_view.Password.Length == 0)
                         model.Password = modelBeforeChange.Password;
 
                     _manager.Save(model);
-
-                    _view.Message = "User edited successfuly";
+                    _view.Message = "User details have been saved.";
                 }
                 else
                 {
                     _manager.Add(model);
-                    _view.Message = "User added sucessfully";
+                    _view.Message = "User has been added.";
                 }
                 _view.IsSuccessful = true;
                 LoadAllList();

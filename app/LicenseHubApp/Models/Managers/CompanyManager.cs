@@ -1,4 +1,5 @@
 ﻿using LicenseHubApp.Models.Filters;
+using Microsoft.VisualBasic;
 
 namespace LicenseHubApp.Models.Managers
 {
@@ -44,11 +45,11 @@ namespace LicenseHubApp.Models.Managers
             _filterStrategy = fs;
         }
 
-        public void Deactivate(CompanyModel model)
+        public void ToggleIsActive(CompanyModel model)
         {
             try
             {
-                model.IsActive = false;
+                model.IsActive = !model.IsActive;
                 Save(model);
             }
             catch (Exception e)
@@ -56,6 +57,22 @@ namespace LicenseHubApp.Models.Managers
                 Console.WriteLine(e.Message);
                 throw;
             }
+        }
+
+        public bool IsNipValid(string nip)
+        {
+            if (nip == "0")
+                return true;
+
+            nip = nip.Replace(" ", "").Replace("-", "").Replace("—", "").Replace("_", "").Replace("O", "0").Replace("o", "0");
+
+            if (nip.Length != 10 || nip.Any(chr => !Char.IsDigit(chr)))
+                return false;
+
+            int[] weights = { 6, 5, 7, 2, 3, 4, 5, 6, 7, 0 };
+            var sum = nip.Zip(weights, (digit, weight) => (digit - '0') * weight).Sum();
+
+            return (sum % 11) == (nip[9] - '0');
         }
 
     }
