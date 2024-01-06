@@ -9,6 +9,7 @@ using System.Linq;
 using LicenseHubApp.Models.Filters;
 using System.Buffers;
 using System.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 namespace LicenseHubApp.Presenters
@@ -31,7 +32,11 @@ namespace LicenseHubApp.Presenters
             _view.ShowDetailsBtnClicked += OnShowDetailsBtnClicked;
             _view.EditBtnClicked += OnEditBtnClicked;
             _view.AddBtnClicked += OnAddBtnClicked;
-            _view.DeactivateBtnClicked += OnDeactivateBtnClicked;
+            _view.CloseRightPanelBtnClicked += OnCloseRightPanelBtnClicked;
+            _view.SaveBtnClicked += OnEditSaveBtnClicked;
+            _view.EditCancelBtnClicked += OnEditCancelBtnClicked;
+            _view.ToggleIsActiveBtnClicked += OnToggleIsActiveBtnClicked;
+
 
             LoadAllList();
         }
@@ -49,74 +54,148 @@ namespace LicenseHubApp.Presenters
                 throw new DataException("Empty BindingSource");
             return (CompanyModel)_companyBindingSource.Current;
         }
+        private void ShowCurrentlySelectedModel()
+        {
+            var model = GetCurrentlySelectedModel();
+            _view.CompanyId = model.Id;
+            _view.CompanyIsActiveInfo = model.IsActive.ToString();
+            _view.CompanyName = model.Name;
+            _view.CompanyNip = model.Nip;
+            _view.CompanyLocalizations = model.Localizations;
+            _view.CompanyWebsites = model.Websites;
+            _view.CompanyDescription = model.Description;
+
+            _view.ToggleIsActiveBtnText = (model.IsActive) ? "Deactivate" : "Activate";
+            _view.IsSuccessful = true;
+        }
 
 
         private void OnSearchBtnClicked(object sender, EventArgs e)
         {
-            var enteredSearchValue = _view.SearchValue;
-            if (string.IsNullOrEmpty(enteredSearchValue))
+            try
             {
-                LoadAllList();
-            }
-            else
-            {
-                IFilterStrategy<CompanyModel> strategy = _view.SelectedFilter switch
+                var enteredSearchValue = _view.SearchValue;
+                if (string.IsNullOrEmpty(enteredSearchValue))
                 {
-                    "Nip" => new CustomerNipFilterStrategy(),
-                    _ => new CustomerNameFilterStrategy(),
-                };
-                _manager.SetFilterStrategy(strategy);
+                    LoadAllList();
+                }
+                else
+                {
+                    IFilterStrategy<CompanyModel> strategy = _view.SelectedFilter switch
+                    {
+                        "Nip" => new CustomerNipFilterStrategy(),
+                        _ => new CustomerNameFilterStrategy(),
+                    };
+                    _manager.SetFilterStrategy(strategy);
 
-                var results = _manager.FilterCompany(enteredSearchValue);
-                if (_view.SearchOnlyActiveCompanies)
-                    results = results.Where(c => c.IsActive);
-                _companyBindingSource.DataSource = results;
+                    var results = _manager.FilterCompany(enteredSearchValue);
+                    if (_view.SearchOnlyActiveCompanies)
+                        results = results.Where(c => c.IsActive);
+                    _companyBindingSource.DataSource = results;
+                }
+            }
+            catch (Exception ex)
+            {
+                _view.IsSuccessful = false;
+                _view.Message = ex.Message;
             }
         }
 
         private void OnShowDetailsBtnClicked(object sender, EventArgs e)
         {
-            try
-            {
-                var model = GetCurrentlySelectedModel();
-                _view.CompanyIsActiveInfo = model.IsActive.ToString();
-                _view.CompanyName = model.Name;
-                _view.CompanyNip = model.Nip;
-                _view.CompanyLocalizations = model.Localizations;
-                _view.CompanyWebsites = model.Websites;
-                _view.CompanyDescription = model.Description;
-                _view.IsSuccessful = true;
-            }
-            catch (Exception ex)
-            {
-                _view.Message = ex.Message;
-                _view.IsSuccessful = false;
-                throw;
-            }
+            ShowCurrentlySelectedModel();
         }
 
         private void OnEditBtnClicked(object sender, EventArgs e)
         {
+            ShowCurrentlySelectedModel();
+            _view.IsEdit = true;
         }
         private void OnAddBtnClicked(object sender, EventArgs e)
         {
+            _view.IsEdit = false;
         }
 
-        private void OnDeactivateBtnClicked(object sender, EventArgs e)
+       
+        private void OnCloseRightPanelBtnClicked(object sender, EventArgs e)
+        {
+            CleanViewFields();
+        }
+        private void OnEditSaveBtnClicked(object sender, EventArgs e)
+        {
+            try
+            {
+                ShowCurrentlySelectedModel();
+
+                var model = new CompanyModel()
+                {
+                    IsActive = bool.Parse(_view.CompanyIsActiveInfo),
+                    Name = _view.CompanyName,
+                    Nip = _view.CompanyNip,
+                    Localizations = _view.CompanyLocalizations,
+                    Websites = _view.CompanyWebsites,
+                    Description = _view.CompanyDescription,
+                };
+
+                if (_view.IsEdit)
+                {
+                    if (!_manager.IsNipValid(_view.CompanyNip))
+                        throw new InvalidDataException("Incorrect NIP.");
+
+                    _manager.Save(model);
+                    _view.Message = "Company details have been saved.";
+                }
+                else
+                {
+                    _manager.Add(model);
+                    _view.Message = "Company has been added.";
+                }
+
+                _view.IsSuccessful = true;
+                LoadAllList();
+                CleanViewFields();
+
+                // show saved results
+                ShowCurrentlySelectedModel();
+            }
+            catch (Exception ex)
+            {
+                _view.IsSuccessful = false;
+                _view.Message = ex.Message;
+            }
+        }
+        private void OnEditCancelBtnClicked(object sender, EventArgs e)
+        {
+            CleanViewFields();
+        }
+        private void OnToggleIsActiveBtnClicked(object sender, EventArgs e)
         {
             try
             {
                 var model = GetCurrentlySelectedModel();
-                _manager.Deactivate(model);
+                _manager.ToggleIsActive(model);
+                ShowCurrentlySelectedModel();
+                LoadAllList();
+                _view.IsSuccessful = true;
             }
             catch (Exception ex)
             {
-                _view.Message = ex.Message;
                 _view.IsSuccessful = false;
-                throw;
+                _view.Message = ex.Message;
             }
         }
 
+
+        private void CleanViewFields()
+        {
+            _view.CompanyIsActiveInfo = "";
+            _view.CompanyName = "";
+            _view.CompanyNip = "";
+            _view.CompanyLocalizations = "";
+            _view.CompanyWebsites = "";
+            _view.CompanyDescription = "";
+            _view.IsSuccessful = false;
+        }
 
     }
 }

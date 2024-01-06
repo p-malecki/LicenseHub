@@ -35,9 +35,12 @@
             btnSearch = new Button();
             tabContainer1 = new TabControl();
             tabPageClientDetails = new TabPage();
+            btnEditCancel = new Button();
             label6 = new Label();
             rtxtDescription = new RichTextBox();
             label5 = new Label();
+            btnToggleIsActive = new Button();
+            btnSave = new Button();
             rtxtWebsites = new RichTextBox();
             label4 = new Label();
             lbIsActiveInfo = new Label();
@@ -46,14 +49,11 @@
             label2 = new Label();
             rtxtLocalizations = new RichTextBox();
             txtCompanyName = new TextBox();
-            tabPage2 = new TabPage();
-            tabPageAdd = new TabPage();
             splitContainer1 = new SplitContainer();
             btnShowDetails = new Button();
             chbSearchOnlyActiveCompanies = new CheckBox();
             btnAdd = new Button();
             btnEdit = new Button();
-            btnDeactivate = new Button();
             button3 = new Button();
             button1 = new Button();
             btnCloseRightPanel = new Button();
@@ -115,8 +115,6 @@
             // tabContainer1
             // 
             tabContainer1.Controls.Add(tabPageClientDetails);
-            tabContainer1.Controls.Add(tabPage2);
-            tabContainer1.Controls.Add(tabPageAdd);
             tabContainer1.Location = new Point(25, 120);
             tabContainer1.Name = "tabContainer1";
             tabContainer1.SelectedIndex = 0;
@@ -126,9 +124,12 @@
             // tabPageClientDetails
             // 
             tabPageClientDetails.BackColor = Color.WhiteSmoke;
+            tabPageClientDetails.Controls.Add(btnEditCancel);
             tabPageClientDetails.Controls.Add(label6);
             tabPageClientDetails.Controls.Add(rtxtDescription);
             tabPageClientDetails.Controls.Add(label5);
+            tabPageClientDetails.Controls.Add(btnToggleIsActive);
+            tabPageClientDetails.Controls.Add(btnSave);
             tabPageClientDetails.Controls.Add(rtxtWebsites);
             tabPageClientDetails.Controls.Add(label4);
             tabPageClientDetails.Controls.Add(lbIsActiveInfo);
@@ -143,6 +144,15 @@
             tabPageClientDetails.Size = new Size(586, 929);
             tabPageClientDetails.TabIndex = 0;
             tabPageClientDetails.Text = "ClientDetails";
+            // 
+            // btnEditCancel
+            // 
+            btnEditCancel.Location = new Point(442, 714);
+            btnEditCancel.Name = "btnEditCancel";
+            btnEditCancel.Size = new Size(107, 68);
+            btnEditCancel.TabIndex = 26;
+            btnEditCancel.Text = "Cancel";
+            btnEditCancel.UseVisualStyleBackColor = true;
             // 
             // label6
             // 
@@ -171,6 +181,24 @@
             label5.Size = new Size(83, 25);
             label5.TabIndex = 8;
             label5.Text = "Websites";
+            // 
+            // btnToggleIsActive
+            // 
+            btnToggleIsActive.Location = new Point(26, 714);
+            btnToggleIsActive.Name = "btnToggleIsActive";
+            btnToggleIsActive.Size = new Size(114, 68);
+            btnToggleIsActive.TabIndex = 11;
+            btnToggleIsActive.Text = "Toggle\r\nIsActive";
+            btnToggleIsActive.UseVisualStyleBackColor = true;
+            // 
+            // btnSave
+            // 
+            btnSave.Location = new Point(280, 714);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(156, 68);
+            btnSave.TabIndex = 25;
+            btnSave.Text = "Save changes";
+            btnSave.UseVisualStyleBackColor = true;
             // 
             // rtxtWebsites
             // 
@@ -247,26 +275,6 @@
             txtCompanyName.Size = new Size(523, 31);
             txtCompanyName.TabIndex = 0;
             // 
-            // tabPage2
-            // 
-            tabPage2.Location = new Point(4, 34);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(586, 929);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "EditClientDetails";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPageAdd
-            // 
-            tabPageAdd.Location = new Point(4, 34);
-            tabPageAdd.Name = "tabPageAdd";
-            tabPageAdd.Padding = new Padding(3);
-            tabPageAdd.Size = new Size(586, 929);
-            tabPageAdd.TabIndex = 2;
-            tabPageAdd.Text = "AddClient";
-            tabPageAdd.UseVisualStyleBackColor = true;
-            // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
@@ -279,7 +287,6 @@
             splitContainer1.Panel1.Controls.Add(chbSearchOnlyActiveCompanies);
             splitContainer1.Panel1.Controls.Add(btnAdd);
             splitContainer1.Panel1.Controls.Add(btnEdit);
-            splitContainer1.Panel1.Controls.Add(btnDeactivate);
             splitContainer1.Panel1.Controls.Add(button3);
             splitContainer1.Panel1.Controls.Add(button1);
             splitContainer1.Panel1.Controls.Add(btnSearch);
@@ -294,7 +301,7 @@
             splitContainer1.Panel2.Controls.Add(tabContainer1);
             splitContainer1.Panel2.Controls.Add(btnCloseRightPanel);
             splitContainer1.Size = new Size(1407, 1156);
-            splitContainer1.SplitterDistance = 760;
+            splitContainer1.SplitterDistance = 747;
             splitContainer1.TabIndex = 6;
             // 
             // btnShowDetails
@@ -334,15 +341,6 @@
             btnEdit.Text = "Edit company";
             btnEdit.UseVisualStyleBackColor = true;
             // 
-            // btnDeactivate
-            // 
-            btnDeactivate.Location = new Point(601, 1019);
-            btnDeactivate.Name = "btnDeactivate";
-            btnDeactivate.Size = new Size(156, 68);
-            btnDeactivate.TabIndex = 11;
-            btnDeactivate.Text = "Deactivate company";
-            btnDeactivate.UseVisualStyleBackColor = true;
-            // 
             // button3
             // 
             button3.Location = new Point(619, 3);
@@ -366,7 +364,7 @@
             // btnCloseRightPanel
             // 
             btnCloseRightPanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnCloseRightPanel.Location = new Point(544, 0);
+            btnCloseRightPanel.Location = new Point(557, 0);
             btnCloseRightPanel.Name = "btnCloseRightPanel";
             btnCloseRightPanel.Size = new Size(56, 34);
             btnCloseRightPanel.TabIndex = 6;
@@ -402,17 +400,15 @@
         private Button btnSearch;
         private TabControl tabContainer1;
         private TabPage tabPageClientDetails;
-        private TabPage tabPage2;
         private SplitContainer splitContainer1;
         private Button button1;
         private Button btnCloseRightPanel;
         private Button button3;
         private Button btnAdd;
         private Button btnEdit;
-        private Button btnDeactivate;
+        private Button btnToggleIsActive;
         private CheckBox chbSearchOnlyActiveCompanies;
         private Button btnShowDetails;
-        private TabPage tabPageAdd;
         private Label label3;
         private TextBox txtNip;
         private Label label2;
@@ -424,5 +420,7 @@
         private RichTextBox rtxtDescription;
         private Label label5;
         private RichTextBox rtxtWebsites;
+        private Button btnEditCancel;
+        private Button btnSave;
     }
 }

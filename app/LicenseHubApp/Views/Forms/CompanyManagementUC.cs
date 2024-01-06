@@ -37,37 +37,50 @@ namespace LicenseHubApp.Views.Forms
             {
                 ShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
                 if (IsSuccessful)
+                    ShowBothPanels(false);
+                else
+                    MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
+            btnEdit.Click += delegate
+            {
+                EditBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowBothPanels(true);
+            };
+            btnAdd.Click += delegate
+            {
+                AddBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowOnlyRightPanel(true);
+            };
+
+            btnCloseRightPanel.Click += delegate
+            {
+                CloseRightPanelBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowOnlyLeftPanel();
+            };
+            btnSave.Click += delegate
+            {
+                SaveBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (IsSuccessful)
                 {
-                    ShowBothPanels();
+                    ShowBothPanels(false);
+                    MessageBox.Show(Message);
                 }
                 else
                 {
                     MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-            };
-            btnEdit.Click += delegate
-            {
-                EditBtnClicked?.Invoke(this, EventArgs.Empty);
-                ShowOnlyRightPanel();
-            };
-            btnAdd.Click += delegate
-            {
-                AddBtnClicked?.Invoke(this, EventArgs.Empty);
-                ShowOnlyRightPanel();
-            };
-            btnDeactivate.Click += delegate
-            {
-                DeactivateBtnClicked?.Invoke(this, EventArgs.Empty);
-                if (!IsSuccessful)
-                {
-                    MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            };
 
-            btnCloseRightPanel.Click += delegate
+            };
+            btnEditCancel.Click += delegate
             {
-                //CloseRightBtnClicked?.Invoke(this, EventArgs.Empty);
+                EditCancelBtnClicked?.Invoke(this, EventArgs.Empty);
                 ShowOnlyLeftPanel();
+            };
+            btnToggleIsActive.Click += delegate
+            {
+                ToggleIsActiveBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (!IsSuccessful)
+                    MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             };
         }
         #endregion
@@ -76,6 +89,7 @@ namespace LicenseHubApp.Views.Forms
         #region Properties
         public string Message { get; set; }
         public bool IsSuccessful { get; set; }
+        public bool IsEdit { get; set; }
 
         public string SearchValue
         {
@@ -85,11 +99,14 @@ namespace LicenseHubApp.Views.Forms
         public string SelectedFilter { get; set; }
         public bool SearchOnlyActiveCompanies { get; set; }
 
+
+        public int CompanyId { get; set; }
         public string CompanyIsActiveInfo
         {
-            get => lbIsActiveInfo.Text[8..];
-            set => lbIsActiveInfo.Text = (value == "True") ? "status: Active": "status: Deactivated";
+            get => (lbIsActiveInfo.Text == @"status: Active") ? "true" : "false";
+            set => lbIsActiveInfo.Text = (value == "True") ? "status: Active" : "status: Deactivated";
         }
+
         public new string CompanyName
         {
             get => txtCompanyName.Text;
@@ -115,6 +132,12 @@ namespace LicenseHubApp.Views.Forms
             get => ParseMultilineToSingleLine(rtxtDescription.Text);
             set => rtxtDescription.Text = ParseSingleLineToMultiline(value);
         }
+
+        public string ToggleIsActiveBtnText
+        {
+            get => btnToggleIsActive.Text;
+            set => btnToggleIsActive.Text = value;
+        }
         #endregion
 
 
@@ -123,8 +146,10 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler ShowDetailsBtnClicked;
         public event EventHandler EditBtnClicked;
         public event EventHandler AddBtnClicked;
-        public event EventHandler DeactivateBtnClicked;
-        public event EventHandler CloseRightBtnClicked;
+        public event EventHandler CloseRightPanelBtnClicked;
+        public event EventHandler SaveBtnClicked;
+        public event EventHandler EditCancelBtnClicked;
+        public event EventHandler ToggleIsActiveBtnClicked;
         #endregion
 
 
@@ -140,14 +165,30 @@ namespace LicenseHubApp.Views.Forms
             splitContainer1.SplitterDistance = this.Size.Width;
         }
 
-        private void ShowOnlyRightPanel()
+        private void ShowOnlyRightPanel(bool editable)
         {
             splitContainer1.SplitterDistance = 0;
+
+            SetPanelToEditable(editable);
         }
 
-        private void ShowBothPanels()
+        private void ShowBothPanels(bool editable)
         {
             splitContainer1.SplitterDistance = 54 * this.Size.Width / 100;
+
+            SetPanelToEditable(editable);
+        }
+        private void SetPanelToEditable(bool editable)
+        {
+            txtCompanyName.ReadOnly = !editable;
+            txtNip.ReadOnly = !editable;
+            rtxtLocalizations.ReadOnly = !editable;
+            rtxtWebsites.ReadOnly = !editable;
+            rtxtDescription.ReadOnly = !editable;
+
+            btnSave.Visible = editable;
+            btnEditCancel.Visible = editable;
+            btnToggleIsActive.Visible = editable;
         }
         #endregion
 
@@ -180,7 +221,7 @@ namespace LicenseHubApp.Views.Forms
         // DEBUG
         private void button1_Click(object sender, EventArgs e)
         {
-            ShowOnlyRightPanel();
+            ShowOnlyRightPanel(true);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -190,7 +231,7 @@ namespace LicenseHubApp.Views.Forms
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ShowBothPanels();
+            ShowBothPanels(true);
         }
     }
 }
