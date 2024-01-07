@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 using LicenseHubApp.Models;
-using Microsoft.VisualBasic.ApplicationServices;
+using System.ComponentModel.Design;
 
 namespace LicenseHubApp.Repositories
 {
@@ -11,27 +12,66 @@ namespace LicenseHubApp.Repositories
             this.context = dataContext;
         }
 
-        public async Task AddAsync(CompanyModel company)
+        public async Task AddAsync(CompanyModel model)
         {
-            context.Companies.Add(company);
+            context.Companies.Add(model);
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task AddEmployeeAsync(int companyId, EmployeeModel employeeModel)
         {
-            var modelToDelete = await GetModelByIdAsync(id);
-            if (modelToDelete != null)
+            try
             {
+                var modelToUpdate = await GetModelByIdAsync(companyId) ?? throw new NullReferenceException("Company model not found.");
+
+                modelToUpdate.Employees.Add(employeeModel);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task RemoveEmployeeAsync(int companyId, EmployeeModel employeeModel)
+        {
+            try
+            {
+                var companyModel = await GetModelByIdAsync(companyId) ?? throw new NullReferenceException("Company model not found.");
+
+                companyModel.Employees.Remove(employeeModel);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task DeleteAsync(int modelId)
+        {
+            try
+            {
+                var modelToDelete = await GetModelByIdAsync(modelId) ?? throw new NullReferenceException("Company model not found.");
+
                 context.Companies.Remove(modelToDelete);
                 await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
         }
 
         public async Task EditAsync(int modelId, CompanyModel updatedModel)
         {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-            if (modelToUpdate != null)
+            try
             {
+                var modelToUpdate = await GetModelByIdAsync(modelId) ?? throw new NullReferenceException("Company model not found.");
+
                 modelToUpdate.IsActive = updatedModel.IsActive;
                 modelToUpdate.Name = updatedModel.Name;
                 modelToUpdate.Nip = updatedModel.Nip;
@@ -41,6 +81,11 @@ namespace LicenseHubApp.Repositories
 
                 await context.SaveChangesAsync();
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         public async Task<IList<CompanyModel>> GetAllAsync()
@@ -48,14 +93,14 @@ namespace LicenseHubApp.Repositories
             return await context.Companies.ToListAsync();
         }
 
-        public async Task<CompanyModel?> GetModelByIdAsync(int id)
+        public async Task<CompanyModel?> GetModelByIdAsync(int modelId)
         {
-            return await context.Companies.FirstOrDefaultAsync(co => co.Id == id);
+            return await context.Companies.FirstOrDefaultAsync(m => m.Id == modelId);
         }
 
-        public bool IsIdUnique(int id)
+        public bool IsIdUnique(int modelId)
         {
-            return !context.Companies.Any(co => co.Id == id);
+            return !context.Companies.Any(m => m.Id == modelId);
         }
     }
 }

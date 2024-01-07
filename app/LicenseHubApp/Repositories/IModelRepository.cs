@@ -4,9 +4,9 @@
     {
         Task AddAsync(TModel model);
         Task EditAsync(int modelId, TModel updatedModel);
-        Task DeleteAsync(int id);
-        Task<TModel?> GetModelByIdAsync(int id);
+        Task DeleteAsync(int modelId);
+        Task<TModel?> GetModelByIdAsync(int modelId);
         Task<IList<TModel>> GetAllAsync();
-        bool IsIdUnique(int id);
+        bool IsIdUnique(int modelId);
     }
 }

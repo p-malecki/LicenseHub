@@ -1,5 +1,4 @@
 ﻿using LicenseHubApp.Models.Filters;
-using Microsoft.VisualBasic;
 
 namespace LicenseHubApp.Models.Managers
 {
@@ -7,10 +6,10 @@ namespace LicenseHubApp.Models.Managers
     {
         private static readonly object LockObject = new();
         private static CompanyManager? _instance;
-        private IFilterStrategy<CompanyModel> _filterStrategy;
+        private static IFilterStrategy<CompanyModel>? _filterStrategy;
 
         private CompanyManager() { }
-        public static CompanyManager GetInstance(ICompanyRepository repository)
+        public static CompanyManager GetInstance(ICompanyRepository repository, IFilterStrategy<CompanyModel> fs)
         {
             // Double-check locking for thread safety
             if (_instance == null)
@@ -21,6 +20,7 @@ namespace LicenseHubApp.Models.Managers
                     {
                         _instance = new CompanyManager();
                         Repository = repository;
+                        _filterStrategy = fs;
                     }
                 }
             }
@@ -39,10 +39,14 @@ namespace LicenseHubApp.Models.Managers
                 throw;
             }
         }
-
         public void SetFilterStrategy(IFilterStrategy<CompanyModel> fs)
         {
             _filterStrategy = fs;
+        }
+
+        public void AddEmployee(int companyId, EmployeeModel employeeModel)
+        {
+            ((ICompanyRepository)Repository).AddEmployeeAsync(companyId, employeeModel);
         }
 
         public void ToggleIsActive(CompanyModel model)
@@ -59,7 +63,7 @@ namespace LicenseHubApp.Models.Managers
             }
         }
 
-        public bool IsNipValid(string nip)
+        public static bool IsNipValid(string nip)
         {
             if (nip == "0")
                 return true;

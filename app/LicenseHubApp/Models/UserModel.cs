@@ -2,16 +2,14 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Xml.Linq;
 
 
 namespace LicenseHubApp.Models
 {
     [PrimaryKey(nameof(Id))]
-    [Index(nameof(Username), IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(Username), IsUnique = true)]
     public class UserModel : ValidatableModel, IModelWithId
     {
-        // Properties - to Validate
         [DisplayName("User ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]

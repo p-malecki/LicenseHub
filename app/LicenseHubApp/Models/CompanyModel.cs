@@ -6,11 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LicenseHubApp.Models
 {
     [PrimaryKey(nameof(Id))]
-    [Index(nameof(Name), IsUnique = true)]
-    [Index(nameof(Nip), IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(Name), IsUnique = true)]
+    [Microsoft.EntityFrameworkCore.Index(nameof(Nip), IsUnique = true)]
     public class CompanyModel : ValidatableModel, IModelWithId
     {
-        // Properties - to Validate
         [DisplayName("Company ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Browsable(false)]
@@ -41,9 +40,11 @@ namespace LicenseHubApp.Models
         [DisplayName("Company Description")]
         [Browsable(false)]
         public string Description { get; set; } = "";
-        //public IEmployeeManager EmployeeManager { get; set; }
-        //public IWorkstationManager WorkstationManager { get; set; }
-        //public IOrderManager OrderManager { get; set; }
+
+        [Browsable(false)]
+        public ICollection<EmployeeModel> Employees { get; set; } = new List<EmployeeModel>();
+        // public List<WorkstationModel> Workstations { get; set; }
+        // public List<OrderModel> Orders { get; set; }
 
     }
 }

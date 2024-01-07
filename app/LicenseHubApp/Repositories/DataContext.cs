@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Storage;
-
 using LicenseHubApp.Models;
 
 
@@ -16,6 +13,18 @@ namespace LicenseHubApp.Repositories
 
         public virtual DbSet<UserModel> Users { get; set; }
         public virtual DbSet<CompanyModel> Companies { get; set; }
+        public virtual DbSet<EmployeeModel> Employees { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // many-to-one relationship
+            modelBuilder.Entity<CompanyModel>()
+                .HasMany(m => m.Employees)
+                .WithOne(m => m.Company)
+                .HasForeignKey(m => m.CompanyId)
+                .IsRequired();
+        }
+
 
         public bool IsDatabaseConnected()
         {
@@ -31,53 +40,7 @@ namespace LicenseHubApp.Repositories
             }
         }
 
-        public IEnumerable<string> GetTables()
-        {
-            var databaseCreator = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
-
-            if (databaseCreator != null && databaseCreator.Exists())
-            {
-                var connection = Database.GetDbConnection();
-                connection.Open();
-
-                using (var command = connection.CreateCommand())
-                {
-                    command.CommandText = "SELECT name FROM sqlite_master WHERE type='table';";
-
-                    using (var reader = command.ExecuteReader())
-                    {
-                        var tables = new List<string>();
-
-                        while (reader.Read())
-                        {
-                            tables.Add(reader.GetString(0));
-                        }
-
-                        return tables;
-                    }
-                }
-            }
-
-            return Enumerable.Empty<string>();
-        }
-
-        public void ShowTables()
-        {
-            try
-            {
-                Database.OpenConnection();
-                var tables = GetTables();
-                foreach (var table in tables)
-                    Console.WriteLine(table);
-                Database.CloseConnection();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
     }
 }
 
-// make sure that when debugging in bin/Debug/../ must exist Data folder
+// make sure that when debugging in bin/Debug/../ must exist "Data" folder
