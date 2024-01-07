@@ -5,11 +5,11 @@ public interface ICompanyManagementView
     #region Properties
     bool IsSuccessful { get; set; }
     string Message { get; set; }
-    bool IsEdit { get; set; }
+    bool CompanyIsEdit { get; set; }
 
-    string SearchValue { get; set; }
-    string SelectedFilter { get; set; }
-    bool SearchOnlyActiveCompanies { get; set; }
+    string CompanySearchValue { get; set; }
+    string CompanySelectedFilter { get; set; }
+    bool CompanySearchOnlyActive { get; set; }
 
     int CompanyId { get; set; }
     string CompanyIsActiveInfo { get; set; }
@@ -18,24 +18,24 @@ public interface ICompanyManagementView
     string CompanyLocalizations { get; set; }
     string CompanyWebsites { get; set; }
     string CompanyDescription { get; set; }
-    string ToggleIsActiveBtnText { get; set; }
+    string CompanyToggleIsActiveBtnText { get; set; }
     #endregion
 
 
     #region Events
-    event EventHandler SearchBtnClicked;
-    event EventHandler ShowDetailsBtnClicked;
-    event EventHandler EditBtnClicked;
-    event EventHandler AddBtnClicked;
     event EventHandler CloseRightPanelBtnClicked;
-    event EventHandler SaveBtnClicked;
-    event EventHandler EditCancelBtnClicked;
-    event EventHandler ToggleIsActiveBtnClicked;
+    event EventHandler CompanySearchBtnClicked;
+    event EventHandler CompanyShowDetailsBtnClicked;
+    event EventHandler CompanyEditBtnClicked;
+    event EventHandler CompanyAddBtnClicked;
+    event EventHandler CompanySaveBtnClicked;
+    event EventHandler CompanyEditCancelBtnClicked;
+    event EventHandler CompanyToggleIsActiveBtnClicked;
     #endregion
 
 
     #region Methods
-    void SetUserListBindingSource(BindingSource userList);
+    void SetCompanyListBindingSource(BindingSource companyList);
     #endregion
 
 }

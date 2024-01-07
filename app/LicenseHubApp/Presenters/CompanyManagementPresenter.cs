@@ -19,16 +19,16 @@ namespace LicenseHubApp.Presenters
             _view = view;
             _manager = manager;
             _companyBindingSource = new BindingSource();
-            view.SetUserListBindingSource(_companyBindingSource);
+            view.SetCompanyListBindingSource(_companyBindingSource);
 
-            _view.SearchBtnClicked += OnSearchBtnClicked;
-            _view.ShowDetailsBtnClicked += OnShowDetailsBtnClicked;
-            _view.AddBtnClicked += OnAddBtnClicked;
-            _view.EditBtnClicked += OnEditBtnClicked;
             _view.CloseRightPanelBtnClicked += OnCloseRightPanelBtnClicked;
-            _view.SaveBtnClicked += OnEditSaveBtnClicked;
-            _view.EditCancelBtnClicked += OnEditCancelBtnClicked;
-            _view.ToggleIsActiveBtnClicked += OnToggleIsActiveBtnClicked;
+            _view.CompanySearchBtnClicked += OnCompanySearchBtnClicked;
+            _view.CompanyShowDetailsBtnClicked += OnCompanyShowDetailsBtnClicked;
+            _view.CompanyAddBtnClicked += OnCompanyAddBtnClicked;
+            _view.CompanyEditBtnClicked += OnCompanyEditBtnClicked;
+            _view.CompanySaveBtnClicked += OnCompanyEditSaveBtnClicked;
+            _view.CompanyEditCancelBtnClicked += OnCompanyEditCancelBtnClicked;
+            _view.CompanyToggleIsActiveBtnClicked += OnCompanyToggleIsActiveBtnClicked;
 
 
             LoadAllList();
@@ -37,7 +37,7 @@ namespace LicenseHubApp.Presenters
         private void LoadAllList()
         {
             var results = _manager.GetAll();
-            if (_view.SearchOnlyActiveCompanies)
+            if (_view.CompanySearchOnlyActive)
                 results = results.Where(c => c.IsActive);
             _companyBindingSource.DataSource = results;
         }
@@ -58,23 +58,23 @@ namespace LicenseHubApp.Presenters
             _view.CompanyWebsites = model.Websites;
             _view.CompanyDescription = model.Description;
 
-            _view.ToggleIsActiveBtnText = (model.IsActive) ? "Deactivate" : "Activate";
+            _view.CompanyToggleIsActiveBtnText = (model.IsActive) ? "Deactivate" : "Activate";
             _view.IsSuccessful = true;
         }
 
 
-        private void OnSearchBtnClicked(object sender, EventArgs e)
+        private void OnCompanySearchBtnClicked(object sender, EventArgs e)
         {
             try
             {
-                var enteredSearchValue = _view.SearchValue;
+                var enteredSearchValue = _view.CompanySearchValue;
                 if (string.IsNullOrEmpty(enteredSearchValue))
                 {
                     LoadAllList();
                 }
                 else
                 {
-                    IFilterStrategy<CompanyModel> strategy = _view.SelectedFilter switch
+                    IFilterStrategy<CompanyModel> strategy = _view.CompanySelectedFilter switch
                     {
                         "Nip" => new CustomerNipFilterStrategy(),
                         _ => new CustomerNameFilterStrategy(),
@@ -82,7 +82,7 @@ namespace LicenseHubApp.Presenters
                     _manager.SetFilterStrategy(strategy);
 
                     var results = _manager.FilterCompany(enteredSearchValue);
-                    if (_view.SearchOnlyActiveCompanies)
+                    if (_view.CompanySearchOnlyActive)
                         results = results.Where(c => c.IsActive);
                     _companyBindingSource.DataSource = results;
                 }
@@ -94,19 +94,20 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnShowDetailsBtnClicked(object sender, EventArgs e)
+        private void OnCompanyShowDetailsBtnClicked(object sender, EventArgs e)
         {
             ShowCurrentlySelectedModel();
+            _view.CompanyIsEdit = false;
         }
 
-        private void OnEditBtnClicked(object sender, EventArgs e)
+        private void OnCompanyEditBtnClicked(object sender, EventArgs e)
         {
             ShowCurrentlySelectedModel();
-            _view.IsEdit = true;
+            _view.CompanyIsEdit = true;
         }
-        private void OnAddBtnClicked(object sender, EventArgs e)
+        private void OnCompanyAddBtnClicked(object sender, EventArgs e)
         {
-            _view.IsEdit = false;
+            _view.CompanyIsEdit = false;
             CleanViewFields();
             _view.CompanyIsActiveInfo = "true";
         }
@@ -116,7 +117,7 @@ namespace LicenseHubApp.Presenters
         {
             CleanViewFields();
         }
-        private void OnEditSaveBtnClicked(object sender, EventArgs e)
+        private void OnCompanyEditSaveBtnClicked(object sender, EventArgs e)
         {
             try
             {
@@ -133,7 +134,7 @@ namespace LicenseHubApp.Presenters
                     Description = _view.CompanyDescription,
                 };
 
-                if (_view.IsEdit)
+                if (_view.CompanyIsEdit)
                 {
                     if (CompanyManager.IsNipValid(_view.CompanyNip))
                     {
@@ -164,11 +165,12 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
-        private void OnEditCancelBtnClicked(object sender, EventArgs e)
+        private void OnCompanyEditCancelBtnClicked(object sender, EventArgs e)
         {
-            CleanViewFields();
+            ShowCurrentlySelectedModel(); // reset data
+            _view.CompanyIsEdit = false; // turn off editable
         }
-        private void OnToggleIsActiveBtnClicked(object sender, EventArgs e)
+        private void OnCompanyToggleIsActiveBtnClicked(object sender, EventArgs e)
         {
             try
             {

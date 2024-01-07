@@ -44,7 +44,7 @@ namespace LicenseHubApp.Presenters
 
         private void OnClientsBtnClicked(object sender, EventArgs e)
         {
-            var companyManagementView = new CompanyManagementUC();
+            var companyManagementView = new ClientManagementUC();
             new CompanyManagementPresenter(companyManagementView, _companyManager);
 
             _view.ClientTabPageCollection.Add(companyManagementView);
