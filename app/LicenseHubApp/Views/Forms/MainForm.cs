@@ -1,7 +1,4 @@
-﻿using LicenseHubApp.Models.Managers;
-using LicenseHubApp.Models;
-using LicenseHubApp.Views.Interfaces;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+﻿using LicenseHubApp.Views.Interfaces;
 
 namespace LicenseHubApp.Views.Forms
 {

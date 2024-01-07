@@ -11,15 +11,15 @@ namespace LicenseHubApp.Repositories
             this.context = dataContext;
         }
 
-        public async Task AddAsync(UserModel user)
+        public async Task AddAsync(UserModel model)
         {
-            context.Users.Add(user);
+            context.Users.Add(model);
             await context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(int modelId)
         {
-            var modelToDelete = await GetModelByIdAsync(id);
+            var modelToDelete = await GetModelByIdAsync(modelId);
             if (modelToDelete != null)
             {
                 context.Users.Remove(modelToDelete);
@@ -40,13 +40,13 @@ namespace LicenseHubApp.Repositories
             }
         }
 
-        public async Task<UserModel?> GetModelByIdAsync(int id)
+        public async Task<UserModel?> GetModelByIdAsync(int modelId)
         {
-            return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await context.Users.FirstOrDefaultAsync(m => m.Id == modelId);
         }
         public async Task<UserModel?> GetUserByUsernameAsync(string username)
         {
-            return await context.Users.FirstOrDefaultAsync(u => u.Username == username);
+            return await context.Users.FirstOrDefaultAsync(m => m.Username == username);
         }
 
         public async Task<IList<UserModel>> GetAllAsync()
@@ -54,9 +54,9 @@ namespace LicenseHubApp.Repositories
             return await context.Users.ToListAsync();
         }
 
-        public bool IsIdUnique(int id)
+        public bool IsIdUnique(int modelId)
         {
-            return !context.Users.Any(user => user.Id == id);
+            return !context.Users.Any(model => model.Id == modelId);
         }
 
     }

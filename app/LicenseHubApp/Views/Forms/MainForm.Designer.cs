@@ -307,6 +307,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1794, 1266);
             Controls.Add(splitContainer1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "MainForm";

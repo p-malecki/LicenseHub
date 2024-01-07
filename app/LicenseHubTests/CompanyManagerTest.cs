@@ -17,13 +17,8 @@ public class CompanyManagerTest
     [InlineData("123-456-78-19")]
     public void Given_CorrectNip_When_ValidatingNip_ReturnTrue(string nip)
     {
-        // Arrange
-        var dataContextMock = new Mock<DataContext>();
-        ICompanyRepository repository = new CompanyRepository(dataContextMock.Object);
-        var sut = CompanyManager.GetInstance(repository);
-
-        // Act
-        var result = sut.IsNipValid(nip);
+        // Arrange and Act
+        var result = CompanyManager.IsNipValid(nip);
 
         // Assert
         Assert.True(result);
@@ -37,13 +32,8 @@ public class CompanyManagerTest
     [InlineData("123-456-78-1")]
     public void Given_IncorrectNip_When_ValidatingNip_ReturnFalse(string nip)
     {
-        // Arrange
-        var dataContextMock = new Mock<DataContext>();
-        ICompanyRepository repository = new CompanyRepository(dataContextMock.Object);
-        var sut = CompanyManager.GetInstance(repository);
-
-        // Act
-        var result = sut.IsNipValid(nip);
+        // Arrange and Act
+        var result = CompanyManager.IsNipValid(nip);
 
         // Assert
         Assert.False(result);

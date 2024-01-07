@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace LicenseHubApp.Models.Managers
+﻿namespace LicenseHubApp.Models.Managers
 {
     public class UserManager : BaseModelManager<UserModel>
     {

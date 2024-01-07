@@ -1,10 +1,9 @@
 ﻿using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Views.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using LicenseHubApp.Models;
+using LicenseHubApp.Models.Filters;
 using LicenseHubApp.Repositories;
-using System.Windows.Forms;
 
 
 namespace LicenseHubApp.Presenters
@@ -39,7 +38,7 @@ namespace LicenseHubApp.Presenters
             ICompanyRepository companyRepository = new CompanyRepository(dataContext);
 
             _userManager = UserManager.GetInstance(_userRepository);
-            _companyManager = CompanyManager.GetInstance(companyRepository);
+            _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
         }
 
 

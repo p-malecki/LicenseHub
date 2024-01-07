@@ -1,10 +1,6 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Models.Managers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 
 namespace LicenseHubApp.Presenters

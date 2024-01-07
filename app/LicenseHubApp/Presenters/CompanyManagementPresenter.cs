@@ -1,15 +1,8 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Models.Managers;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Metadata;
-using System.Linq;
 using LicenseHubApp.Models.Filters;
-using System.Buffers;
 using System.Data;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 namespace LicenseHubApp.Presenters
@@ -30,8 +23,8 @@ namespace LicenseHubApp.Presenters
 
             _view.SearchBtnClicked += OnSearchBtnClicked;
             _view.ShowDetailsBtnClicked += OnShowDetailsBtnClicked;
-            _view.EditBtnClicked += OnEditBtnClicked;
             _view.AddBtnClicked += OnAddBtnClicked;
+            _view.EditBtnClicked += OnEditBtnClicked;
             _view.CloseRightPanelBtnClicked += OnCloseRightPanelBtnClicked;
             _view.SaveBtnClicked += OnEditSaveBtnClicked;
             _view.EditCancelBtnClicked += OnEditCancelBtnClicked;
@@ -142,12 +135,14 @@ namespace LicenseHubApp.Presenters
 
                 if (_view.IsEdit)
                 {
-                    if (!_manager.IsNipValid(_view.CompanyNip))
+                    if (CompanyManager.IsNipValid(_view.CompanyNip))
+                    {
+                        model.Id = _view.CompanyId;
+                        _manager.Save(model);
+                        _view.Message = "Company details have been saved.";
+                    }
+                    else
                         throw new InvalidDataException("Incorrect NIP.");
-
-                    model.Id = _view.CompanyId;
-                    _manager.Save(model);
-                    _view.Message = "Company details have been saved.";
                 }
                 else
                 {
