@@ -1,13 +1,5 @@
 ﻿using LicenseHubApp.Views.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using static LicenseHubApp.Utils.ListStoredInStringParser;
 
 namespace LicenseHubApp.Views.Forms
 {
@@ -202,31 +194,6 @@ namespace LicenseHubApp.Views.Forms
             btnSave.Text = IsEdit ? "Save changes" : "Add company";
         }
         #endregion
-
-
-
-        // UTILS
-        // TODO export utils
-        private string ParseSingleLineToMultiline(string singleLineInput)
-        {
-            var symbol = '#';
-
-            var sb = new StringBuilder(singleLineInput);
-            sb.Replace(symbol.ToString(), Environment.NewLine);
-
-            var multilineLineOutput = sb.ToString();
-            return multilineLineOutput;
-        }
-        static string ParseMultilineToSingleLine(string multilineInput)
-        {
-            var symbol = '#';
-
-            var lines = multilineInput.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-            var singleLineOutput = string.Join(symbol, lines);
-            return singleLineOutput;
-        }
-
 
 
         // DEBUG
