@@ -62,20 +62,6 @@ namespace LicenseHubApp.Models.Managers
                 throw;
             }
         }
-
-        public static bool IsNipValid(string nip)
-        {
-            if (nip == "0")
-                return true;
-
-            if (nip.Length != 10 || nip.Any(chr => !Char.IsDigit(chr)))
-                return false;
-
-            int[] weights = { 6, 5, 7, 2, 3, 4, 5, 6, 7, 0 };
-            var sum = nip.Zip(weights, (digit, weight) => (digit - '0') * weight).Sum();
-
-            return (sum % 11) == (nip[9] - '0');
-        }
-
+        
     }
 }

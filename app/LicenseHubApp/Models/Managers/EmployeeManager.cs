@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using LicenseHubApp.Models.Filters;
-using static LicenseHubApp.Utils.ListStoredInStringParser;
+﻿using LicenseHubApp.Models.Filters;
 
 
 namespace LicenseHubApp.Models.Managers
@@ -62,30 +60,5 @@ namespace LicenseHubApp.Models.Managers
             }
         }
 
-        public static bool ArePhoneNumbersValid(string phoneNumbers)
-        {
-            var listOfPhoneNumbers = ParseSingleLineToList(phoneNumbers);
-            foreach (var phoneNumber in listOfPhoneNumbers)
-            {
-                var pattern = @"^\+?(48)? ?\d{9}$";
-                if (!Regex.IsMatch(phoneNumber, pattern))
-                    return false;
-            }
-
-            return true;
-        }
-
-        public static bool AreEmailsValid(string emails)
-        {
-            var listOfEmails = ParseSingleLineToList(emails);
-            foreach (var emailAddress in listOfEmails)
-            {
-                var pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-                if (!Regex.IsMatch(emailAddress, pattern))
-                    return false;
-            }
-
-            return true;
-        }
     }
 }
