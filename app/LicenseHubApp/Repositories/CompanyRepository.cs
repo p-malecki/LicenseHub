@@ -1,7 +1,5 @@
-﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using LicenseHubApp.Models;
-using System.ComponentModel.Design;
 
 namespace LicenseHubApp.Repositories
 {
@@ -22,8 +20,17 @@ namespace LicenseHubApp.Repositories
         {
             try
             {
-                var modelToUpdate = await GetModelByIdAsync(companyId) ?? throw new NullReferenceException("Company model not found.");
+                if (!employeeModel.Validate())
+                {
+                    throw new InvalidOperationException("Model validation failed.");
+                }
 
+
+                var modelToUpdate = context.Companies
+                    .Include(m => m.Employees)
+                    .First(m => m.Id == companyId)
+                                    ?? throw new NullReferenceException("Company model not found.");
+                
                 modelToUpdate.Employees.Add(employeeModel);
                 await context.SaveChangesAsync();
             }
@@ -90,12 +97,25 @@ namespace LicenseHubApp.Repositories
 
         public async Task<IList<CompanyModel>> GetAllAsync()
         {
+            foreach (var companyModel in context.Companies)
+            {
+                await context.Entry(companyModel)
+                    .Collection(m => m.Employees)
+                    .LoadAsync();
+            }
+
             return await context.Companies.ToListAsync();
         }
 
         public async Task<CompanyModel?> GetModelByIdAsync(int modelId)
         {
-            return await context.Companies.FirstOrDefaultAsync(m => m.Id == modelId);
+            var companyModel = context.Companies.FirstOrDefaultAsync(m => m.Id == modelId).Result;
+
+            await context.Entry(companyModel)
+                .Collection(m => m.Employees)
+                .LoadAsync();
+
+            return companyModel;
         }
 
         public bool IsIdUnique(int modelId)

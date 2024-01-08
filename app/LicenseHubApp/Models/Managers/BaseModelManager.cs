@@ -9,6 +9,7 @@
         {
             ModelList = Repository.GetAllAsync().Result.ToList();
         }
+
         public IEnumerable<TModel> GetAll()
         {
             LoadAll();

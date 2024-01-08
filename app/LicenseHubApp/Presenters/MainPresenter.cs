@@ -16,6 +16,7 @@ namespace LicenseHubApp.Presenters
         private readonly IUserRepository _userRepository;
         private UserManager _userManager;
         private CompanyManager _companyManager;
+        private EmployeeManager _employeeManager;
 
         public MainPresenter(IMainView view, AuthenticationManager authenticator, DataContext dataContext, IUserRepository userRepository)
         {
@@ -36,16 +37,18 @@ namespace LicenseHubApp.Presenters
         {
             var dataContext = new DataContext();
             ICompanyRepository companyRepository = new CompanyRepository(dataContext);
+            IEmployeeRepository employeeRepository = new EmployeeRepository(dataContext);
 
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
+            _employeeManager = EmployeeManager.GetInstance(employeeRepository, null); //TODO add employee filter
         }
 
 
         private void OnClientsBtnClicked(object sender, EventArgs e)
         {
             var companyManagementView = new ClientManagementUC();
-            new CompanyManagementPresenter(companyManagementView, _companyManager);
+            new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager);
 
             _view.ClientTabPageCollection.Add(companyManagementView);
             companyManagementView.Dock = DockStyle.Fill;

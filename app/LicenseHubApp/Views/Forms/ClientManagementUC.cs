@@ -13,20 +13,27 @@ namespace LicenseHubApp.Views.Forms
             AssociateAndRaiseViewEvents();
 
             ShowOnlyLeftPanel();
+
             chbCompanySearchOnlyActive.Checked = true;
             cbCompanySelectedFilter.Items.Add("Name");
             cbCompanySelectedFilter.Items.Add("Nip");
             cbCompanySelectedFilter.SelectedIndex = 0;
+            
+            chbSidePanelSearchOnlyActive.Checked = true;
+            cbSidePanelSelectedFilter.Items.Add("Name");
+            // TODO add filters to combobox selector
+            cbSidePanelSelectedFilter.SelectedIndex = 0;
         }
 
         private void AssociateAndRaiseViewEvents()
         {
-            btnCloseRightPanel.Click += delegate
+            btnCloseSidePanel.Click += delegate
             {
                 CloseRightPanelBtnClicked?.Invoke(this, EventArgs.Empty);
                 ShowOnlyLeftPanel();
             };
 
+            #region CompanyManagement
 
             btnCompanySearch.Click += delegate
             {
@@ -37,21 +44,35 @@ namespace LicenseHubApp.Views.Forms
             {
                 CompanyShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
                 if (IsSuccessful)
+                {
                     ShowBothPanels(false);
+                    ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpCompanyDetails);
+                }
                 else
-                    MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            };
-
-            btnCompanyEditDetails.Click += delegate
-            {
-                CompanyEditBtnClicked?.Invoke(this, EventArgs.Empty);
-                ShowBothPanels(true);
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             };
 
             btnCompanyAdd.Click += delegate
             {
                 CompanyAddBtnClicked?.Invoke(this, EventArgs.Empty);
                 ShowBothPanels(true);
+                ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpCompanyDetails);
+            };
+
+            btnCompanyEdit.Click += delegate
+            {
+                CompanyEditBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (IsSuccessful)
+                {
+                    ShowBothPanels(true);
+                    ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpCompanyDetails);
+                }
+                else
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             };
 
             btnCompanySave.Click += delegate
@@ -64,7 +85,7 @@ namespace LicenseHubApp.Views.Forms
                 }
                 else
                 {
-                    MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
             };
@@ -79,15 +100,109 @@ namespace LicenseHubApp.Views.Forms
             {
                 CompanyToggleIsActiveBtnClicked?.Invoke(this, EventArgs.Empty);
                 if (!IsSuccessful)
-                    MessageBox.Show(Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             };
 
             dgvCompanyData.SelectionChanged += delegate
             {
                 CompanyShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+                SidePanelShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
             };
 
+            btnCompanyShowEmployees.Click += delegate
+            {
+                CompanyShowEmployeesBtnClicked?.Invoke(this, EventArgs.Empty);
+                tpSidePanelData.Text = @"Employees";
+                ShowBothPanels(false);
+                ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
+                ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelEmployeeDetails);
+            };
 
+            #endregion
+
+            #region EmployeeManagement
+
+            btnSidePanelSearch.Click += delegate
+            {
+                SidePanelSearchBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+
+            btnSidePanelShowDetails.Click += delegate
+            {
+                SidePanelShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (IsSuccessful)
+                {
+                    ShowOnlyRightPanel(false);
+                }
+                else
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            btnSidePanelAdd.Click += delegate
+            {
+                SidePanelAddBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowOnlyRightPanel(true);
+            };
+
+            btnSidePanelEdit.Click += delegate
+            {
+                SidePanelEditBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (IsSuccessful)
+                {
+                    ShowOnlyRightPanel(true);
+                }
+                else
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            btnSidePanelSave.Click += delegate
+            {
+                SidePanelSaveBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (IsSuccessful)
+                {
+                    ShowOnlyRightPanel(false);
+                    MessageBox.Show(Message);
+                }
+                else
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+            };
+
+            btnSidePanelEditCancel.Click += delegate
+            {
+                SidePanelEditCancelBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowBothPanels(false);
+            };
+
+            btnSidePanelToggleIsActive.Click += delegate
+            {
+                SidePanelToggleIsActiveBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (!IsSuccessful)
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            dgvSidePanelData.SelectionChanged += delegate
+            {
+                SidePanelShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+
+            #endregion
+
+            #region WorkstationManagement
+
+            // TODO WorkstationManagement
+
+            #endregion
         }
         #endregion
 
@@ -95,9 +210,22 @@ namespace LicenseHubApp.Views.Forms
         #region Properties
         public string Message { get; set; }
         public bool IsSuccessful { get; set; }
-        
-        
-        public bool CompanyIsEdit { get; set; }
+        public bool IsEdit { get; set; }
+        public string SidePanelTarget { get; set; }
+
+
+        public string CompanySearchValue
+        {
+            get => txtCompanySearchValue.Text.Trim();
+            set => txtCompanySearchValue.Text = value;
+        }
+        public string CompanySelectedFilter { get; set; }
+        public bool CompanySearchOnlyActive
+        {
+            get => chbCompanySearchOnlyActive.Checked;
+            set => chbCompanySearchOnlyActive.Checked = value;
+        }
+
         public int CompanyId { get; set; }
         public string CompanyIsActiveInfo
         {
@@ -134,15 +262,67 @@ namespace LicenseHubApp.Views.Forms
             get => btnCompanyToggleIsActive.Text;
             set => btnCompanyToggleIsActive.Text = value;
         }
-        public string CompanySearchValue
+
+
+        public string SidePanelSearchValue
         {
-            get => txtCompanySearchValue.Text.Trim();
-            set => txtCompanySearchValue.Text = value;
+            get => txtSidePanelSearchValue.Text.Trim();
+            set => txtSidePanelSearchValue.Text = value;
         }
-        public string CompanySelectedFilter { get; set; }
-        public bool CompanySearchOnlyActive { get; set; }
+        public string SidePanelSelectedFilter { get; set; }
+        public bool SidePanelSearchOnlyActive
+        {
+            get => chbSidePanelSearchOnlyActive.Checked;
+            set => chbSidePanelSearchOnlyActive.Checked = value;
+        }
+        public string SidePanelToggleIsActiveBtnText
+        {
+            get => btnSidePanelToggleIsActive.Text;
+            set => btnSidePanelToggleIsActive.Text = value;
+        }
 
 
+        public int EmployeeId { get; set; }
+        public string EmployeeIsActiveInfo
+        {
+            get => (lbEmployeeIsActiveInfo.Text == @"status: Active") ? "true" : "false";
+            set => lbEmployeeIsActiveInfo.Text = (value == "true") ? "status: Active" : "status: Deactivated";
+        }
+        public new string EmployeeName
+        {
+            get => txtEmployeeName.Text;
+            set => txtEmployeeName.Text = value;
+        }
+        public string EmployeeProfession
+        {
+            get => txtEmployeeProfession.Text;
+            set => txtEmployeeProfession.Text = value;
+        }
+        public string EmployeePhoneNumbers
+        {
+            get => ParseMultilineToSingleLine(rtxtEmployeePhoneNumbers.Text);
+            set => rtxtEmployeePhoneNumbers.Text = ParseSingleLineToMultiline(value);
+        }
+        public string EmployeeEmails
+        {
+            get => ParseMultilineToSingleLine(rtxtEmployeeEmails.Text);
+            set => rtxtEmployeeEmails.Text = ParseSingleLineToMultiline(value);
+        }
+        public string EmployeeWebsites
+        {
+            get => ParseMultilineToSingleLine(rtxtEmployeeWebsites.Text);
+            set => rtxtEmployeeWebsites.Text = ParseSingleLineToMultiline(value);
+        }
+        public string EmployeeIPs
+        {
+            get => ParseMultilineToSingleLine(rtxtEmployeeIPs.Text);
+            set => rtxtEmployeeIPs.Text = ParseSingleLineToMultiline(value);
+        }
+        public string EmployeeDescription
+        {
+            get => ParseMultilineToSingleLine(rtxtEmployeeDescription.Text);
+            set => rtxtEmployeeDescription.Text = ParseSingleLineToMultiline(value);
+        }
 
 
         #endregion
@@ -157,6 +337,15 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler CompanySaveBtnClicked;
         public event EventHandler CompanyEditCancelBtnClicked;
         public event EventHandler CompanyToggleIsActiveBtnClicked;
+        public event EventHandler CompanyShowEmployeesBtnClicked;
+
+        public event EventHandler SidePanelSearchBtnClicked;
+        public event EventHandler SidePanelShowDetailsBtnClicked;
+        public event EventHandler SidePanelAddBtnClicked;
+        public event EventHandler SidePanelEditBtnClicked;
+        public event EventHandler SidePanelSaveBtnClicked;
+        public event EventHandler SidePanelEditCancelBtnClicked;
+        public event EventHandler SidePanelToggleIsActiveBtnClicked;
         #endregion
 
 
@@ -166,6 +355,12 @@ namespace LicenseHubApp.Views.Forms
             dgvCompanyData.DataSource = companyList;
             dgvCompanyData.ClearSelection();
         }
+        public void SetSidePanelListBindingSource(BindingSource modelList)
+        {
+            dgvSidePanelData.DataSource = modelList;
+            dgvSidePanelData.ClearSelection();
+        }
+
 
         private void ShowOnlyLeftPanel()
         {
@@ -187,26 +382,73 @@ namespace LicenseHubApp.Views.Forms
         }
         private void SetPanelToEditable(bool editable)
         {
-            txtCompanyName.ReadOnly = !editable;
-            txtCompanyNip.ReadOnly = !editable;
-            rtxtCompanyLocalizations.ReadOnly = !editable;
-            rtxtCompanyWebsites.ReadOnly = !editable;
-            rtxtCompanyDescription.ReadOnly = !editable;
+            switch (SidePanelTarget)
+            {
+                case "Employee":
+                {
+                    txtEmployeeName.ReadOnly = !editable;
+                    txtEmployeeProfession.ReadOnly = !editable;
+                    rtxtEmployeePhoneNumbers.ReadOnly = !editable;
+                    rtxtEmployeeEmails.ReadOnly = !editable;
+                    rtxtEmployeeWebsites.ReadOnly = !editable;
+                    rtxtEmployeeIPs.ReadOnly = !editable;
+                    rtxtEmployeeDescription.ReadOnly = !editable;
 
-            rtxtCompanyLocalizations.BackColor = editable ? Color.White: SystemColors.Control;
-            rtxtCompanyWebsites.BackColor = editable ? Color.White : SystemColors.Control;
-            rtxtCompanyDescription.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtEmployeePhoneNumbers.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtEmployeeEmails.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtEmployeeWebsites.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtEmployeeIPs.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtEmployeeDescription.BackColor = editable ? Color.White : SystemColors.Control;
 
-            btnCompanySave.Visible = editable;
-            btnCompanyEditCancel.Visible = editable;
-            btnCompanyToggleIsActive.Visible = editable && CompanyIsEdit;
+                    btnSidePanelSave.Visible = editable;
+                    btnSidePanelEditCancel.Visible = editable;
+                    btnSidePanelToggleIsActive.Visible = editable && IsEdit;
 
-            btnCompanySave.Text = CompanyIsEdit ? "Save changes" : "Add company";
+                    btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add employee";
+                    break;
+                }
+                case "Workstation":
+                {
+                    // TODO add SetPanelToEditable for Workstation
+                    break;
+                }
+                default: 
+                {
+                    txtCompanyName.ReadOnly = !editable;
+                    txtCompanyNip.ReadOnly = !editable;
+                    rtxtCompanyLocalizations.ReadOnly = !editable;
+                    rtxtCompanyWebsites.ReadOnly = !editable;
+                    rtxtCompanyDescription.ReadOnly = !editable;
+
+                    rtxtCompanyLocalizations.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtCompanyWebsites.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtCompanyDescription.BackColor = editable ? Color.White : SystemColors.Control;
+
+                    btnCompanySave.Visible = editable;
+                    btnCompanyEditCancel.Visible = editable;
+                    btnCompanyToggleIsActive.Visible = editable && IsEdit;
+
+                    btnCompanySave.Text = IsEdit ? "Save changes" : "Add company";
+                break;
+                }
+            }
         }
+
+        private static void ShowOnlyOnePageInTabControl(TabControl tbControl, TabPage pageToShow)
+        {
+            foreach (var tabPage in tbControl.TabPages)
+            {
+                tbControl.TabPages.Remove((TabPage)tabPage);
+            }
+
+            tbControl.TabPages.Add(pageToShow);
+        }
+
         #endregion
 
 
-        // DEBUG
+
+        #region DEBUG_METHODS
         private void button1_Click(object sender, EventArgs e)
         {
             ShowOnlyRightPanel(true);
@@ -221,5 +463,7 @@ namespace LicenseHubApp.Views.Forms
         {
             ShowBothPanels(true);
         }
+
+        #endregion
     }
 }
