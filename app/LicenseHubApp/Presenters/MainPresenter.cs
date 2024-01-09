@@ -41,7 +41,7 @@ namespace LicenseHubApp.Presenters
 
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
-            _employeeManager = EmployeeManager.GetInstance(employeeRepository, null); //TODO add employee filter
+            _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using LicenseHubApp.Views.Interfaces;
+using System.Windows.Forms;
 using static LicenseHubApp.Utils.ListStoredInStringParser;
 
 namespace LicenseHubApp.Views.Forms
@@ -15,13 +16,19 @@ namespace LicenseHubApp.Views.Forms
             ShowOnlyLeftPanel();
 
             chbCompanySearchOnlyActive.Checked = true;
-            cbCompanySelectedFilter.Items.Add("Name");
-            cbCompanySelectedFilter.Items.Add("Nip");
+            cbCompanySelectedFilter.Items.Add("name");
+            cbCompanySelectedFilter.Items.Add("nip");
             cbCompanySelectedFilter.SelectedIndex = 0;
             
             chbSidePanelSearchOnlyActive.Checked = true;
-            cbSidePanelSelectedFilter.Items.Add("Name");
-            // TODO add filters to combobox selector
+            cbSidePanelSelectedFilter.Items.Add("name");
+            cbSidePanelSelectedFilter.Items.Add("profession");
+            cbSidePanelSelectedFilter.Items.Add("phone number");
+            cbSidePanelSelectedFilter.Items.Add("email");
+            cbSidePanelSelectedFilter.Items.Add("ip");
+            
+            // TODO add workstation filters to combobox selector
+            
             cbSidePanelSelectedFilter.SelectedIndex = 0;
         }
 
@@ -361,6 +368,15 @@ namespace LicenseHubApp.Views.Forms
             dgvSidePanelData.ClearSelection();
         }
 
+        public void SetCompanyEditBtnToEnabled(bool enabled)
+        {
+            btnCompanyEdit.Enabled = enabled;
+        }
+        public void SetSidePanelEditBtnToEnabled(bool enabled)
+        {
+            btnSidePanelEdit.Enabled = enabled;
+        }
+
 
         private void ShowOnlyLeftPanel()
         {
@@ -445,7 +461,6 @@ namespace LicenseHubApp.Views.Forms
         }
 
         #endregion
-
 
 
         #region DEBUG_METHODS

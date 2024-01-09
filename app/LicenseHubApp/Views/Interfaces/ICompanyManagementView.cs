@@ -65,6 +65,10 @@ public interface ICompanyManagementView
     #region Methods
     void SetCompanyListBindingSource(BindingSource companyList);
     void SetSidePanelListBindingSource(BindingSource modelList);
+
+    void SetCompanyEditBtnToEnabled(bool enabled);
+    void SetSidePanelEditBtnToEnabled(bool enabled);
+
     #endregion
 
 }

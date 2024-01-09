@@ -112,6 +112,7 @@
             dgvCompanyData.AllowUserToDeleteRows = false;
             dgvCompanyData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvCompanyData.Location = new Point(46, 161);
+            dgvCompanyData.MultiSelect = false;
             dgvCompanyData.Name = "dgvCompanyData";
             dgvCompanyData.ReadOnly = true;
             dgvCompanyData.RowHeadersWidth = 62;
@@ -397,6 +398,7 @@
             dgvSidePanelData.AllowUserToDeleteRows = false;
             dgvSidePanelData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvSidePanelData.Location = new Point(6, 107);
+            dgvSidePanelData.MultiSelect = false;
             dgvSidePanelData.Name = "dgvSidePanelData";
             dgvSidePanelData.ReadOnly = true;
             dgvSidePanelData.RowHeadersWidth = 62;

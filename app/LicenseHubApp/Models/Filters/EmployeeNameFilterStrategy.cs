@@ -1,9 +1,9 @@
 ﻿
 namespace LicenseHubApp.Models.Filters
 {
-    public class CustomerNameFilterStrategy : IFilterStrategy<CompanyModel>
+    public class EmployeeNameFilterStrategy : IFilterStrategy<EmployeeModel>
     {
-        public IEnumerable<CompanyModel> Filter(IEnumerable<CompanyModel> models, string filterValue)
+        public IEnumerable<EmployeeModel> Filter(IEnumerable<EmployeeModel> models, string filterValue)
         {
             return models.Where(m => m.Name.Contains(filterValue, StringComparison.CurrentCultureIgnoreCase)).ToList();
         }

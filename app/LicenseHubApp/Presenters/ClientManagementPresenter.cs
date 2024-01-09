@@ -51,6 +51,7 @@ namespace LicenseHubApp.Presenters
             _view.SidePanelToggleIsActiveBtnClicked += OnSidePanelToggleIsActiveBtnClicked;
 
             LoadAllCompanyList();
+            _employeeManager.LoadAll();
         }
 
         private void OnCloseRightPanelBtnClicked(object sender, EventArgs e)
@@ -63,13 +64,22 @@ namespace LicenseHubApp.Presenters
 
         private void LoadAllCompanyList()
         {
-            var results = _companyManager.GetAll();
+            var results = _companyManager.GetAll().ToList();
             if (_view.CompanySearchOnlyActive)
             {
-                results = results.Where(m => m.IsActive);
+                results = results.Where(m => m.IsActive).ToList();
             }
 
-            _companyBindingSource.DataSource = results;
+            if (results.Count != 0)
+            {
+                _companyBindingSource.DataSource = results;
+                _view.SetCompanyEditBtnToEnabled(true);
+            }
+            else
+            {
+                _companyBindingSource.DataSource = new List<CompanyModel>();
+                _view.SetCompanyEditBtnToEnabled(false);
+            }
         }
         private CompanyModel? GetCurrentlySelectedCompany()
         {
@@ -113,15 +123,25 @@ namespace LicenseHubApp.Presenters
                 {
                     IFilterStrategy<CompanyModel> strategy = _view.CompanySelectedFilter switch
                     {
-                        "Nip" => new CustomerNipFilterStrategy(),
+                        "nip" => new CustomerNipFilterStrategy(),
                         _ => new CustomerNameFilterStrategy(),
                     };
                     _companyManager.SetFilterStrategy(strategy);
 
-                    var results = _companyManager.FilterCompany(enteredSearchValue);
+                    var results = _companyManager.FilterCompany(enteredSearchValue).ToList();
                     if (_view.CompanySearchOnlyActive)
-                        results = results.Where(c => c.IsActive);
-                    _companyBindingSource.DataSource = results;
+                        results = results.Where(m => m.IsActive).ToList();
+
+                    if (results.Count != 0)
+                    {
+                        _companyBindingSource.DataSource = results;
+                        _view.SetCompanyEditBtnToEnabled(true);
+                    }
+                    else
+                    {
+                        _companyBindingSource.DataSource = new List<CompanyModel>();
+                        _view.SetCompanyEditBtnToEnabled(false);
+                    }
                 }
             }
             catch (Exception ex)
@@ -310,7 +330,16 @@ namespace LicenseHubApp.Presenters
                         results = results.Where(m => m.IsActive).ToList();
                     }
 
-                    _sidePanelBindingSource.DataSource = results;
+                    if (results.Count != 0)
+                    {
+                        _sidePanelBindingSource.DataSource = results;
+                        _view.SetSidePanelEditBtnToEnabled(true);
+                    }
+                    else
+                    {
+                        _sidePanelBindingSource.DataSource = new List<EmployeeModel>();
+                        _view.SetSidePanelEditBtnToEnabled(false);
+                    }
                     break;
                 }
                 case "Workstation":
@@ -338,17 +367,30 @@ namespace LicenseHubApp.Presenters
                     {
                         IFilterStrategy<EmployeeModel> strategy = _view.SidePanelSelectedFilter switch
                         {
-                            // TODO add employee filters
-                            //"Name" => new EmployeeNameFilterStrategy(),
-                            _ => throw new NotImplementedException(),
+                            "profession" => new EmployeeProfessionFilterStrategy(),
+                            "phone number" => new EmployeePhoneNumberFilterStrategy(),
+                            "email" => new EmployeeEmailFilterStrategy(),
+                            "ip" => new EmployeeIPsFilterStrategy(),
+                            _ => new EmployeeNameFilterStrategy()
                         };
                         _employeeManager.SetFilterStrategy(strategy);
 
-                        var results = _employeeManager.FilterEmployee(enteredSearchValue);
-                        if (_view.SidePanelSearchOnlyActive)
-                            results = results.Where(c => c.IsActive);
+                        var results = _employeeManager.FilterEmployee(enteredSearchValue).ToList();
+                        results = results.Where(m => m.CompanyId == _view.CompanyId).ToList();
 
-                        _companyBindingSource.DataSource = results;
+                        if (_view.SidePanelSearchOnlyActive)
+                            results = results.Where(m => m.IsActive).ToList();
+
+                        if (results.Count != 0)
+                        {
+                            _sidePanelBindingSource.DataSource = results;
+                            _view.SetSidePanelEditBtnToEnabled(true);
+                        }
+                        else
+                        {
+                            _sidePanelBindingSource.DataSource = new List<EmployeeModel>();
+                            _view.SetSidePanelEditBtnToEnabled(false);
+                        }
                         break;
                     }
                     case "Workstation":
