@@ -9,7 +9,7 @@ namespace LicenseHubApp.Presenters
 {
     public class ClientManagementPresenter
     {
-        private readonly ICompanyManagementView _view;
+        private readonly IClientManagementView _view;
         private readonly CompanyManager _companyManager;
         private readonly EmployeeManager _employeeManager;
         private readonly BindingSource _companyBindingSource;
@@ -17,7 +17,7 @@ namespace LicenseHubApp.Presenters
 
 
         public ClientManagementPresenter(
-            ICompanyManagementView view,
+            IClientManagementView view,
             CompanyManager companyManager,
             EmployeeManager employeeManager
             )
@@ -320,6 +320,8 @@ namespace LicenseHubApp.Presenters
                 return;
             }
 
+            var tmpIsEdit = _view.IsEdit;
+
             switch (_view.SidePanelTarget)
             {
                 case "Employee":
@@ -348,6 +350,8 @@ namespace LicenseHubApp.Presenters
                     break;
                 }
             }
+
+            _view.IsEdit = tmpIsEdit;
         }
 
         private void OnSidePanelSearchBtnClicked(object sender, EventArgs e)
@@ -360,6 +364,8 @@ namespace LicenseHubApp.Presenters
                     LoadAllSidePanelModelsList();
                     return;
                 }
+
+                var tmpIsEdit = _view.IsEdit;
 
                 switch (_view.SidePanelTarget)
                 {
@@ -399,6 +405,7 @@ namespace LicenseHubApp.Presenters
                         break;
                     }
                 }
+                _view.IsEdit = tmpIsEdit;
             }
             catch (Exception ex)
             {

@@ -1,12 +1,8 @@
-using LicenseHubApp.Models.Managers;
-using LicenseHubApp.Repositories;
-using Moq;
-
 namespace LicenseHubTests;
-using LicenseHubApp.Models;
+using LicenseHubApp.Utils;
 
 
-public class CompanyManagerTest
+public class DataValidatorTest
 {
 
     [Theory]
@@ -18,7 +14,7 @@ public class CompanyManagerTest
     public void Given_CorrectNip_When_ValidatingNip_ReturnTrue(string nip)
     {
         // Arrange and Act
-        var result = CompanyManager.IsNipValid(nip);
+        var result = DataValidator.IsNipValid(nip);
 
         // Assert
         Assert.True(result);
@@ -33,7 +29,7 @@ public class CompanyManagerTest
     public void Given_IncorrectNip_When_ValidatingNip_ReturnFalse(string nip)
     {
         // Arrange and Act
-        var result = CompanyManager.IsNipValid(nip);
+        var result = DataValidator.IsNipValid(nip);
 
         // Assert
         Assert.False(result);

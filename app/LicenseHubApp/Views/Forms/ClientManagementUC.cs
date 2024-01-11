@@ -4,7 +4,7 @@ using static LicenseHubApp.Utils.ListStoredInStringParser;
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class ClientManagementUC : UserControl, ICompanyManagementView
+    public partial class ClientManagementUC : UserControl, IClientManagementView
     {
 
         #region Constructor
@@ -236,8 +236,8 @@ namespace LicenseHubApp.Views.Forms
         public int CompanyId { get; set; }
         public string CompanyIsActiveInfo
         {
-            get => (lbCompanyIsActiveInfo.Text == @"status: Active") ? "true" : "false";
-            set => lbCompanyIsActiveInfo.Text = (value == "true") ? "status: Active" : "status: Deactivated";
+            get => (lbCompanyIsActiveInfo.Text == @"status: Active") ? "True" : "False";
+            set => lbCompanyIsActiveInfo.Text = (value == "True") ? "status: Active" : "status: Deactivated";
         }
         public new string CompanyName
         {
@@ -292,10 +292,10 @@ namespace LicenseHubApp.Views.Forms
         public int EmployeeId { get; set; }
         public string EmployeeIsActiveInfo
         {
-            get => (lbEmployeeIsActiveInfo.Text == @"status: Active") ? "true" : "false";
-            set => lbEmployeeIsActiveInfo.Text = (value == "true") ? "status: Active" : "status: Deactivated";
+            get => (lbEmployeeIsActiveInfo.Text == @"status: Active") ? "True" : "False";
+            set => lbEmployeeIsActiveInfo.Text = (value == "True") ? "status: Active" : "status: Deactivated";
         }
-        public new string EmployeeName
+        public string EmployeeName
         {
             get => txtEmployeeName.Text;
             set => txtEmployeeName.Text = value;
