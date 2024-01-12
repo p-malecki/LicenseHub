@@ -122,6 +122,19 @@ namespace LicenseHubApp.Views.Forms
             {
                 CompanyShowEmployeesBtnClicked?.Invoke(this, EventArgs.Empty);
                 tpSidePanelData.Text = @"Employees";
+
+                cbSidePanelSelectedFilter.Text = @"Only Active";
+                ShowBothPanels(false);
+                ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
+                ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelEmployeeDetails);
+            };
+
+            btnCompanyShowWorkstations.Click += delegate
+            {
+                CompanyShowWorkstationsBtnClicked?.Invoke(this, EventArgs.Empty);
+                tpSidePanelData.Text = @"Workstations";
+
+                cbSidePanelSelectedFilter.Text = @"No faulty";
                 ShowBothPanels(false);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelEmployeeDetails);
@@ -129,7 +142,7 @@ namespace LicenseHubApp.Views.Forms
 
             #endregion
 
-            #region EmployeeManagement
+            #region SidePaneManagement
 
             btnSidePanelSearch.Click += delegate
             {
@@ -205,11 +218,6 @@ namespace LicenseHubApp.Views.Forms
 
             #endregion
 
-            #region WorkstationManagement
-
-            // TODO WorkstationManagement
-
-            #endregion
         }
         #endregion
 
@@ -332,6 +340,48 @@ namespace LicenseHubApp.Views.Forms
         }
 
 
+        public int WorkstationId { get; set; }
+        public string WorkstationHasFaultInfo
+        {
+            get => (lbEmployeeIsActiveInfo.Text == @"status: Has fault") ? "True" : "False";
+            set => lbEmployeeIsActiveInfo.Text = (value == "True") ? "status: Has fault" : "status: No fault";
+        }
+        public string WorkstationComputerName
+        {
+            get => txtWorkstationComputerName.Text;
+            set => txtWorkstationComputerName.Text = value;
+        }
+        public string WorkstationUsername
+        {
+            get => txtWorkstationUsername.Text;
+            set => txtWorkstationUsername.Text = value;
+        }
+        public string WorkstationHardDisk
+        {
+            get => rtxtWorkstationHardDisk.Text;
+            set => rtxtWorkstationHardDisk.Text = value;
+        }
+        public string WorkstationCpu
+        {
+            get => rtxtWorkstationCpu.Text;
+            set => rtxtWorkstationCpu.Text = value;
+        }
+        public string WorkstationBiosVersion
+        {
+            get => rtxtWorkstationBiosVersion.Text;
+            set => rtxtWorkstationBiosVersion.Text = value;
+        }
+        public string WorkstationOs
+        {
+            get => txtWorkstationOs.Text;
+            set => txtWorkstationOs.Text = value;
+        }
+        public string WorkstationOsBitVersion
+        {
+            get => txtWorkstationOsBitVersion.Text;
+            set => txtWorkstationOsBitVersion.Text = value;
+        }
+
         #endregion
 
 
@@ -345,6 +395,7 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler CompanyEditCancelBtnClicked;
         public event EventHandler CompanyToggleIsActiveBtnClicked;
         public event EventHandler CompanyShowEmployeesBtnClicked;
+        public event EventHandler CompanyShowWorkstationsBtnClicked;
 
         public event EventHandler SidePanelSearchBtnClicked;
         public event EventHandler SidePanelShowDetailsBtnClicked;
@@ -425,11 +476,27 @@ namespace LicenseHubApp.Views.Forms
                 }
                 case "Workstation":
                 {
-                    // TODO add SetPanelToEditable for Workstation
+                    txtWorkstationComputerName.ReadOnly = !editable;
+                    txtWorkstationUsername.ReadOnly = !editable;
+                    rtxtWorkstationHardDisk.ReadOnly = !editable;
+                    rtxtWorkstationCpu.ReadOnly = !editable;
+                    rtxtWorkstationBiosVersion.ReadOnly = !editable;
+                    txtWorkstationOs.ReadOnly = !editable;
+                    txtWorkstationOsBitVersion.ReadOnly = !editable;
+
+                    rtxtWorkstationHardDisk.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtWorkstationCpu.BackColor = editable ? Color.White : SystemColors.Control;
+                    rtxtWorkstationBiosVersion.BackColor = editable ? Color.White : SystemColors.Control;
+
+                    btnSidePanelSave.Visible = editable;
+                    btnSidePanelEditCancel.Visible = editable;
+                    btnSidePanelToggleIsActive.Visible = editable && IsEdit;
+
+                    btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add workstation";
                     break;
                 }
-                default: 
-                {
+                default: // Company
+                    {
                     txtCompanyName.ReadOnly = !editable;
                     txtCompanyNip.ReadOnly = !editable;
                     rtxtCompanyLocalizations.ReadOnly = !editable;

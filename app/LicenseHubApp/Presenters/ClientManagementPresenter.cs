@@ -12,6 +12,7 @@ namespace LicenseHubApp.Presenters
         private readonly IClientManagementView _view;
         private readonly CompanyManager _companyManager;
         private readonly EmployeeManager _employeeManager;
+        private readonly WorkstationManager _workstationManager;
         private readonly BindingSource _companyBindingSource;
         private readonly BindingSource _sidePanelBindingSource;
 
@@ -19,12 +20,14 @@ namespace LicenseHubApp.Presenters
         public ClientManagementPresenter(
             IClientManagementView view,
             CompanyManager companyManager,
-            EmployeeManager employeeManager
+            EmployeeManager employeeManager,
+            WorkstationManager workstationManager
             )
         {
             _view = view;
             _companyManager = companyManager;
             _employeeManager = employeeManager;
+            _workstationManager = workstationManager;
 
             _companyBindingSource = new BindingSource();
             _sidePanelBindingSource = new BindingSource();
@@ -37,6 +40,7 @@ namespace LicenseHubApp.Presenters
             _view.CompanyShowDetailsBtnClicked += OnCompanyShowDetailsBtnClicked;
             _view.CompanyAddBtnClicked += OnCompanyAddBtnClicked;
             _view.CompanyShowEmployeesBtnClicked += OnCompanyShowEmployeesBtnClicked;
+            _view.CompanyShowWorkstationsBtnClicked += OnCompanyShowWorkstationsBtnClicked;
             _view.CompanyEditBtnClicked += OnCompanyEditBtnClicked;
             _view.CompanySaveBtnClicked += OnCompanyEditSaveBtnClicked;
             _view.CompanyEditCancelBtnClicked += OnCompanyEditCancelBtnClicked;
@@ -52,6 +56,7 @@ namespace LicenseHubApp.Presenters
 
             LoadAllCompanyList();
             _employeeManager.LoadAll();
+            _workstationManager.LoadAll();
         }
 
         private void OnCloseRightPanelBtnClicked(object sender, EventArgs e)
@@ -260,10 +265,15 @@ namespace LicenseHubApp.Presenters
             LoadAllSidePanelModelsList();
         }
 
+        private void OnCompanyShowWorkstationsBtnClicked(object sender, EventArgs e)
+        {
+            _view.SidePanelTarget = "Workstation";
+            LoadAllSidePanelModelsList();
+        }
+
         #endregion
 
 
-        #region EmployeeManagement
         private EmployeeModel? GetCurrentlySelectedEmployee()
         {
             if (_sidePanelBindingSource.Count == 0)
@@ -271,6 +281,14 @@ namespace LicenseHubApp.Presenters
                 return null;
             }
             return (EmployeeModel)_sidePanelBindingSource.Current;
+        }
+        private WorkstationModel? GetCurrentlySelectedWorkstation()
+        {
+            if (_sidePanelBindingSource.Count == 0)
+            {
+                return null;
+            }
+            return (WorkstationModel)_sidePanelBindingSource.Current;
         }
 
         private void ShowCurrentlySelectedModel()
@@ -299,14 +317,29 @@ namespace LicenseHubApp.Presenters
                 }
                 case "Workstation":
                 {
-                    // TODO show workstation models using GetCurrentlySelectedWorksation
+                    var model = GetCurrentlySelectedWorkstation();
+                    if (model == null)
+                    {
+                        _view.IsSuccessful = true;
+                        return;
+                    }
+                    _view.WorkstationId = model.Id;
+                    _view.WorkstationHasFaultInfo = model.HasFault.ToString();
+                    _view.WorkstationComputerName = model.ComputerName;
+                    _view.WorkstationUsername = model.Username;
+                    _view.WorkstationHardDisk = model.HardDisk;
+                    _view.WorkstationCpu = model.Cpu;
+                    _view.WorkstationBiosVersion = model.BiosVersion;
+                    _view.WorkstationOs = model.Os;
+                    _view.WorkstationOsBitVersion = model.OsBitVersion;
+
+                    _view.SidePanelToggleIsActiveBtnText = (model.HasFault) ? "Change to working" : "Change to faulty";
                     break;
                 }
             }
 
             _view.IsSuccessful = true;
         }
-        #endregion
 
 
 
@@ -346,7 +379,22 @@ namespace LicenseHubApp.Presenters
                 }
                 case "Workstation":
                 {
-                    // TODO load workstation models
+                    var results = companyModel.Workstations.ToList();
+                    if (_view.SidePanelSearchOnlyActive)
+                    {
+                        results = results.Where(m => !m.HasFault).ToList();
+                    }
+
+                    if (results.Count != 0)
+                    {
+                        _sidePanelBindingSource.DataSource = results;
+                        _view.SetSidePanelEditBtnToEnabled(true);
+                    }
+                    else
+                    {
+                        _sidePanelBindingSource.DataSource = new List<WorkstationModel>();
+                        _view.SetSidePanelEditBtnToEnabled(false);
+                    }
                     break;
                 }
             }
@@ -482,7 +530,32 @@ namespace LicenseHubApp.Presenters
                     }
                     case "Workstation":
                     {
-                        // TODO save workstation
+                        var model = new WorkstationModel()
+                        {
+                            Id = _view.WorkstationId,
+                            HasFault = bool.Parse(_view.WorkstationHasFaultInfo),
+                            ComputerName = _view.WorkstationComputerName,
+                            Username = _view.WorkstationUsername,
+                            HardDisk = _view.WorkstationHardDisk,
+                            Cpu = _view.WorkstationCpu,
+                            BiosVersion = _view.WorkstationBiosVersion,
+                            Os = _view.WorkstationOs,
+                            OsBitVersion = _view.WorkstationOsBitVersion,
+                        };
+
+                        if (_view.IsEdit)
+                        {
+                            model.Id = _view.WorkstationId;
+                            _workstationManager.Save(model);
+                            _view.Message = "Workstation details have been saved.";
+                        }
+                        else
+                        {
+                            model.HasFault = false;
+                            _companyManager.AddWorkstation(companyId, model);
+                            _workstationManager.LoadAll();
+                            _view.Message = "Workstation has been added.";
+                        }
                         break;
                     }
                 }
@@ -513,12 +586,13 @@ namespace LicenseHubApp.Presenters
                 {
                     case "Employee":
                     {
-                        var model = GetCurrentlySelectedEmployee();
-                        _employeeManager.ToggleIsActive(model);
+                        var employeeModel = GetCurrentlySelectedEmployee();
+                        _employeeManager.ToggleIsActive(employeeModel);
                         break;
                     }
                     case "Workstation":
-                        // TODO GetCurrentlySelectedWorkstation toggleBtn
+                        var workstationModel = GetCurrentlySelectedWorkstation();
+                        _workstationManager.ToggleHasFault(workstationModel);
                         break;
                 }
 

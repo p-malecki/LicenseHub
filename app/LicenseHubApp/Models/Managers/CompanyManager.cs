@@ -49,6 +49,11 @@ namespace LicenseHubApp.Models.Managers
             ((ICompanyRepository)Repository).AddEmployeeAsync(companyId, employeeModel);
         }
 
+        public void AddWorkstation(int companyId, WorkstationModel workstationModel)
+        {
+            ((ICompanyRepository)Repository).AddWorkstationAsync(companyId, workstationModel);
+        }
+
         public void ToggleIsActive(CompanyModel model)
         {
             try

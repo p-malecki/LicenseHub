@@ -88,10 +88,27 @@
             label14 = new Label();
             rtxtEmployeeDescription = new RichTextBox();
             tpSidePanelWorkstationDetails = new TabPage();
+            label16 = new Label();
+            lbWorkstationHasFaultInfo = new Label();
+            label18 = new Label();
+            txtWorkstationComputerName = new TextBox();
+            label19 = new Label();
+            txtWorkstationUsername = new TextBox();
+            label20 = new Label();
+            rtxtWorkstationHardDisk = new RichTextBox();
+            label21 = new Label();
+            rtxtWorkstationCpu = new RichTextBox();
+            label23 = new Label();
+            rtxtWorkstationBiosVersion = new RichTextBox();
+            label17 = new Label();
+            txtWorkstationOs = new TextBox();
+            label24 = new Label();
+            txtWorkstationOsBitVersion = new TextBox();
             groupBox1 = new GroupBox();
             btnSidePanelToggleIsActive = new Button();
             btnSidePanelSave = new Button();
             btnSidePanelEditCancel = new Button();
+            btnCompanyShowWorkstations = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCompanyData).BeginInit();
             tabControlSidePanelLeft.SuspendLayout();
             tpCompanyDetails.SuspendLayout();
@@ -103,6 +120,7 @@
             splitContainer1.SuspendLayout();
             tabControlSidePanelRight.SuspendLayout();
             tpSidePanelEmployeeDetails.SuspendLayout();
+            tpSidePanelWorkstationDetails.SuspendLayout();
             groupBox1.SuspendLayout();
             SuspendLayout();
             // 
@@ -453,6 +471,7 @@
             splitContainer1.Panel1.Controls.Add(btnCompanyAdd);
             splitContainer1.Panel1.Controls.Add(btnCompanyEdit);
             splitContainer1.Panel1.Controls.Add(btnCompanyShowEmployees);
+            splitContainer1.Panel1.Controls.Add(btnCompanyShowWorkstations);
             // 
             // splitContainer1.Panel2
             // 
@@ -462,7 +481,7 @@
             splitContainer1.Panel2.Controls.Add(tabControlSidePanelRight);
             splitContainer1.Panel2.Controls.Add(groupBox1);
             splitContainer1.Size = new Size(1407, 1156);
-            splitContainer1.SplitterDistance = 88;
+            splitContainer1.SplitterDistance = 736;
             splitContainer1.TabIndex = 6;
             // 
             // button1
@@ -534,7 +553,7 @@
             // btnCloseSidePanel
             // 
             btnCloseSidePanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnCloseSidePanel.Location = new Point(1216, 0);
+            btnCloseSidePanel.Location = new Point(568, 0);
             btnCloseSidePanel.Name = "btnCloseSidePanel";
             btnCloseSidePanel.Size = new Size(56, 34);
             btnCloseSidePanel.TabIndex = 6;
@@ -582,7 +601,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 16F);
-            label7.Location = new Point(18, 36);
+            label7.Location = new Point(24, 31);
             label7.Name = "label7";
             label7.Size = new Size(261, 45);
             label7.TabIndex = 31;
@@ -592,7 +611,7 @@
             // 
             lbEmployeeIsActiveInfo.AutoSize = true;
             lbEmployeeIsActiveInfo.ForeColor = SystemColors.ControlDark;
-            lbEmployeeIsActiveInfo.Location = new Point(29, 117);
+            lbEmployeeIsActiveInfo.Location = new Point(35, 112);
             lbEmployeeIsActiveInfo.Name = "lbEmployeeIsActiveInfo";
             lbEmployeeIsActiveInfo.Size = new Size(104, 25);
             lbEmployeeIsActiveInfo.TabIndex = 24;
@@ -601,7 +620,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(29, 142);
+            label10.Location = new Point(35, 137);
             label10.Name = "label10";
             label10.Size = new Size(142, 25);
             label10.TabIndex = 19;
@@ -610,7 +629,7 @@
             // txtEmployeeName
             // 
             txtEmployeeName.BorderStyle = BorderStyle.FixedSingle;
-            txtEmployeeName.Location = new Point(38, 170);
+            txtEmployeeName.Location = new Point(44, 165);
             txtEmployeeName.Name = "txtEmployeeName";
             txtEmployeeName.ReadOnly = true;
             txtEmployeeName.Size = new Size(523, 31);
@@ -619,7 +638,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(29, 211);
+            label11.Location = new Point(35, 206);
             label11.Name = "label11";
             label11.Size = new Size(95, 25);
             label11.TabIndex = 22;
@@ -628,7 +647,7 @@
             // txtEmployeeProfession
             // 
             txtEmployeeProfession.BorderStyle = BorderStyle.FixedSingle;
-            txtEmployeeProfession.Location = new Point(38, 239);
+            txtEmployeeProfession.Location = new Point(44, 234);
             txtEmployeeProfession.Name = "txtEmployeeProfession";
             txtEmployeeProfession.ReadOnly = true;
             txtEmployeeProfession.Size = new Size(523, 31);
@@ -637,7 +656,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(29, 290);
+            label12.Location = new Point(35, 285);
             label12.Name = "label12";
             label12.Size = new Size(137, 25);
             label12.TabIndex = 26;
@@ -646,7 +665,7 @@
             // rtxtEmployeePhoneNumbers
             // 
             rtxtEmployeePhoneNumbers.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeePhoneNumbers.Location = new Point(38, 318);
+            rtxtEmployeePhoneNumbers.Location = new Point(44, 313);
             rtxtEmployeePhoneNumbers.Name = "rtxtEmployeePhoneNumbers";
             rtxtEmployeePhoneNumbers.ReadOnly = true;
             rtxtEmployeePhoneNumbers.Size = new Size(523, 82);
@@ -656,7 +675,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(29, 411);
+            label15.Location = new Point(35, 406);
             label15.Name = "label15";
             label15.Size = new Size(62, 25);
             label15.TabIndex = 26;
@@ -665,7 +684,7 @@
             // rtxtEmployeeEmails
             // 
             rtxtEmployeeEmails.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeEmails.Location = new Point(38, 439);
+            rtxtEmployeeEmails.Location = new Point(44, 434);
             rtxtEmployeeEmails.Name = "rtxtEmployeeEmails";
             rtxtEmployeeEmails.ReadOnly = true;
             rtxtEmployeeEmails.Size = new Size(523, 82);
@@ -675,7 +694,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(29, 535);
+            label13.Location = new Point(35, 530);
             label13.Name = "label13";
             label13.Size = new Size(83, 25);
             label13.TabIndex = 29;
@@ -684,7 +703,7 @@
             // rtxtEmployeeWebsites
             // 
             rtxtEmployeeWebsites.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeWebsites.Location = new Point(38, 563);
+            rtxtEmployeeWebsites.Location = new Point(44, 558);
             rtxtEmployeeWebsites.Name = "rtxtEmployeeWebsites";
             rtxtEmployeeWebsites.ReadOnly = true;
             rtxtEmployeeWebsites.Size = new Size(523, 82);
@@ -694,7 +713,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(29, 655);
+            label8.Location = new Point(35, 650);
             label8.Name = "label8";
             label8.Size = new Size(35, 25);
             label8.TabIndex = 29;
@@ -703,7 +722,7 @@
             // rtxtEmployeeIPs
             // 
             rtxtEmployeeIPs.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeIPs.Location = new Point(38, 683);
+            rtxtEmployeeIPs.Location = new Point(44, 678);
             rtxtEmployeeIPs.Name = "rtxtEmployeeIPs";
             rtxtEmployeeIPs.ReadOnly = true;
             rtxtEmployeeIPs.Size = new Size(523, 82);
@@ -713,7 +732,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(18, 777);
+            label14.Location = new Point(24, 772);
             label14.Name = "label14";
             label14.Size = new Size(102, 25);
             label14.TabIndex = 30;
@@ -722,7 +741,7 @@
             // rtxtEmployeeDescription
             // 
             rtxtEmployeeDescription.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeDescription.Location = new Point(38, 805);
+            rtxtEmployeeDescription.Location = new Point(44, 800);
             rtxtEmployeeDescription.Name = "rtxtEmployeeDescription";
             rtxtEmployeeDescription.ReadOnly = true;
             rtxtEmployeeDescription.Size = new Size(523, 129);
@@ -732,12 +751,177 @@
             // tpSidePanelWorkstationDetails
             // 
             tpSidePanelWorkstationDetails.BackColor = Color.WhiteSmoke;
+            tpSidePanelWorkstationDetails.Controls.Add(label16);
+            tpSidePanelWorkstationDetails.Controls.Add(lbWorkstationHasFaultInfo);
+            tpSidePanelWorkstationDetails.Controls.Add(label18);
+            tpSidePanelWorkstationDetails.Controls.Add(txtWorkstationComputerName);
+            tpSidePanelWorkstationDetails.Controls.Add(label19);
+            tpSidePanelWorkstationDetails.Controls.Add(txtWorkstationUsername);
+            tpSidePanelWorkstationDetails.Controls.Add(label20);
+            tpSidePanelWorkstationDetails.Controls.Add(rtxtWorkstationHardDisk);
+            tpSidePanelWorkstationDetails.Controls.Add(label21);
+            tpSidePanelWorkstationDetails.Controls.Add(rtxtWorkstationCpu);
+            tpSidePanelWorkstationDetails.Controls.Add(label23);
+            tpSidePanelWorkstationDetails.Controls.Add(rtxtWorkstationBiosVersion);
+            tpSidePanelWorkstationDetails.Controls.Add(label17);
+            tpSidePanelWorkstationDetails.Controls.Add(txtWorkstationOs);
+            tpSidePanelWorkstationDetails.Controls.Add(label24);
+            tpSidePanelWorkstationDetails.Controls.Add(txtWorkstationOsBitVersion);
             tpSidePanelWorkstationDetails.Location = new Point(4, 34);
             tpSidePanelWorkstationDetails.Name = "tpSidePanelWorkstationDetails";
             tpSidePanelWorkstationDetails.Padding = new Padding(3);
             tpSidePanelWorkstationDetails.Size = new Size(584, 950);
             tpSidePanelWorkstationDetails.TabIndex = 1;
             tpSidePanelWorkstationDetails.Text = "Workstation details";
+            // 
+            // label16
+            // 
+            label16.AutoSize = true;
+            label16.Font = new Font("Segoe UI", 16F);
+            label16.Location = new Point(22, 33);
+            label16.Name = "label16";
+            label16.Size = new Size(294, 45);
+            label16.TabIndex = 48;
+            label16.Text = "Workstation details";
+            // 
+            // lbWorkstationHasFaultInfo
+            // 
+            lbWorkstationHasFaultInfo.AutoSize = true;
+            lbWorkstationHasFaultInfo.ForeColor = SystemColors.ControlDark;
+            lbWorkstationHasFaultInfo.Location = new Point(33, 114);
+            lbWorkstationHasFaultInfo.Name = "lbWorkstationHasFaultInfo";
+            lbWorkstationHasFaultInfo.Size = new Size(108, 25);
+            lbWorkstationHasFaultInfo.TabIndex = 42;
+            lbWorkstationHasFaultInfo.Text = "hasFaultInfo";
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new Point(33, 139);
+            label18.Name = "label18";
+            label18.Size = new Size(141, 25);
+            label18.TabIndex = 35;
+            label18.Text = "Computer name";
+            // 
+            // txtWorkstationComputerName
+            // 
+            txtWorkstationComputerName.BorderStyle = BorderStyle.FixedSingle;
+            txtWorkstationComputerName.Location = new Point(42, 167);
+            txtWorkstationComputerName.Name = "txtWorkstationComputerName";
+            txtWorkstationComputerName.ReadOnly = true;
+            txtWorkstationComputerName.Size = new Size(523, 31);
+            txtWorkstationComputerName.TabIndex = 33;
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new Point(33, 208);
+            label19.Name = "label19";
+            label19.Size = new Size(91, 25);
+            label19.TabIndex = 40;
+            label19.Text = "Username";
+            // 
+            // txtWorkstationUsername
+            // 
+            txtWorkstationUsername.BorderStyle = BorderStyle.FixedSingle;
+            txtWorkstationUsername.Location = new Point(42, 236);
+            txtWorkstationUsername.Name = "txtWorkstationUsername";
+            txtWorkstationUsername.ReadOnly = true;
+            txtWorkstationUsername.Size = new Size(523, 31);
+            txtWorkstationUsername.TabIndex = 34;
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new Point(33, 287);
+            label20.Name = "label20";
+            label20.Size = new Size(88, 25);
+            label20.TabIndex = 43;
+            label20.Text = "Hard disk";
+            // 
+            // rtxtWorkstationHardDisk
+            // 
+            rtxtWorkstationHardDisk.BorderStyle = BorderStyle.FixedSingle;
+            rtxtWorkstationHardDisk.Location = new Point(42, 315);
+            rtxtWorkstationHardDisk.Name = "rtxtWorkstationHardDisk";
+            rtxtWorkstationHardDisk.ReadOnly = true;
+            rtxtWorkstationHardDisk.Size = new Size(523, 82);
+            rtxtWorkstationHardDisk.TabIndex = 36;
+            rtxtWorkstationHardDisk.Text = "";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(33, 408);
+            label21.Name = "label21";
+            label21.Size = new Size(45, 25);
+            label21.TabIndex = 44;
+            label21.Text = "CPU";
+            // 
+            // rtxtWorkstationCpu
+            // 
+            rtxtWorkstationCpu.BorderStyle = BorderStyle.FixedSingle;
+            rtxtWorkstationCpu.Location = new Point(42, 436);
+            rtxtWorkstationCpu.Name = "rtxtWorkstationCpu";
+            rtxtWorkstationCpu.ReadOnly = true;
+            rtxtWorkstationCpu.Size = new Size(523, 82);
+            rtxtWorkstationCpu.TabIndex = 37;
+            rtxtWorkstationCpu.Text = "";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new Point(29, 536);
+            label23.Name = "label23";
+            label23.Size = new Size(107, 25);
+            label23.TabIndex = 46;
+            label23.Text = "Bios version";
+            // 
+            // rtxtWorkstationBiosVersion
+            // 
+            rtxtWorkstationBiosVersion.BorderStyle = BorderStyle.FixedSingle;
+            rtxtWorkstationBiosVersion.Location = new Point(42, 564);
+            rtxtWorkstationBiosVersion.Name = "rtxtWorkstationBiosVersion";
+            rtxtWorkstationBiosVersion.ReadOnly = true;
+            rtxtWorkstationBiosVersion.Size = new Size(523, 82);
+            rtxtWorkstationBiosVersion.TabIndex = 39;
+            rtxtWorkstationBiosVersion.Text = "";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new Point(29, 663);
+            label17.Name = "label17";
+            label17.Size = new Size(36, 25);
+            label17.TabIndex = 40;
+            label17.Text = "OS";
+            // 
+            // txtWorkstationOs
+            // 
+            txtWorkstationOs.BorderStyle = BorderStyle.FixedSingle;
+            txtWorkstationOs.Location = new Point(38, 691);
+            txtWorkstationOs.Name = "txtWorkstationOs";
+            txtWorkstationOs.ReadOnly = true;
+            txtWorkstationOs.Size = new Size(523, 31);
+            txtWorkstationOs.TabIndex = 34;
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new Point(29, 739);
+            label24.Name = "label24";
+            label24.Size = new Size(124, 25);
+            label24.TabIndex = 40;
+            label24.Text = "OS bit version";
+            // 
+            // txtWorkstationOsBitVersion
+            // 
+            txtWorkstationOsBitVersion.BorderStyle = BorderStyle.FixedSingle;
+            txtWorkstationOsBitVersion.Location = new Point(38, 767);
+            txtWorkstationOsBitVersion.Name = "txtWorkstationOsBitVersion";
+            txtWorkstationOsBitVersion.ReadOnly = true;
+            txtWorkstationOsBitVersion.Size = new Size(523, 31);
+            txtWorkstationOsBitVersion.TabIndex = 34;
             // 
             // groupBox1
             // 
@@ -777,6 +961,15 @@
             btnSidePanelEditCancel.Text = "Cancel";
             btnSidePanelEditCancel.UseVisualStyleBackColor = true;
             // 
+            // btnCompanyShowWorkstations
+            // 
+            btnCompanyShowWorkstations.Location = new Point(765, 1019);
+            btnCompanyShowWorkstations.Name = "btnCompanyShowWorkstations";
+            btnCompanyShowWorkstations.Size = new Size(185, 68);
+            btnCompanyShowWorkstations.TabIndex = 16;
+            btnCompanyShowWorkstations.Text = "Show workstations";
+            btnCompanyShowWorkstations.UseVisualStyleBackColor = true;
+            // 
             // ClientManagementUC
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -799,6 +992,8 @@
             tabControlSidePanelRight.ResumeLayout(false);
             tpSidePanelEmployeeDetails.ResumeLayout(false);
             tpSidePanelEmployeeDetails.PerformLayout();
+            tpSidePanelWorkstationDetails.ResumeLayout(false);
+            tpSidePanelWorkstationDetails.PerformLayout();
             groupBox1.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -869,5 +1064,22 @@
         private Label label8;
         private RichTextBox rtxtEmployeeWebsites;
         private GroupBox groupBox1;
+        private Label label16;
+        private Label lbWorkstationHasFaultInfo;
+        private Label label18;
+        private TextBox txtWorkstationComputerName;
+        private RichTextBox rtxtWorkstationBiosVersion;
+        private Label label19;
+        private Label label23;
+        private TextBox txtWorkstationUsername;
+        private Label label20;
+        private RichTextBox rtxtWorkstationHardDisk;
+        private RichTextBox rtxtWorkstationCpu;
+        private Label label21;
+        private Label label17;
+        private TextBox txtWorkstationOs;
+        private Label label24;
+        private TextBox txtWorkstationOsBitVersion;
+        private Button btnCompanyShowWorkstations;
     }
 }

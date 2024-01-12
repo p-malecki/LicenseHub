@@ -16,47 +16,6 @@ namespace LicenseHubApp.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task AddEmployeeAsync(int companyId, EmployeeModel employeeModel)
-        {
-            try
-            {
-                if (!employeeModel.Validate())
-                {
-                    throw new InvalidOperationException("Model validation failed.");
-                }
-
-
-                var modelToUpdate = context.Companies
-                    .Include(m => m.Employees)
-                    .First(m => m.Id == companyId)
-                                    ?? throw new NullReferenceException("Company model not found.");
-                
-                modelToUpdate.Employees.Add(employeeModel);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        public async Task RemoveEmployeeAsync(int companyId, EmployeeModel employeeModel)
-        {
-            try
-            {
-                var companyModel = await GetModelByIdAsync(companyId) ?? throw new NullReferenceException("Company model not found.");
-
-                companyModel.Employees.Remove(employeeModel);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
         public async Task DeleteAsync(int modelId)
         {
             try
@@ -121,6 +80,88 @@ namespace LicenseHubApp.Repositories
         public bool IsIdUnique(int modelId)
         {
             return !context.Companies.Any(m => m.Id == modelId);
+        }
+
+        public async Task AddEmployeeAsync(int companyId, EmployeeModel employeeModel)
+        {
+            try
+            {
+                if (!employeeModel.Validate())
+                {
+                    throw new InvalidOperationException("Model validation failed.");
+                }
+
+
+                var modelToUpdate = context.Companies
+                                        .Include(m => m.Employees)
+                                        .First(m => m.Id == companyId)
+                                    ?? throw new NullReferenceException("Company model not found.");
+
+                modelToUpdate.Employees.Add(employeeModel);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task RemoveEmployeeAsync(int companyId, EmployeeModel employeeModel)
+        {
+            try
+            {
+                var companyModel = await GetModelByIdAsync(companyId) ?? throw new NullReferenceException("Company model not found.");
+
+                companyModel.Employees.Remove(employeeModel);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task AddWorkstationAsync(int companyId, WorkstationModel workstationModel)
+        {
+            try
+            {
+                if (!workstationModel.Validate())
+                {
+                    throw new InvalidOperationException("Model validation failed.");
+                }
+
+
+                var modelToUpdate = context.Companies
+                                        .Include(m => m.Workstations)
+                                        .First(m => m.Id == companyId)
+                                    ?? throw new NullReferenceException("Company model not found.");
+
+                modelToUpdate.Workstations.Add(workstationModel);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task RemoveWorkstationAsync(int companyId, WorkstationModel workstationModel)
+        {
+            try
+            {
+                var companyModel = await GetModelByIdAsync(companyId) ?? throw new NullReferenceException("Company model not found.");
+
+                companyModel.Workstations.Remove(workstationModel);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

@@ -38,6 +38,17 @@ public interface IClientManagementView
     string EmployeeDescription { get; set; }
 
 
+    int WorkstationId { get; set; }
+    string WorkstationHasFaultInfo { get; set; }
+    string WorkstationComputerName { get; set; }
+    string WorkstationUsername { get; set; }
+    string WorkstationHardDisk { get; set; }
+    string WorkstationCpu { get; set; }
+    string WorkstationBiosVersion { get; set; }
+    string WorkstationOs { get; set; }
+    string WorkstationOsBitVersion { get; set; }
+
+
     #endregion
 
 
@@ -51,6 +62,7 @@ public interface IClientManagementView
     event EventHandler CompanySaveBtnClicked;
     event EventHandler CompanyEditCancelBtnClicked;
     event EventHandler CompanyToggleIsActiveBtnClicked;
+    event EventHandler CompanyShowWorkstationsBtnClicked;
 
     event EventHandler SidePanelSearchBtnClicked;
     event EventHandler SidePanelShowDetailsBtnClicked;
