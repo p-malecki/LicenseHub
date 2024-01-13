@@ -1,7 +1,6 @@
 ﻿using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Views.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using LicenseHubApp.Models;
 using LicenseHubApp.Repositories;
 
@@ -26,8 +25,8 @@ namespace LicenseHubApp.Presenters
             _view.IncorrectLoginMessage = "";
 
             // TODO remove DEBUG skip logging
-            //_authenticator.Login("admin","1");
-            //ShowMainView();
+            _authenticator.Login("admin", "1");
+            ShowMainView();
         }
 
         private void OnBtnClicked(object sender, EventArgs e)

@@ -475,7 +475,34 @@ namespace LicenseHubApp.Presenters
                     }
                     case "Workstation":
                     {
-                        // TODO select workstation filter and search
+                        IFilterStrategy<WorkstationModel> strategy = _view.SidePanelSelectedFilter switch
+                        {
+                            "username" => new WorkstationUsernameFilterStrategy(),
+                            "hard disk" => new WorkstationHardDiskFilterStrategy(),
+                            "cpu" => new WorkstationCpuFilterStrategy(),
+                            "bios version" => new WorkstationBiosVersionFilterStrategy(),
+                            "os" => new WorkstationOsFilterStrategy(),
+                            "os bit version" => new WorkstationOsBitVersionFilterStrategy(),
+                            _ => new WorkstationComputerNameFilterStrategy(),
+                        };
+                        _workstationManager.SetFilterStrategy(strategy);
+
+                        var results = _workstationManager.FilterWorkstation(enteredSearchValue).ToList();
+                        results = results.Where(m => m.CompanyId == _view.CompanyId).ToList();
+
+                        if (_view.SidePanelSearchOnlyActive)
+                            results = results.Where(m => !m.HasFault).ToList();
+
+                        if (results.Count != 0)
+                        {
+                            _sidePanelBindingSource.DataSource = results;
+                            _view.SetSpecifiedSidePanelBtnsToEnabled(true);
+                        }
+                        else
+                        {
+                            _sidePanelBindingSource.DataSource = new List<WorkstationModel>();
+                            _view.SetSpecifiedSidePanelBtnsToEnabled(false);
+                        }
                         break;
                     }
                 }

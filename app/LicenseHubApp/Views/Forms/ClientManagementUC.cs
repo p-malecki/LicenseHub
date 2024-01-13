@@ -19,17 +19,6 @@ namespace LicenseHubApp.Views.Forms
             cbCompanySelectedFilter.Items.Add("name");
             cbCompanySelectedFilter.Items.Add("nip");
             cbCompanySelectedFilter.SelectedIndex = 0;
-            
-            chbSidePanelSearchOnlyActive.Checked = true;
-            cbSidePanelSelectedFilter.Items.Add("name");
-            cbSidePanelSelectedFilter.Items.Add("profession");
-            cbSidePanelSelectedFilter.Items.Add("phone number");
-            cbSidePanelSelectedFilter.Items.Add("email");
-            cbSidePanelSelectedFilter.Items.Add("ip");
-            
-            // TODO add workstation filters to combobox selector
-            
-            cbSidePanelSelectedFilter.SelectedIndex = 0;
         }
 
         private void AssociateAndRaiseViewEvents()
@@ -133,6 +122,16 @@ namespace LicenseHubApp.Views.Forms
                 ShowBothPanels(false);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelEmployeeDetails);
+
+                // filters 
+                chbSidePanelSearchOnlyActive.Checked = true;
+                cbSidePanelSelectedFilter.Items.Clear();
+                cbSidePanelSelectedFilter.Items.Add("name");
+                cbSidePanelSelectedFilter.Items.Add("profession");
+                cbSidePanelSelectedFilter.Items.Add("phone number");
+                cbSidePanelSelectedFilter.Items.Add("email");
+                cbSidePanelSelectedFilter.Items.Add("ip");
+                cbSidePanelSelectedFilter.SelectedIndex = 0;
             };
 
             btnCompanyShowWorkstations.Click += delegate
@@ -145,6 +144,18 @@ namespace LicenseHubApp.Views.Forms
                 ShowBothPanels(false);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelWorkstationDetails);
+
+                // filters 
+                chbSidePanelSearchOnlyActive.Checked = true;
+                cbSidePanelSelectedFilter.Items.Clear();
+                cbSidePanelSelectedFilter.Items.Add("computer name");
+                cbSidePanelSelectedFilter.Items.Add("username");
+                cbSidePanelSelectedFilter.Items.Add("hard disk");
+                cbSidePanelSelectedFilter.Items.Add("cpu");
+                cbSidePanelSelectedFilter.Items.Add("bios version");
+                cbSidePanelSelectedFilter.Items.Add("os");
+                cbSidePanelSelectedFilter.Items.Add("os bit version");
+                cbSidePanelSelectedFilter.SelectedIndex = 0;
             };
 
             #endregion
@@ -246,7 +257,12 @@ namespace LicenseHubApp.Views.Forms
             get => txtCompanySearchValue.Text.Trim();
             set => txtCompanySearchValue.Text = value;
         }
-        public string CompanySelectedFilter { get; set; }
+
+        public string CompanySelectedFilter
+        {
+            get => cbCompanySelectedFilter.Text;
+            set => cbCompanySelectedFilter.Text = value;
+        }
         public bool CompanySearchOnlyActive
         {
             get => chbCompanySearchOnlyActive.Checked;
@@ -296,7 +312,12 @@ namespace LicenseHubApp.Views.Forms
             get => txtSidePanelSearchValue.Text.Trim();
             set => txtSidePanelSearchValue.Text = value;
         }
-        public string SidePanelSelectedFilter { get; set; }
+
+        public string SidePanelSelectedFilter
+        {
+            get => cbSidePanelSelectedFilter.Text;
+            set => cbSidePanelSelectedFilter.Text = value;
+        }
         public bool SidePanelSearchOnlyActive
         {
             get => chbSidePanelSearchOnlyActive.Checked;
