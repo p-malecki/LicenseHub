@@ -47,6 +47,11 @@ namespace LicenseHubApp.Views.Forms
                 CompanySearchBtnClicked?.Invoke(this, EventArgs.Empty);
             };
 
+            chbCompanySearchOnlyActive.CheckedChanged += delegate
+            {
+                CompanySearchBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+
             btnCompanyShowDetails.Click += delegate
             {
                 CompanyShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
@@ -121,9 +126,10 @@ namespace LicenseHubApp.Views.Forms
             btnCompanyShowEmployees.Click += delegate
             {
                 CompanyShowEmployeesBtnClicked?.Invoke(this, EventArgs.Empty);
+                lbSidePanelLeftTabTitle.Text = @"Employees";
                 tpSidePanelData.Text = @"Employees";
 
-                cbSidePanelSelectedFilter.Text = @"Only Active";
+                chbSidePanelSearchOnlyActive.Text = @"Only Active";
                 ShowBothPanels(false);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelEmployeeDetails);
@@ -132,12 +138,13 @@ namespace LicenseHubApp.Views.Forms
             btnCompanyShowWorkstations.Click += delegate
             {
                 CompanyShowWorkstationsBtnClicked?.Invoke(this, EventArgs.Empty);
+                lbSidePanelLeftTabTitle.Text = @"Workstations";
                 tpSidePanelData.Text = @"Workstations";
 
-                cbSidePanelSelectedFilter.Text = @"No faulty";
+                chbSidePanelSearchOnlyActive.Text = @"No faulty";
                 ShowBothPanels(false);
                 ShowOnlyOnePageInTabControl(tabControlSidePanelLeft, tpSidePanelData);
-                ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelEmployeeDetails);
+                ShowOnlyOnePageInTabControl(tabControlSidePanelRight, tpSidePanelWorkstationDetails);
             };
 
             #endregion
@@ -145,6 +152,11 @@ namespace LicenseHubApp.Views.Forms
             #region SidePaneManagement
 
             btnSidePanelSearch.Click += delegate
+            {
+                SidePanelSearchBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+
+            chbSidePanelSearchOnlyActive.CheckedChanged += delegate
             {
                 SidePanelSearchBtnClicked?.Invoke(this, EventArgs.Empty);
             };
@@ -419,12 +431,16 @@ namespace LicenseHubApp.Views.Forms
             dgvSidePanelData.ClearSelection();
         }
 
-        public void SetCompanyEditBtnToEnabled(bool enabled)
+        public void SetSpecifiedCompanyBtnsToEnabled(bool enabled)
         {
+            btnCompanyShowDetails.Enabled = enabled;
             btnCompanyEdit.Enabled = enabled;
+            btnCompanyShowEmployees.Enabled = enabled;
+            btnCompanyShowWorkstations.Enabled = enabled;
         }
-        public void SetSidePanelEditBtnToEnabled(bool enabled)
+        public void SetSpecifiedSidePanelBtnsToEnabled(bool enabled)
         {
+            btnSidePanelShowDetails.Enabled = enabled;
             btnSidePanelEdit.Enabled = enabled;
         }
 
@@ -447,7 +463,7 @@ namespace LicenseHubApp.Views.Forms
 
             SetPanelToEditable(editable);
         }
-        private void SetPanelToEditable(bool editable)
+        public void SetPanelToEditable(bool editable)
         {
             switch (SidePanelTarget)
             {

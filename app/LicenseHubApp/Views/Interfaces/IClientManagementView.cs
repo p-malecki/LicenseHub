@@ -78,8 +78,9 @@ public interface IClientManagementView
     void SetCompanyListBindingSource(BindingSource companyList);
     void SetSidePanelListBindingSource(BindingSource modelList);
 
-    void SetCompanyEditBtnToEnabled(bool enabled);
-    void SetSidePanelEditBtnToEnabled(bool enabled);
+    void SetSpecifiedCompanyBtnsToEnabled(bool enabled);
+    void SetSpecifiedSidePanelBtnsToEnabled(bool enabled);
+    void SetPanelToEditable(bool editable);
 
     #endregion
 

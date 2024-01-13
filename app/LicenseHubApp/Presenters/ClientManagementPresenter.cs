@@ -69,6 +69,8 @@ namespace LicenseHubApp.Presenters
 
         private void LoadAllCompanyList()
         {
+            var tmpIsEdit = _view.IsEdit;
+
             var results = _companyManager.GetAll().ToList();
             if (_view.CompanySearchOnlyActive)
             {
@@ -78,13 +80,15 @@ namespace LicenseHubApp.Presenters
             if (results.Count != 0)
             {
                 _companyBindingSource.DataSource = results;
-                _view.SetCompanyEditBtnToEnabled(true);
+                _view.SetSpecifiedCompanyBtnsToEnabled(true);
             }
             else
             {
                 _companyBindingSource.DataSource = new List<CompanyModel>();
-                _view.SetCompanyEditBtnToEnabled(false);
+                _view.SetSpecifiedCompanyBtnsToEnabled(false);
             }
+
+            _view.IsEdit = tmpIsEdit;
         }
         private CompanyModel? GetCurrentlySelectedCompany()
         {
@@ -99,6 +103,8 @@ namespace LicenseHubApp.Presenters
             var model = GetCurrentlySelectedCompany();
             if (model == null)
             {
+                CleanCompanyViewFields();
+                _view.SetPanelToEditable(false);
                 _view.IsSuccessful = true;
                 return;
             }
@@ -120,6 +126,9 @@ namespace LicenseHubApp.Presenters
             try
             {
                 var enteredSearchValue = _view.CompanySearchValue;
+                var tmpIsEdit = _view.IsEdit;
+
+
                 if (string.IsNullOrEmpty(enteredSearchValue))
                 {
                     LoadAllCompanyList();
@@ -140,14 +149,15 @@ namespace LicenseHubApp.Presenters
                     if (results.Count != 0)
                     {
                         _companyBindingSource.DataSource = results;
-                        _view.SetCompanyEditBtnToEnabled(true);
+                        _view.SetSpecifiedCompanyBtnsToEnabled(true);
                     }
                     else
                     {
                         _companyBindingSource.DataSource = new List<CompanyModel>();
-                        _view.SetCompanyEditBtnToEnabled(false);
+                        _view.SetSpecifiedCompanyBtnsToEnabled(false);
                     }
                 }
+                _view.IsEdit = tmpIsEdit;
             }
             catch (Exception ex)
             {
@@ -170,8 +180,9 @@ namespace LicenseHubApp.Presenters
         }
         private void OnCompanyAddBtnClicked(object sender, EventArgs e)
         {
-            _view.IsEdit = false;
             CleanCompanyViewFields();
+            _view.SetPanelToEditable(false);
+            _view.IsEdit = false;
             _view.CompanyIsActiveInfo = "true";
         }
 
@@ -194,7 +205,7 @@ namespace LicenseHubApp.Presenters
                 };
 
                 // validation
-                if (DataValidator.IsNipValid(_view.CompanyNip))
+                if (!DataValidator.IsNipValid(_view.CompanyNip))
                 {
                     throw new InvalidDataException("Incorrect NIP.");
                 }
@@ -236,6 +247,14 @@ namespace LicenseHubApp.Presenters
             try
             {
                 var model = GetCurrentlySelectedCompany();
+                if (model == null)
+                {
+                    CleanCompanyViewFields();
+                    _view.SetPanelToEditable(false);
+                    _view.IsEdit = false;
+                    _view.IsSuccessful = true;
+                    return;
+                }
                 _companyManager.ToggleIsActive(model);
                 ShowCurrentlySelectedCompany();
                 LoadAllCompanyList();
@@ -250,6 +269,7 @@ namespace LicenseHubApp.Presenters
 
         private void CleanCompanyViewFields()
         {
+            _view.CompanyId = -1;
             _view.CompanyIsActiveInfo = "";
             _view.CompanyName = "";
             _view.CompanyNip = "";
@@ -300,6 +320,9 @@ namespace LicenseHubApp.Presenters
                     var model = GetCurrentlySelectedEmployee();
                     if (model == null)
                     {
+                        CleanSidePanelViewFields();
+                        _view.SetPanelToEditable(false);
+                        _view.IsEdit = false;
                         _view.IsSuccessful = true;
                         return;
                     }
@@ -320,6 +343,9 @@ namespace LicenseHubApp.Presenters
                     var model = GetCurrentlySelectedWorkstation();
                     if (model == null)
                     {
+                        CleanSidePanelViewFields();
+                        _view.SetPanelToEditable(false);
+                        _view.IsEdit = false;
                         _view.IsSuccessful = true;
                         return;
                     }
@@ -368,12 +394,12 @@ namespace LicenseHubApp.Presenters
                     if (results.Count != 0)
                     {
                         _sidePanelBindingSource.DataSource = results;
-                        _view.SetSidePanelEditBtnToEnabled(true);
+                        _view.SetSpecifiedSidePanelBtnsToEnabled(true);
                     }
                     else
                     {
                         _sidePanelBindingSource.DataSource = new List<EmployeeModel>();
-                        _view.SetSidePanelEditBtnToEnabled(false);
+                        _view.SetSpecifiedSidePanelBtnsToEnabled(false);
                     }
                     break;
                 }
@@ -388,12 +414,12 @@ namespace LicenseHubApp.Presenters
                     if (results.Count != 0)
                     {
                         _sidePanelBindingSource.DataSource = results;
-                        _view.SetSidePanelEditBtnToEnabled(true);
+                        _view.SetSpecifiedSidePanelBtnsToEnabled(true);
                     }
                     else
                     {
                         _sidePanelBindingSource.DataSource = new List<WorkstationModel>();
-                        _view.SetSidePanelEditBtnToEnabled(false);
+                        _view.SetSpecifiedSidePanelBtnsToEnabled(false);
                     }
                     break;
                 }
@@ -438,12 +464,12 @@ namespace LicenseHubApp.Presenters
                         if (results.Count != 0)
                         {
                             _sidePanelBindingSource.DataSource = results;
-                            _view.SetSidePanelEditBtnToEnabled(true);
+                            _view.SetSpecifiedSidePanelBtnsToEnabled(true);
                         }
                         else
                         {
                             _sidePanelBindingSource.DataSource = new List<EmployeeModel>();
-                            _view.SetSidePanelEditBtnToEnabled(false);
+                            _view.SetSpecifiedSidePanelBtnsToEnabled(false);
                         }
                         break;
                     }
@@ -475,8 +501,9 @@ namespace LicenseHubApp.Presenters
         }
         private void OnSidePanelAddBtnClicked(object sender, EventArgs e)
         {
-            _view.IsEdit = false;
             CleanSidePanelViewFields();
+            _view.SetPanelToEditable(false);
+            _view.IsEdit = false;
             _view.EmployeeIsActiveInfo = "true";
         }
 
@@ -586,12 +613,29 @@ namespace LicenseHubApp.Presenters
                 {
                     case "Employee":
                     {
+
                         var employeeModel = GetCurrentlySelectedEmployee();
+                        if (employeeModel == null)
+                        {
+                            CleanSidePanelViewFields();
+                            _view.SetPanelToEditable(false);
+                            _view.IsEdit = false;
+                            _view.IsSuccessful = true;
+                            return;
+                        }
                         _employeeManager.ToggleIsActive(employeeModel);
                         break;
                     }
                     case "Workstation":
                         var workstationModel = GetCurrentlySelectedWorkstation();
+                        if (workstationModel == null)
+                        {
+                            CleanSidePanelViewFields();
+                            _view.SetPanelToEditable(false);
+                            _view.IsEdit = false;
+                            _view.IsSuccessful = true;
+                            return;
+                        }
                         _workstationManager.ToggleHasFault(workstationModel);
                         break;
                 }
@@ -613,6 +657,7 @@ namespace LicenseHubApp.Presenters
             {
                 case "Employee":
                 {
+                    _view.EmployeeId = -1;
                     _view.EmployeeIsActiveInfo = "";
                     _view.EmployeeName = "";
                     _view.EmployeeProfession = "";
@@ -621,6 +666,19 @@ namespace LicenseHubApp.Presenters
                     _view.EmployeeWebsites = "";
                     _view.EmployeeIPs = "";
                     _view.EmployeeDescription = "";
+                    break;
+                }
+                case "Workstation":
+                {
+                    _view.WorkstationId = -1;
+                    _view.WorkstationHasFaultInfo = "False";
+                    _view.WorkstationComputerName = "";
+                    _view.WorkstationUsername = "";
+                    _view.WorkstationHardDisk = "";
+                    _view.WorkstationCpu = "";
+                    _view.WorkstationBiosVersion = "";
+                    _view.WorkstationOs = "";
+                    _view.WorkstationOsBitVersion = "";
                     break;
                 }
             }
