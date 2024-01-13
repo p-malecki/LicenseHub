@@ -1,8 +1,8 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
-using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Utils;
+using LicenseHubApp.Services.Managers;
 
 
 namespace LicenseHubApp.Presenters

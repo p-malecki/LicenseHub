@@ -1,7 +1,7 @@
 using LicenseHubApp.Models;
-using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Presenters;
 using LicenseHubApp.Repositories;
+using LicenseHubApp.Services.Managers;
 using LicenseHubApp.Views.Forms;
 using Microsoft.Data.Sqlite;
 

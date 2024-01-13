@@ -1,4 +1,6 @@
-﻿namespace LicenseHubApp.Models.Managers
+﻿using LicenseHubApp.Models;
+
+namespace LicenseHubApp.Services.Managers
 {
     public sealed class AuthenticationManager
     {

@@ -1,6 +1,6 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Models.Managers;
+using LicenseHubApp.Services.Managers;
 
 
 namespace LicenseHubApp.Presenters

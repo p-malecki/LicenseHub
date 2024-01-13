@@ -1,7 +1,8 @@
-﻿using LicenseHubApp.Models.Filters;
+﻿using LicenseHubApp.Models;
+using LicenseHubApp.Models.Filters;
 
 
-namespace LicenseHubApp.Models.Managers
+namespace LicenseHubApp.Services.Managers
 {
     public class WorkstationManager : BaseModelManager<WorkstationModel>
     {

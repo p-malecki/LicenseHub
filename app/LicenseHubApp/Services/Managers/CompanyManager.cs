@@ -1,6 +1,7 @@
-﻿using LicenseHubApp.Models.Filters;
+﻿using LicenseHubApp.Models;
+using LicenseHubApp.Models.Filters;
 
-namespace LicenseHubApp.Models.Managers
+namespace LicenseHubApp.Services.Managers
 {
     public class CompanyManager : BaseModelManager<CompanyModel>
     {
@@ -67,6 +68,6 @@ namespace LicenseHubApp.Models.Managers
                 throw;
             }
         }
-        
+
     }
 }

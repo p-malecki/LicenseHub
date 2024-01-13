@@ -1,6 +1,8 @@
-﻿namespace LicenseHubApp.Models.Managers
+﻿using LicenseHubApp.Models;
+
+namespace LicenseHubApp.Services.Managers
 {
-    public class BaseModelManager<TModel> where TModel: ValidatableModel, IModelWithId
+    public class BaseModelManager<TModel> where TModel : ValidatableModel, IModelWithId
     {
         protected static IModelRepository<TModel> Repository;
         protected IEnumerable<TModel> ModelList;

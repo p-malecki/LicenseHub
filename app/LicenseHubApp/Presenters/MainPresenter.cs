@@ -1,9 +1,9 @@
 ﻿using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Models.Managers;
 using LicenseHubApp.Views.Forms;
 using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
 using LicenseHubApp.Repositories;
+using LicenseHubApp.Services.Managers;
 
 
 namespace LicenseHubApp.Presenters
@@ -44,7 +44,7 @@ namespace LicenseHubApp.Presenters
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
             _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
-            _workstationManager = WorkstationManager.GetInstance(workstationRepository, null); // TODO workstation add default filter
+            _workstationManager = WorkstationManager.GetInstance(workstationRepository, new WorkstationComputerNameFilterStrategy());
         }
 
 

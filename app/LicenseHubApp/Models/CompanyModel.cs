@@ -48,7 +48,6 @@ namespace LicenseHubApp.Models
         [Browsable(false)]
         public ICollection<WorkstationModel> Workstations { get; set; } = new List<WorkstationModel>();
 
-        // public List<WorkstationModel> Workstations { get; set; }
         // public List<OrderModel> Orders { get; set; }
 
     }

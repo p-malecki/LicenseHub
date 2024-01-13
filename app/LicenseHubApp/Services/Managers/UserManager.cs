@@ -1,4 +1,6 @@
-﻿namespace LicenseHubApp.Models.Managers
+﻿using LicenseHubApp.Models;
+
+namespace LicenseHubApp.Services.Managers
 {
     public class UserManager : BaseModelManager<UserModel>
     {
@@ -25,7 +27,7 @@
 
         public bool IsUsernameUnique(int modelId, string newUsername)
         {
-            return !ModelList.Any(u => (u.Username == newUsername) && (u.Id != modelId));
+            return !ModelList.Any(u => u.Username == newUsername && u.Id != modelId);
         }
 
         public bool IsAdminChangeValid(bool modelIsAdmin, bool newIsAdmin)
