@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using LicenseHubApp.Models;
+using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Repositories
@@ -12,24 +13,41 @@ namespace LicenseHubApp.Repositories
         }
 
         public virtual DbSet<UserModel> Users { get; set; }
+
         public virtual DbSet<CompanyModel> Companies { get; set; }
         public virtual DbSet<EmployeeModel> Employees { get; set; }
         public virtual DbSet<WorkstationModel> Workstations { get; set; }
+        
+        
+        public virtual DbSet<StoreProductModel> StoreProducts { get; set; }
+        public virtual DbSet<StoreProductReleaseModel> StoreProductReleases { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // many-to-one relationship
+            // relationships
+
+            // many employees to one company 
             modelBuilder.Entity<CompanyModel>()
                 .HasMany(m => m.Employees)
                 .WithOne(m => m.Company)
                 .HasForeignKey(m => m.CompanyId)
                 .IsRequired();
 
-            // many-to-one relationship
+            // many workstations to one company 
             modelBuilder.Entity<CompanyModel>()
                 .HasMany(m => m.Workstations)
                 .WithOne(m => m.Company)
                 .HasForeignKey(m => m.CompanyId)
+                .IsRequired();
+
+
+            // many releases to one storeProduct 
+            modelBuilder.Entity<StoreProductModel>()
+                .HasMany(m => m.Releases)
+                .WithOne(m => m.StoreProduct)
+                .HasForeignKey(m => m.StoreProductId)
                 .IsRequired();
         }
 
