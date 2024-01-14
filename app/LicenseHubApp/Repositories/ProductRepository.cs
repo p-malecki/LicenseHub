@@ -13,8 +13,21 @@ namespace LicenseHubApp.Repositories
 
         public async Task AddAsync(ProductModel model)
         {
-            context.Products.Add(model);
-            await context.SaveChangesAsync();
+            try
+            {
+                if (!IsNameUnique(model.Id, model.Name))
+                {
+                    throw new InvalidDataException("Product has not unique name.");
+                }
+
+                context.Products.Add(model);
+                await context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task DeleteAsync(int modelId)
@@ -30,8 +43,14 @@ namespace LicenseHubApp.Repositories
         public async Task EditAsync(int modelId, ProductModel updatedModel)
         {
             var modelToUpdate = await GetModelByIdAsync(modelId);
+
             if (modelToUpdate != null)
             {
+                if (!IsNameUnique(modelId, updatedModel.Name))
+                {
+                    throw new InvalidDataException("Product has not unique name.");
+                }
+
                 modelToUpdate.Name = updatedModel.Name;
                 modelToUpdate.IsAvailable = updatedModel.IsAvailable;
 
@@ -53,7 +72,10 @@ namespace LicenseHubApp.Repositories
         {
             return !context.Products.Any(model => model.Id == modelId);
         }
-
+        public bool IsNameUnique(int modelId, string modelName)
+        {
+            return !context.Products.Any(model => (model.Name == modelName) && model.Id != modelId);
+        }
 
         public async Task AddReleaseAsync(int productId, ProductReleaseModel releaseModel)
         {

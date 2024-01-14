@@ -140,7 +140,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 16F);
-            label1.Location = new Point(46, 107);
+            label1.Location = new Point(46, 38);
             label1.Name = "label1";
             label1.Size = new Size(116, 45);
             label1.TabIndex = 1;
@@ -484,11 +484,11 @@
             // chbCompanySearchOnlyActive
             // 
             chbCompanySearchOnlyActive.AutoSize = true;
-            chbCompanySearchOnlyActive.Location = new Point(210, 85);
+            chbCompanySearchOnlyActive.Location = new Point(76, 120);
             chbCompanySearchOnlyActive.Name = "chbCompanySearchOnlyActive";
-            chbCompanySearchOnlyActive.Size = new Size(222, 29);
+            chbCompanySearchOnlyActive.Size = new Size(128, 29);
             chbCompanySearchOnlyActive.TabIndex = 13;
-            chbCompanySearchOnlyActive.Text = "Only Active Companies";
+            chbCompanySearchOnlyActive.Text = "Only Active";
             chbCompanySearchOnlyActive.UseVisualStyleBackColor = true;
             // 
             // btnCompanyShowDetails

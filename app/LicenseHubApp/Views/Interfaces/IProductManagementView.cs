@@ -3,30 +3,48 @@
 public interface IProductManagementView
 {
     #region Properties
-    //int Id { get; set; }
-    //string Username { get; set; }
-    //string Password { get; set; }
-    //bool IsAdmin { get; set; }
 
-    //bool IsEdit { get; set; }
-    //bool IsSuccessful { get; set; }
-    //string Message { get; set; }
+    bool IsEdit { get; set; }
+    bool IsSuccessful { get; set; }
+    string Message { get; set; }
+
+    int CbProductListSelected { get; set; }
+    int ProductId { get; set; }
+    string ProductName { get; set; }
+    bool ProductIsAvailable { get; set; }
+    string ProductNewestRelease { get; set; }
+    string ProductNumberOfLicensesGranted { get; set; }
+    string ProductActiveClientBaseNumber { get; set; }
+    string BtnProductSaveText { get; set; }
+
+    string ReleaseNumber { get; set; }
+    string ReleaseInstallerVerificationPasscode { get; set; }
+    string ReleaseDescription { get; set; }
 
     #endregion
 
 
     #region Events
 
-    //event EventHandler AddBtnClicked;
-    //event EventHandler EditBtnClicked;
-    //event EventHandler DeleteBtnClicked;
-    //event EventHandler SaveBtnClicked;
-    //event EventHandler CancelBtnClicked;
+    event EventHandler ProductSelectClicked;
+    event EventHandler ProductAddBtnClicked;
+    event EventHandler ProductIsAvailableToggled;
+    event EventHandler ProductRenameBtnClicked;
+    event EventHandler ProductSaveBtnClicked;
+    event EventHandler ProductRemoveBtnClicked;
+    event EventHandler ReleaseAddBtnClicked;
+    event EventHandler ReleaseRemoveBtnClicked;
+    event EventHandler ReleaseSaveBtnClicked;
 
     #endregion
 
 
     #region Methods
-    void SetBindingSource(BindingSource productList);
+
+    void SetProductListBindingSource(BindingSource productList);
+    void SetReleaseDataBindingSource(BindingSource releaseList);
+    void SetProductViewToSelectable(bool enabled);
+    void SetProductViewToEditable(bool enabled);
+
     #endregion
 }

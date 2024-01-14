@@ -97,7 +97,7 @@ namespace LicenseHubApp.Views.Forms
 
         private static void ShowOnlyOnePageInTabControl(TabControl tbControl, TabPage pageToShow)
         {
-            // TODO TabOperations extract method
+            // TODO (REF) TabOperations extract method
             foreach (var tabPage in tbControl.TabPages)
             {
                 tbControl.TabPages.Remove((TabPage)tabPage);

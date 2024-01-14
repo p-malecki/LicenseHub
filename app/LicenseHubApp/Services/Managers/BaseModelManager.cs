@@ -20,7 +20,7 @@ namespace LicenseHubApp.Services.Managers
 
         public TModel GetModelById(int id)
         {
-            return Repository.GetModelByIdAsync(id).Result;
+            return Repository.GetModelByIdAsync(id).Result!;
         }
 
 
@@ -29,11 +29,18 @@ namespace LicenseHubApp.Services.Managers
             try
             {
                 if (model.Validate())
-                    _ = Repository.AddAsync(model);
+                {
+                    // TODO (?) resign from async
+                    Task.Run(async () =>
+                    {
+                        await Repository.AddAsync(model);
+                    }).Wait();
+                    LoadAll();
+                }
                 else
+                {
                     throw new InvalidOperationException("Model validation failed.");
-                LoadAll();
-
+                }
             }
             catch (Exception e)
             {
@@ -50,19 +57,22 @@ namespace LicenseHubApp.Services.Managers
                 {
                     if (!Repository.IsIdUnique(model.Id))
                     {
-                        _ = Repository.EditAsync(model.Id, model);
+                        Task.Run(async () =>
+                        {
+                            await Repository.EditAsync(model.Id, model);
+                        }).Wait();
+                        LoadAll();
                     }
                     else
                     {
-                        Type objtype = model.GetType();
-                        throw new InvalidOperationException($"{objtype.Name} with ID {model.Id} does not exist.");
+                        var objType = model.GetType();
+                        throw new InvalidOperationException($"{objType.Name} with ID {model.Id} does not exist.");
                     }
                 }
                 else
                 {
                     throw new InvalidOperationException("Model validation failed.");
                 }
-                LoadAll();
             }
             catch (Exception e)
             {
@@ -76,14 +86,17 @@ namespace LicenseHubApp.Services.Managers
             {
                 if (!Repository.IsIdUnique(model.Id))
                 {
-                    var a = Repository.DeleteAsync(model.Id);
+                    Task.Run(async () =>
+                    {
+                        await Repository.DeleteAsync(model.Id);
+                    }).Wait();
+                    LoadAll();
                 }
                 else
                 {
-                    Type objtype = model.GetType();
-                    throw new InvalidOperationException($"{objtype.Name} with ID {model.Id} does not exist.");
+                    var objType = model.GetType();
+                    throw new InvalidOperationException($"{objType.Name} with ID {model.Id} does not exist.");
                 }
-                LoadAll();
             }
             catch (Exception e)
             {
