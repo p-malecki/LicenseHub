@@ -38,23 +38,19 @@ namespace LicenseHubApp.Views.Forms
             btnDashboard.Click += delegate
             {
                 //DashboardBtnClicked?.Invoke(this, EventArgs.Empty);
-
-                foreach (var tabPage in tabControl1.TabPages)
-                {
-                    tabControl1.TabPages.Remove((TabPage)tabPage);
-                }
-                tabControl1.TabPages.Add(tabPageDashboard);
+                ShowOnlyOnePageInTabControl(mainTabControl, tpDashboard);
             };
 
             btnClients.Click += delegate
             {
                 ClientsBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowOnlyOnePageInTabControl(mainTabControl, tpClients);
+            };
 
-                foreach (var tabPage in tabControl1.TabPages)
-                {
-                    tabControl1.TabPages.Remove((TabPage)tabPage);
-                }
-                tabControl1.TabPages.Add(tabPageClients);
+            btnProducts.Click += delegate
+            {
+                ProductsBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowOnlyOnePageInTabControl(mainTabControl, tpProducts);
             };
 
 
@@ -77,7 +73,8 @@ namespace LicenseHubApp.Views.Forms
             set => lbLoggedInUser.Text = "User: " + value;
         }
 
-        public Control.ControlCollection ClientTabPageCollection => tabPageClients.Controls;
+        public Control.ControlCollection ClientTabPageCollection => tpClients.Controls;
+        public Control.ControlCollection ProductTabPageCollection => tpProducts.Controls;
 
         #endregion
 
@@ -91,6 +88,23 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler ReportsBtnClicked;
         public event EventHandler SettingsBtnClicked;
         public event EventHandler LogoutBtnClicked;
+
+        #endregion
+
+
+
+        #region Methods
+
+        private static void ShowOnlyOnePageInTabControl(TabControl tbControl, TabPage pageToShow)
+        {
+            // TODO TabOperations extract method
+            foreach (var tabPage in tbControl.TabPages)
+            {
+                tbControl.TabPages.Remove((TabPage)tabPage);
+            }
+
+            tbControl.TabPages.Add(pageToShow);
+        }
 
         #endregion
 

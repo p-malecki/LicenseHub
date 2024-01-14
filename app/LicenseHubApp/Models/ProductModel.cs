@@ -8,21 +8,21 @@ namespace LicenseHubApp.Models
 {
     [PrimaryKey(nameof(Id))]
     [Microsoft.EntityFrameworkCore.Index(nameof(Name), IsUnique = true)]
-    public class StoreProductModel : ValidatableModel, IModelWithId
+    public class ProductModel : ValidatableModel, IModelWithId
     {
-        [DisplayName("StoreProduct ID")]
+        [DisplayName("Product ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
         public int Id { get; set; }
 
-        [DisplayName("StoreProduct name")]
+        [DisplayName("Product name")]
         [Required(ErrorMessage = "{0} is Required")]
         public string Name { get; set; }
 
-        [DisplayName("StoreProduct IsAvailable")]
+        [DisplayName("Product IsAvailable")]
         public bool IsAvailable { get; set; }
 
         [Browsable(false)]
-        public ICollection<StoreProductReleaseModel> Releases { get; set; } = new List<StoreProductReleaseModel>();
+        public ICollection<ProductReleaseModel> Releases { get; set; } = new List<ProductReleaseModel>();
     }
 }

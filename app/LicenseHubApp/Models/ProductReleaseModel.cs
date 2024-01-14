@@ -8,7 +8,7 @@ namespace LicenseHubApp.Models
 {
     [PrimaryKey(nameof(Id))]
     [Microsoft.EntityFrameworkCore.Index(nameof(ReleaseNumber), IsUnique = true)]
-    public class StoreProductReleaseModel : ValidatableModel, IModelWithId
+    public class ProductReleaseModel : ValidatableModel, IModelWithId
     {
         [DisplayName("Release ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,11 +16,11 @@ namespace LicenseHubApp.Models
         public int Id { get; set; }
 
         [Browsable(false)]
-        public int StoreProductId { get; set; }
+        public int ProductId { get; set; }
 
-        [ForeignKey("StoreProductId")]
+        [ForeignKey("ProductId")]
         [Browsable(false)]
-        public StoreProductModel StoreProduct { get; set; }
+        public ProductModel Product { get; set; }
 
 
         [DisplayName("ReleaseNumber")]

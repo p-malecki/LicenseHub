@@ -18,6 +18,7 @@ namespace LicenseHubApp.Presenters
         private CompanyManager _companyManager;
         private EmployeeManager _employeeManager;
         private WorkstationManager _workstationManager;
+        private ProductManager _productManager;
 
         public MainPresenter(IMainView view, AuthenticationManager authenticator, DataContext dataContext, IUserRepository userRepository)
         {
@@ -28,6 +29,7 @@ namespace LicenseHubApp.Presenters
             CreateManagers();
 
             _view.ClientsBtnClicked += OnClientsBtnClicked;
+            _view.ProductsBtnClicked += OnProductsBtnClicked;
             _view.LogoutBtnClicked += OnLogoutBtnClicked;
             _view.SettingsBtnClicked += OnSettingsBtnClicked;
 
@@ -40,33 +42,44 @@ namespace LicenseHubApp.Presenters
             ICompanyRepository companyRepository = new CompanyRepository(dataContext);
             IEmployeeRepository employeeRepository = new EmployeeRepository(dataContext);
             IWorkstationRepository workstationRepository = new WorkstationRepository(dataContext);
+            IProductRepository productRepository = new ProductRepository(dataContext);
 
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
             _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
             _workstationManager = WorkstationManager.GetInstance(workstationRepository, new WorkstationComputerNameFilterStrategy());
+            _productManager = ProductManager.GetInstance(productRepository);
         }
 
 
         private void OnClientsBtnClicked(object sender, EventArgs e)
         {
             var companyManagementView = new ClientManagementUC();
-            new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager);
+            _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager);
 
             _view.ClientTabPageCollection.Add(companyManagementView);
             companyManagementView.Dock = DockStyle.Fill;
+        }
+
+        private void OnProductsBtnClicked(object sender, EventArgs e)
+        {
+            var productManagementView = new ProductManagementUC();
+            _ = new ProductManagementPresenter(productManagementView, _productManager);
+
+            _view.ProductTabPageCollection.Add(productManagementView);
+            productManagementView.Dock = DockStyle.Fill;
         }
 
         private void OnLogoutBtnClicked(object sender, EventArgs e)
         {
             _authenticator.Logout();
             var view = (ILoginView)LoginForm.GetInstance((MainForm)_view);
-            new LoginPresenter(view, _authenticator, _dataContext, _userRepository);
+            _ = new LoginPresenter(view, _authenticator, _dataContext, _userRepository);
         }
         private void OnSettingsBtnClicked(object sender, EventArgs e)
         {
             var userManagementForm = new UserManagementForm();
-            new UserManagementPresenter(userManagementForm, _userManager);
+            _ = new UserManagementPresenter(userManagementForm, _userManager);
             userManagementForm.TopLevel = true;
             userManagementForm.Show();
         }

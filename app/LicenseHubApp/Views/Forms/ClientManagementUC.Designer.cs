@@ -61,13 +61,12 @@
             btnSidePanelAdd = new Button();
             btnSidePanelEdit = new Button();
             splitContainer1 = new SplitContainer();
-            button1 = new Button();
-            button3 = new Button();
             chbCompanySearchOnlyActive = new CheckBox();
             btnCompanyShowDetails = new Button();
             btnCompanyAdd = new Button();
             btnCompanyEdit = new Button();
             btnCompanyShowEmployees = new Button();
+            btnCompanyShowWorkstations = new Button();
             btnCloseSidePanel = new Button();
             tabControlSidePanelRight = new TabControl();
             tpSidePanelEmployeeDetails = new TabPage();
@@ -108,7 +107,6 @@
             btnSidePanelToggleIsActive = new Button();
             btnSidePanelSave = new Button();
             btnSidePanelEditCancel = new Button();
-            btnCompanyShowWorkstations = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCompanyData).BeginInit();
             tabControlSidePanelLeft.SuspendLayout();
             tpCompanyDetails.SuspendLayout();
@@ -454,13 +452,12 @@
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.IsSplitterFixed = true;
             splitContainer1.Location = new Point(0, 0);
             splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
-            splitContainer1.Panel1.Controls.Add(button1);
-            splitContainer1.Panel1.Controls.Add(button3);
             splitContainer1.Panel1.Controls.Add(label1);
             splitContainer1.Panel1.Controls.Add(chbCompanySearchOnlyActive);
             splitContainer1.Panel1.Controls.Add(txtCompanySearchValue);
@@ -483,26 +480,6 @@
             splitContainer1.Size = new Size(1407, 1156);
             splitContainer1.SplitterDistance = 736;
             splitContainer1.TabIndex = 6;
-            // 
-            // button1
-            // 
-            button1.Location = new Point(0, 0);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 5;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
-            // button3
-            // 
-            button3.Location = new Point(619, 3);
-            button3.Name = "button3";
-            button3.Size = new Size(112, 34);
-            button3.TabIndex = 6;
-            button3.Text = "reset";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
             // 
             // chbCompanySearchOnlyActive
             // 
@@ -550,6 +527,15 @@
             btnCompanyShowEmployees.Text = "Show employees";
             btnCompanyShowEmployees.UseVisualStyleBackColor = true;
             // 
+            // btnCompanyShowWorkstations
+            // 
+            btnCompanyShowWorkstations.Location = new Point(765, 1019);
+            btnCompanyShowWorkstations.Name = "btnCompanyShowWorkstations";
+            btnCompanyShowWorkstations.Size = new Size(185, 68);
+            btnCompanyShowWorkstations.TabIndex = 16;
+            btnCompanyShowWorkstations.Text = "Show workstations";
+            btnCompanyShowWorkstations.UseVisualStyleBackColor = true;
+            // 
             // btnCloseSidePanel
             // 
             btnCloseSidePanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -559,7 +545,6 @@
             btnCloseSidePanel.TabIndex = 6;
             btnCloseSidePanel.Text = "X";
             btnCloseSidePanel.UseVisualStyleBackColor = true;
-            btnCloseSidePanel.Click += button2_Click;
             // 
             // tabControlSidePanelRight
             // 
@@ -961,15 +946,6 @@
             btnSidePanelEditCancel.Text = "Cancel";
             btnSidePanelEditCancel.UseVisualStyleBackColor = true;
             // 
-            // btnCompanyShowWorkstations
-            // 
-            btnCompanyShowWorkstations.Location = new Point(765, 1019);
-            btnCompanyShowWorkstations.Name = "btnCompanyShowWorkstations";
-            btnCompanyShowWorkstations.Size = new Size(185, 68);
-            btnCompanyShowWorkstations.TabIndex = 16;
-            btnCompanyShowWorkstations.Text = "Show workstations";
-            btnCompanyShowWorkstations.UseVisualStyleBackColor = true;
-            // 
             // ClientManagementUC
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -1008,9 +984,7 @@
         private TabControl tabControlSidePanelLeft;
         private TabPage tpCompanyDetails;
         private SplitContainer splitContainer1;
-        private Button button1;
         private Button btnCloseSidePanel;
-        private Button button3;
         private Button btnCompanyAdd;
         private Button btnCompanyEdit;
         private Button btnCompanyToggleIsActive;

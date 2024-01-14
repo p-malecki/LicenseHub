@@ -19,8 +19,8 @@ namespace LicenseHubApp.Repositories
         public virtual DbSet<WorkstationModel> Workstations { get; set; }
         
         
-        public virtual DbSet<StoreProductModel> StoreProducts { get; set; }
-        public virtual DbSet<StoreProductReleaseModel> StoreProductReleases { get; set; }
+        public virtual DbSet<ProductModel> Products { get; set; }
+        public virtual DbSet<ProductReleaseModel> StoreProductReleases { get; set; }
 
 
 
@@ -44,10 +44,10 @@ namespace LicenseHubApp.Repositories
 
 
             // many releases to one storeProduct 
-            modelBuilder.Entity<StoreProductModel>()
+            modelBuilder.Entity<ProductModel>()
                 .HasMany(m => m.Releases)
-                .WithOne(m => m.StoreProduct)
-                .HasForeignKey(m => m.StoreProductId)
+                .WithOne(m => m.Product)
+                .HasForeignKey(m => m.ProductId)
                 .IsRequired();
         }
 

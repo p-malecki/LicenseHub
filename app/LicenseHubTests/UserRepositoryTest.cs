@@ -11,7 +11,7 @@ using System.Data;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 using Microsoft.VisualBasic.ApplicationServices;
-using LicenseHubApp.Models.Managers;
+using LicenseHubApp.Services.Managers;
 
 public class UserRepositoryTest
 {

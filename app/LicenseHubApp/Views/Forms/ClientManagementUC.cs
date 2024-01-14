@@ -556,6 +556,7 @@ namespace LicenseHubApp.Views.Forms
 
         private static void ShowOnlyOnePageInTabControl(TabControl tbControl, TabPage pageToShow)
         {
+            // TODO TabOperations extract method
             foreach (var tabPage in tbControl.TabPages)
             {
                 tbControl.TabPages.Remove((TabPage)tabPage);
@@ -566,23 +567,5 @@ namespace LicenseHubApp.Views.Forms
 
         #endregion
 
-
-        #region DEBUG_METHODS
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ShowOnlyRightPanel(true);
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            ShowOnlyLeftPanel();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            ShowBothPanels(true);
-        }
-
-        #endregion
     }
 }

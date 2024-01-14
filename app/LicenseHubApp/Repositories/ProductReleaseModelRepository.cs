@@ -4,14 +4,14 @@ using LicenseHubApp.Models;
 
 namespace LicenseHubApp.Repositories
 {
-    public class StoreProductReleaseModelRepository : BaseRepository, IStoreProductReleaseModelRepository
+    public class ProductReleaseModelRepository : BaseRepository, IProductReleaseModelRepository
     {
-        public StoreProductReleaseModelRepository(DataContext dataContext)
+        public ProductReleaseModelRepository(DataContext dataContext)
         {
             this.context = dataContext;
         }
 
-        public async Task AddAsync(StoreProductReleaseModel model)
+        public async Task AddAsync(ProductReleaseModel model)
         {
             context.StoreProductReleases.Add(model);
             await context.SaveChangesAsync();
@@ -27,7 +27,7 @@ namespace LicenseHubApp.Repositories
             }
         }
 
-        public async Task EditAsync(int modelId, StoreProductReleaseModel updatedModel)
+        public async Task EditAsync(int modelId, ProductReleaseModel updatedModel)
         {
             var modelToUpdate = await GetModelByIdAsync(modelId);
             if (modelToUpdate != null)
@@ -40,12 +40,12 @@ namespace LicenseHubApp.Repositories
             }
         }
 
-        public async Task<StoreProductReleaseModel?> GetModelByIdAsync(int modelId)
+        public async Task<ProductReleaseModel?> GetModelByIdAsync(int modelId)
         {
             return await context.StoreProductReleases.FirstOrDefaultAsync(m => m.Id == modelId);
         }
 
-        public async Task<IList<StoreProductReleaseModel>> GetAllAsync()
+        public async Task<IList<ProductReleaseModel>> GetAllAsync()
         {
             return await context.StoreProductReleases.ToListAsync();
         }

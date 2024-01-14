@@ -44,9 +44,10 @@
             btnClients = new Button();
             btnOrders = new Button();
             panel1 = new Panel();
-            tabControl1 = new TabControl();
-            tabPageDashboard = new TabPage();
-            tabPageClients = new TabPage();
+            mainTabControl = new TabControl();
+            tpDashboard = new TabPage();
+            tpClients = new TabPage();
+            tpProducts = new TabPage();
             sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
             panel2.SuspendLayout();
             topBarPanel.SuspendLayout();
@@ -56,7 +57,7 @@
             splitContainer1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            tabControl1.SuspendLayout();
+            mainTabControl.SuspendLayout();
             SuspendLayout();
             // 
             // panel2
@@ -126,7 +127,7 @@
             // 
             // splitContainer1.Panel2
             // 
-            splitContainer1.Panel2.Controls.Add(tabControl1);
+            splitContainer1.Panel2.Controls.Add(mainTabControl);
             splitContainer1.Panel2.Controls.Add(topBarPanel);
             splitContainer1.Size = new Size(1794, 1266);
             splitContainer1.SplitterDistance = 375;
@@ -263,36 +264,47 @@
             panel1.Size = new Size(375, 203);
             panel1.TabIndex = 9;
             // 
-            // tabControl1
+            // mainTabControl
             // 
-            tabControl1.Controls.Add(tabPageDashboard);
-            tabControl1.Controls.Add(tabPageClients);
-            tabControl1.Dock = DockStyle.Fill;
-            tabControl1.Location = new Point(0, 72);
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(1415, 1194);
-            tabControl1.TabIndex = 3;
+            mainTabControl.Controls.Add(tpDashboard);
+            mainTabControl.Controls.Add(tpClients);
+            mainTabControl.Controls.Add(tpProducts);
+            mainTabControl.Dock = DockStyle.Fill;
+            mainTabControl.Location = new Point(0, 72);
+            mainTabControl.Name = "mainTabControl";
+            mainTabControl.SelectedIndex = 0;
+            mainTabControl.Size = new Size(1415, 1194);
+            mainTabControl.TabIndex = 3;
             // 
-            // tabPageDashboard
+            // tpDashboard
             // 
-            tabPageDashboard.BackColor = SystemColors.Window;
-            tabPageDashboard.Location = new Point(4, 34);
-            tabPageDashboard.Name = "tabPageDashboard";
-            tabPageDashboard.Padding = new Padding(3);
-            tabPageDashboard.Size = new Size(1407, 1156);
-            tabPageDashboard.TabIndex = 0;
-            tabPageDashboard.Text = "tabPageDashboard";
+            tpDashboard.BackColor = SystemColors.Window;
+            tpDashboard.Location = new Point(4, 34);
+            tpDashboard.Name = "tpDashboard";
+            tpDashboard.Padding = new Padding(3);
+            tpDashboard.Size = new Size(1407, 1156);
+            tpDashboard.TabIndex = 0;
+            tpDashboard.Text = "Dashboard";
             // 
-            // tabPageClients
+            // tpClients
             // 
-            tabPageClients.Location = new Point(4, 34);
-            tabPageClients.Name = "tabPageClients";
-            tabPageClients.Padding = new Padding(3);
-            tabPageClients.Size = new Size(1407, 1156);
-            tabPageClients.TabIndex = 1;
-            tabPageClients.Text = "tabPageClients";
-            tabPageClients.UseVisualStyleBackColor = true;
+            tpClients.Location = new Point(4, 34);
+            tpClients.Name = "tpClients";
+            tpClients.Padding = new Padding(3);
+            tpClients.Size = new Size(1407, 1156);
+            tpClients.TabIndex = 1;
+            tpClients.Text = "Clients";
+            tpClients.UseVisualStyleBackColor = true;
+            // 
+            // tpProducts
+            // 
+            tpProducts.Location = new Point(4, 34);
+            tpProducts.Name = "tpProducts";
+            tpProducts.Padding = new Padding(3);
+            tpProducts.Size = new Size(1407, 1156);
+            tpProducts.TabIndex = 2;
+            tpProducts.Text = "Products";
+            tpProducts.UseVisualStyleBackColor = true;
             // 
             // sqliteCommand1
             // 
@@ -311,7 +323,7 @@
             MaximizeBox = false;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "MainForm";
+            Text = "LicenseHub";
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             topBarPanel.ResumeLayout(false);
@@ -322,7 +334,7 @@
             splitContainer1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            tabControl1.ResumeLayout(false);
+            mainTabControl.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -340,12 +352,13 @@
         private Button btnSettings;
         private Button btnLicences;
         private Button btnReports;
-        private TabControl tabControl1;
-        private TabPage tabPageDashboard;
-        private TabPage tabPageClients;
+        private TabControl mainTabControl;
+        private TabPage tpDashboard;
+        private TabPage tpClients;
         private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
         private Panel panel1;
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
+        private TabPage tpProducts;
     }
 }
