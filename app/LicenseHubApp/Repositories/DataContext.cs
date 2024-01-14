@@ -20,7 +20,7 @@ namespace LicenseHubApp.Repositories
         
         
         public virtual DbSet<ProductModel> Products { get; set; }
-        public virtual DbSet<ProductReleaseModel> StoreProductReleases { get; set; }
+        public virtual DbSet<ProductReleaseModel> ProductReleases { get; set; }
 
 
 

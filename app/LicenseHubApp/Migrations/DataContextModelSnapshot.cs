@@ -104,7 +104,7 @@ namespace LicenseHubApp.Migrations
                     b.ToTable("Employees");
                 });
 
-            modelBuilder.Entity("LicenseHubApp.Models.StoreProductModel", b =>
+            modelBuilder.Entity("LicenseHubApp.Models.ProductModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,10 +122,10 @@ namespace LicenseHubApp.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("StoreProducts");
+                    b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("LicenseHubApp.Models.StoreProductReleaseModel", b =>
+            modelBuilder.Entity("LicenseHubApp.Models.ProductReleaseModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,21 +139,21 @@ namespace LicenseHubApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("ReleaseNumber")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("StoreProductId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("ReleaseNumber")
                         .IsUnique();
 
-                    b.HasIndex("StoreProductId");
-
-                    b.ToTable("StoreProductReleases");
+                    b.ToTable("ProductReleases");
                 });
 
             modelBuilder.Entity("LicenseHubApp.Models.UserModel", b =>
@@ -241,15 +241,15 @@ namespace LicenseHubApp.Migrations
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("LicenseHubApp.Models.StoreProductReleaseModel", b =>
+            modelBuilder.Entity("LicenseHubApp.Models.ProductReleaseModel", b =>
                 {
-                    b.HasOne("LicenseHubApp.Models.StoreProductModel", "StoreProduct")
+                    b.HasOne("LicenseHubApp.Models.ProductModel", "Product")
                         .WithMany("Releases")
-                        .HasForeignKey("StoreProductId")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("StoreProduct");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("LicenseHubApp.Models.WorkstationModel", b =>
@@ -270,7 +270,7 @@ namespace LicenseHubApp.Migrations
                     b.Navigation("Workstations");
                 });
 
-            modelBuilder.Entity("LicenseHubApp.Models.StoreProductModel", b =>
+            modelBuilder.Entity("LicenseHubApp.Models.ProductModel", b =>
                 {
                     b.Navigation("Releases");
                 });

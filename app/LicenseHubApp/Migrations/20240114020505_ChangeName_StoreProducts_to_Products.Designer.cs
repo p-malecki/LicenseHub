@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LicenseHubApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240107125127_AddEmployeeModel_AddForeignKeyToCompany")]
-    partial class AddEmployeeModel_AddForeignKeyToCompany
+    [Migration("20240114020505_ChangeName_StoreProducts_to_Products")]
+    partial class ChangeName_StoreProducts_to_Products
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,58 @@ namespace LicenseHubApp.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("LicenseHubApp.Models.ProductModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("LicenseHubApp.Models.ProductReleaseModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("InstallerVerificationPasscode")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReleaseNumber")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ReleaseNumber")
+                        .IsUnique();
+
+                    b.ToTable("ProductReleases");
+                });
+
             modelBuilder.Entity("LicenseHubApp.Models.UserModel", b =>
                 {
                     b.Property<int>("Id")
@@ -134,6 +186,53 @@ namespace LicenseHubApp.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("LicenseHubApp.Models.WorkstationModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("BiosVersion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ComputerName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Cpu")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("HardDisk")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("HasFault")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Os")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OsBitVersion")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("Workstations");
+                });
+
             modelBuilder.Entity("LicenseHubApp.Models.EmployeeModel", b =>
                 {
                     b.HasOne("LicenseHubApp.Models.CompanyModel", "Company")
@@ -145,9 +244,38 @@ namespace LicenseHubApp.Migrations
                     b.Navigation("Company");
                 });
 
+            modelBuilder.Entity("LicenseHubApp.Models.ProductReleaseModel", b =>
+                {
+                    b.HasOne("LicenseHubApp.Models.ProductModel", "Product")
+                        .WithMany("Releases")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("LicenseHubApp.Models.WorkstationModel", b =>
+                {
+                    b.HasOne("LicenseHubApp.Models.CompanyModel", "Company")
+                        .WithMany("Workstations")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("LicenseHubApp.Models.CompanyModel", b =>
                 {
                     b.Navigation("Employees");
+
+                    b.Navigation("Workstations");
+                });
+
+            modelBuilder.Entity("LicenseHubApp.Models.ProductModel", b =>
+                {
+                    b.Navigation("Releases");
                 });
 #pragma warning restore 612, 618
         }

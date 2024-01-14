@@ -13,7 +13,7 @@ namespace LicenseHubApp.Repositories
 
         public async Task AddAsync(ProductReleaseModel model)
         {
-            context.StoreProductReleases.Add(model);
+            context.ProductReleases.Add(model);
             await context.SaveChangesAsync();
         }
 
@@ -22,7 +22,7 @@ namespace LicenseHubApp.Repositories
             var modelToDelete = await GetModelByIdAsync(modelId);
             if (modelToDelete != null)
             {
-                context.StoreProductReleases.Remove(modelToDelete);
+                context.ProductReleases.Remove(modelToDelete);
                 await context.SaveChangesAsync();
             }
         }
@@ -42,17 +42,17 @@ namespace LicenseHubApp.Repositories
 
         public async Task<ProductReleaseModel?> GetModelByIdAsync(int modelId)
         {
-            return await context.StoreProductReleases.FirstOrDefaultAsync(m => m.Id == modelId);
+            return await context.ProductReleases.FirstOrDefaultAsync(m => m.Id == modelId);
         }
 
         public async Task<IList<ProductReleaseModel>> GetAllAsync()
         {
-            return await context.StoreProductReleases.ToListAsync();
+            return await context.ProductReleases.ToListAsync();
         }
 
         public bool IsIdUnique(int modelId)
         {
-            return !context.StoreProductReleases.Any(model => model.Id == modelId);
+            return !context.ProductReleases.Any(model => model.Id == modelId);
         }
 
     }
