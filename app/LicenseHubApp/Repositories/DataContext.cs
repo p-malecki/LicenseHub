@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using LicenseHubApp.Models;
-using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Repositories
@@ -22,11 +21,26 @@ namespace LicenseHubApp.Repositories
         public virtual DbSet<ProductModel> Products { get; set; }
         public virtual DbSet<ProductReleaseModel> ProductReleases { get; set; }
 
+        public virtual DbSet<LicenseModel> Licenses { get; set; }
+        public virtual DbSet<ActivationCodeModel> ActivationCodes { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // relationships
+            //// TPC mapping
+
+            modelBuilder.Entity<LicenseModel>().UseTpcMappingStrategy();
+            modelBuilder.Entity<SubscriptionLicenseModel>().ToTable("SubscriptionLicenses");
+            modelBuilder.Entity<PerpetualLicenseModel>().ToTable("PerpetualLicenses");
+
+
+            //// TPH mapping
+
+            //  use the OfType<TEntity> method to query for ActivationCodes of a particular type
+            modelBuilder.Entity<GeneratedActivationCodeModel>();
+
+
+            //// relationships
 
             // many employees to one company 
             modelBuilder.Entity<CompanyModel>()
@@ -43,11 +57,19 @@ namespace LicenseHubApp.Repositories
                 .IsRequired();
 
 
-            // many releases to one storeProduct 
+            // many releases to one product 
             modelBuilder.Entity<ProductModel>()
                 .HasMany(m => m.Releases)
                 .WithOne(m => m.Product)
                 .HasForeignKey(m => m.ProductId)
+                .IsRequired();
+
+
+            // one activationCode to one License 
+            modelBuilder.Entity<LicenseModel>()
+                .HasOne(m => m.ActivationCode)
+                .WithOne(m => m.License)
+                .HasForeignKey<ActivationCodeModel>(m => m.LicenseId)
                 .IsRequired();
         }
 
