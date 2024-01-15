@@ -1,5 +1,4 @@
 ﻿using LicenseHubApp.Views.Interfaces;
-using System.Windows.Forms;
 using static LicenseHubApp.Utils.ListStoredInStringParser;
 
 namespace LicenseHubApp.Views.Forms

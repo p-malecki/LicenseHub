@@ -1,5 +1,4 @@
-﻿using LicenseHubApp.Models.Filters;
-using LicenseHubApp.Models;
+﻿using LicenseHubApp.Models;
 
 namespace LicenseHubApp.Services.Managers
 {
@@ -10,7 +9,7 @@ namespace LicenseHubApp.Services.Managers
         private static IProductReleaseModelRepository _releaseRepository;
         private static IEnumerable<ProductReleaseModel> _releaseModelList;
 
-
+        
         private ProductManager() { }
         public static ProductManager GetInstance(IProductRepository productRepository, IProductReleaseModelRepository releaseRepository)
         {

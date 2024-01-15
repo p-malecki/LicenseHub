@@ -1,6 +1,4 @@
-﻿using System.Net.Mime;
-using LicenseHubApp.Views.Interfaces;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using LicenseHubApp.Views.Interfaces;
 
 namespace LicenseHubApp.Views.Forms
 {
@@ -189,7 +187,7 @@ namespace LicenseHubApp.Views.Forms
 
         public void SetProductViewToSelectable(bool enabled)
         {
-            btnProductSelect.Enabled = enabled;
+            cbProductList.Enabled = enabled;
             gbProductSelected.Enabled = enabled;
             btnProductSave.Enabled = !enabled;
         }
@@ -205,7 +203,6 @@ namespace LicenseHubApp.Views.Forms
             cbProductList.Enabled = !enabled;
             btnProductSave.Enabled = enabled;
             btnProductAdd.Enabled = !enabled;
-            btnProductSelect.Enabled = !enabled;
             chbProductIsAvailable.Enabled = !enabled;
             btnProductRename.Enabled = !enabled;
             btnProductRemove.Enabled = !enabled;
@@ -224,7 +221,6 @@ namespace LicenseHubApp.Views.Forms
             rtxtReleaseDescription.BackColor = enabled ? Color.White : SystemColors.Control;
 
             cbProductList.Enabled = !enabled;
-            btnProductSelect.Enabled = !enabled;
             btnProductAdd.Enabled = !enabled;
             btnProductSave.Enabled = !enabled;
             chbProductIsAvailable.Enabled = !enabled;

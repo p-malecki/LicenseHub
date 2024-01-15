@@ -29,8 +29,8 @@ namespace LicenseHubApp.Presenters
             _employeeManager = employeeManager;
             _workstationManager = workstationManager;
 
-            _companyBindingSource = new BindingSource();
-            _sidePanelBindingSource = new BindingSource();
+            _companyBindingSource = [];
+            _sidePanelBindingSource = [];
             view.SetCompanyListBindingSource(_companyBindingSource);
             view.SetSidePanelListBindingSource(_sidePanelBindingSource);
 

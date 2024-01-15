@@ -1,9 +1,6 @@
-﻿using LicenseHubApp.Models.Filters;
-using LicenseHubApp.Models;
+﻿using LicenseHubApp.Models;
 using LicenseHubApp.Services.Managers;
-using LicenseHubApp.Utils;
 using LicenseHubApp.Views.Interfaces;
-using System.ComponentModel.Design;
 
 
 namespace LicenseHubApp.Presenters
@@ -21,8 +18,8 @@ namespace LicenseHubApp.Presenters
             _view = view;
             _productManager = productManager;
 
-            _productBindingSource = new BindingSource();
-            _releaseBindingSource = new BindingSource();
+            _productBindingSource = [];
+            _releaseBindingSource = [];
             view.SetProductListBindingSource(_productBindingSource);
             view.SetReleaseDataBindingSource(_releaseBindingSource);
 
