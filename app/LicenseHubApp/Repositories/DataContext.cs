@@ -28,16 +28,15 @@ namespace LicenseHubApp.Repositories
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //// TPC mapping
+            //  use the OfType<TEntity> method to query for particular type
 
             modelBuilder.Entity<LicenseModel>().UseTpcMappingStrategy();
             modelBuilder.Entity<SubscriptionLicenseModel>().ToTable("SubscriptionLicenses");
             modelBuilder.Entity<PerpetualLicenseModel>().ToTable("PerpetualLicenses");
 
+            modelBuilder.Entity<ActivationCodeModel>().UseTpcMappingStrategy();
+            modelBuilder.Entity<GeneratedActivationCodeModel>().ToTable("GeneratedActivationCodes");
 
-            //// TPH mapping
-
-            //  use the OfType<TEntity> method to query for ActivationCodes of a particular type
-            modelBuilder.Entity<GeneratedActivationCodeModel>();
 
 
             //// relationships
