@@ -8,11 +8,12 @@ namespace LicenseHubApp.Models
 {
     [PrimaryKey(nameof(Id))]
     [Microsoft.EntityFrameworkCore.Index(nameof(ReleaseNumber), IsUnique = true)]
-    public class ProductReleaseModel : ValidatableModel, IModelWithId
+    public class ProductReleaseModel : ValidatableModel, IModelWithId, IComparable<ProductReleaseModel>
     {
         [DisplayName("Release ID")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Range(0, int.MaxValue, ErrorMessage = "{0} must be non negative")]
+        [Browsable(false)]
         public int Id { get; set; }
 
         [Browsable(false)]
@@ -28,6 +29,7 @@ namespace LicenseHubApp.Models
         public string ReleaseNumber { get; set; }
 
         [DisplayName("Release InstallerVerificationPasscode")]
+        [Browsable(false)]
         public string InstallerVerificationPasscode { get; set; } = string.Empty;
 
 
@@ -36,5 +38,9 @@ namespace LicenseHubApp.Models
         public string Description { get; set; } = string.Empty;
 
 
+        public int CompareTo(ProductReleaseModel? other)
+        {
+            return string.Compare(ReleaseNumber, other?.ReleaseNumber,  StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

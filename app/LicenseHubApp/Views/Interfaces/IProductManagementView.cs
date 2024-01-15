@@ -17,6 +17,7 @@ public interface IProductManagementView
     string ProductActiveClientBaseNumber { get; set; }
     string BtnProductSaveText { get; set; }
 
+    int ReleaseId { get; set; }
     string ReleaseNumber { get; set; }
     string ReleaseInstallerVerificationPasscode { get; set; }
     string ReleaseDescription { get; set; }
@@ -26,12 +27,12 @@ public interface IProductManagementView
 
     #region Events
 
-    event EventHandler ProductSelectClicked;
     event EventHandler ProductAddBtnClicked;
     event EventHandler ProductIsAvailableToggled;
     event EventHandler ProductRenameBtnClicked;
     event EventHandler ProductSaveBtnClicked;
     event EventHandler ProductRemoveBtnClicked;
+    event EventHandler ReleaseSelectionChanged;
     event EventHandler ReleaseAddBtnClicked;
     event EventHandler ReleaseRemoveBtnClicked;
     event EventHandler ReleaseSaveBtnClicked;
@@ -44,7 +45,9 @@ public interface IProductManagementView
     void SetProductListBindingSource(BindingSource productList);
     void SetReleaseDataBindingSource(BindingSource releaseList);
     void SetProductViewToSelectable(bool enabled);
+    void SetReleaseViewToSelectable(bool enabled);
     void SetProductViewToEditable(bool enabled);
+    void SetReleaseViewToEditable(bool enabled);
 
     #endregion
 }

@@ -43,16 +43,17 @@ namespace LicenseHubApp.Presenters
             IEmployeeRepository employeeRepository = new EmployeeRepository(dataContext);
             IWorkstationRepository workstationRepository = new WorkstationRepository(dataContext);
             IProductRepository productRepository = new ProductRepository(dataContext);
+            IProductReleaseModelRepository releaseProductRepository = new ProductReleaseModelRepository(dataContext);
 
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
             _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
             _workstationManager = WorkstationManager.GetInstance(workstationRepository, new WorkstationComputerNameFilterStrategy());
-            _productManager = ProductManager.GetInstance(productRepository);
+            _productManager = ProductManager.GetInstance(productRepository, releaseProductRepository);
         }
 
 
-        private void OnClientsBtnClicked(object sender, EventArgs e)
+        private void OnClientsBtnClicked(object? sender, EventArgs e)
         {
             var companyManagementView = new ClientManagementUC();
             _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager);
@@ -61,7 +62,7 @@ namespace LicenseHubApp.Presenters
             companyManagementView.Dock = DockStyle.Fill;
         }
 
-        private void OnProductsBtnClicked(object sender, EventArgs e)
+        private void OnProductsBtnClicked(object? sender, EventArgs e)
         {
             var productManagementView = new ProductManagementUC();
             _ = new ProductManagementPresenter(productManagementView, _productManager);
@@ -70,13 +71,13 @@ namespace LicenseHubApp.Presenters
             productManagementView.Dock = DockStyle.Fill;
         }
 
-        private void OnLogoutBtnClicked(object sender, EventArgs e)
+        private void OnLogoutBtnClicked(object? sender, EventArgs e)
         {
             _authenticator.Logout();
             var view = (ILoginView)LoginForm.GetInstance((MainForm)_view);
             _ = new LoginPresenter(view, _authenticator, _dataContext, _userRepository);
         }
-        private void OnSettingsBtnClicked(object sender, EventArgs e)
+        private void OnSettingsBtnClicked(object? sender, EventArgs e)
         {
             var userManagementForm = new UserManagementForm();
             _ = new UserManagementPresenter(userManagementForm, _userManager);

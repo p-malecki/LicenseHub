@@ -1,5 +1,6 @@
 ﻿using System.Net.Mime;
 using LicenseHubApp.Views.Interfaces;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace LicenseHubApp.Views.Forms
 {
@@ -17,11 +18,6 @@ namespace LicenseHubApp.Views.Forms
 
         private void AssociateAndRaiseViewEvents()
         {
-            btnProductSelect.Click += delegate
-            {
-                ProductSelectClicked?.Invoke(this, EventArgs.Empty);
-            };
-
             btnProductAdd.Click += delegate
             {
                 ProductAddBtnClicked?.Invoke(this, EventArgs.Empty);
@@ -87,7 +83,12 @@ namespace LicenseHubApp.Views.Forms
                     MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             };
-            
+
+            dgvReleaseData.SelectionChanged += delegate
+            {
+                ReleaseSelectionChanged?.Invoke(this, EventArgs.Empty);
+            };
+
         }
 
         #endregion
@@ -105,6 +106,7 @@ namespace LicenseHubApp.Views.Forms
             get => cbProductList.SelectedIndex;
             set => cbProductList.SelectedIndex = value;
         }
+
         public int ProductId { get; set; }
         public new string ProductName
         {
@@ -137,6 +139,7 @@ namespace LicenseHubApp.Views.Forms
             set => btnProductSave.Text = value;
         }
 
+        public int ReleaseId { get; set; }
         public string ReleaseNumber
         {
             get => txtReleaseNumber.Text;
@@ -158,12 +161,12 @@ namespace LicenseHubApp.Views.Forms
 
         #region Events
 
-        public event EventHandler ProductSelectClicked;
         public event EventHandler ProductAddBtnClicked;
         public event EventHandler ProductIsAvailableToggled;
         public event EventHandler ProductRenameBtnClicked;
         public event EventHandler ProductSaveBtnClicked;
         public event EventHandler ProductRemoveBtnClicked;
+        public event EventHandler ReleaseSelectionChanged;
         public event EventHandler ReleaseAddBtnClicked;
         public event EventHandler ReleaseRemoveBtnClicked;
         public event EventHandler ReleaseSaveBtnClicked;
@@ -190,6 +193,12 @@ namespace LicenseHubApp.Views.Forms
             gbProductSelected.Enabled = enabled;
             btnProductSave.Enabled = !enabled;
         }
+
+        public void SetReleaseViewToSelectable(bool enabled)
+        {
+            btnReleaseRemove.Enabled = enabled;
+        }
+
         public void SetProductViewToEditable(bool enabled)
         {
             gbProductSelected.Enabled = true;
@@ -202,6 +211,25 @@ namespace LicenseHubApp.Views.Forms
             btnProductRemove.Enabled = !enabled;
             txtProductName.ReadOnly = !enabled;
             gbReleaseSelected.Enabled = !enabled;
+        }
+
+        public void SetReleaseViewToEditable(bool enabled)
+        {
+            btnReleaseSave.Enabled = enabled;
+            btnReleaseAdd.Enabled = !enabled;
+            btnReleaseRemove.Enabled = !enabled;
+            txtReleaseNumber.ReadOnly = !enabled;
+            txtReleaseInstallerVerificationPasscode.ReadOnly = !enabled;
+            rtxtReleaseDescription.ReadOnly = !enabled;
+            rtxtReleaseDescription.BackColor = enabled ? Color.White : SystemColors.Control;
+
+            cbProductList.Enabled = !enabled;
+            btnProductSelect.Enabled = !enabled;
+            btnProductAdd.Enabled = !enabled;
+            btnProductSave.Enabled = !enabled;
+            chbProductIsAvailable.Enabled = !enabled;
+            btnProductRename.Enabled = !enabled;
+            btnProductRemove.Enabled = !enabled;
         }
 
         #endregion

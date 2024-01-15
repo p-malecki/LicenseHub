@@ -3,6 +3,7 @@ using LicenseHubApp.Models;
 using LicenseHubApp.Services.Managers;
 using LicenseHubApp.Utils;
 using LicenseHubApp.Views.Interfaces;
+using System.ComponentModel.Design;
 
 
 namespace LicenseHubApp.Presenters
@@ -23,13 +24,15 @@ namespace LicenseHubApp.Presenters
             _productBindingSource = new BindingSource();
             _releaseBindingSource = new BindingSource();
             view.SetProductListBindingSource(_productBindingSource);
+            view.SetReleaseDataBindingSource(_releaseBindingSource);
 
-            _view.ProductSelectClicked += OnProductSelectBtnClicked;
+            _productBindingSource.CurrentChanged += OnProductSelectionChanged;
             _view.ProductAddBtnClicked += OnProductAddBtnClicked;
             _view.ProductIsAvailableToggled += OnProductIsAvailableChbToggled;
             _view.ProductRenameBtnClicked += OnProductRenameBtnClicked;
             _view.ProductSaveBtnClicked += OnProductSaveBtnClicked;
             _view.ProductRemoveBtnClicked += OnProductRemoveBtnClicked;
+            _view.ReleaseSelectionChanged += OnReleaseSelectionChanged;
             _view.ReleaseAddBtnClicked += OnReleaseAddBtnClicked;
             _view.ReleaseRemoveBtnClicked += OnReleaseRemoveBtnClicked;
             _view.ReleaseSaveBtnClicked += OnReleaseSaveBtnClicked;
@@ -43,7 +46,7 @@ namespace LicenseHubApp.Presenters
 
             var results = _productManager.GetAll().ToList();
 
-            if (results.Count != 0)
+            if (results.Count > 0)
             {
                 var productNames = results.Select(x => x.Name).ToList(); // TODO (?) if not available add x to string
 
@@ -58,17 +61,47 @@ namespace LicenseHubApp.Presenters
 
             _view.IsEdit = tmpIsEdit;
         }
+        private void LoadAllReleaseList()
+        {
+            var tmpIsEdit = _view.IsEdit;
+
+            var results = _productManager.GetAllRelease().ToList();
+            results = results.Where(m => m.ProductId == _view.ProductId).ToList();
+
+            if (results.Count > 0)
+            {
+                results.Sort();
+                results.Reverse();
+                _view.ProductNewestRelease = results[0].ReleaseNumber;
+                _releaseBindingSource.DataSource = results;
+            }
+            else
+            {
+                _releaseBindingSource.DataSource = new List<ProductReleaseModel>();
+                _view.ProductNewestRelease = "-";
+                _view.SetReleaseViewToEditable(false);
+                _view.SetReleaseViewToSelectable(false);
+            }
+
+            _view.IsEdit = tmpIsEdit;
+        }
 
         private ProductModel? GetCurrentlySelectedProduct()
         {
             if (_productBindingSource.Count == 0)
                 return null;
-
             var productName = (string)_productBindingSource.Current;
 
             var model = _productManager.GetAll().First(m => m.Name == productName);
 
             return model;
+        }
+        private ProductReleaseModel? GetCurrentlySelectedRelease()
+        {
+            if (_releaseBindingSource.Count == 0)
+                return null;
+
+            return (ProductReleaseModel)_releaseBindingSource.Current;
         }
 
         private void ShowProduct(ProductModel model)
@@ -78,10 +111,10 @@ namespace LicenseHubApp.Presenters
             _view.ProductIsAvailable = model.IsAvailable;
             _view.ProductName = model.Name;
 
-            // TODO set product stats
-            _view.ProductNewestRelease = "0";
-            _view.ProductNumberOfLicensesGranted = "0";
-            _view.ProductActiveClientBaseNumber = "0";
+            LoadAllReleaseList(); // loads productNewestRelease stat
+
+            _view.ProductNumberOfLicensesGranted = "0"; // TODO set product LicensesGranted stats
+            _view.ProductActiveClientBaseNumber = "0"; // TODO set product ActiveClientBaseNumber stats
 
             _view.IsSuccessful = true;
         }
@@ -98,6 +131,29 @@ namespace LicenseHubApp.Presenters
             }
 
             ShowProduct(model);
+        }
+        private void ShowRelease(ProductReleaseModel model)
+        {
+            _view.SetReleaseViewToSelectable(true);
+            _view.ReleaseId = model.Id;
+            _view.ReleaseNumber = model.ReleaseNumber;
+            _view.ReleaseInstallerVerificationPasscode = model.InstallerVerificationPasscode;
+            _view.ReleaseDescription = model.Description;
+
+            _view.IsSuccessful = true;
+        }
+        private void ShowCurrentlySelectedRelease()
+        {
+            var model = GetCurrentlySelectedRelease();
+            if (model == null)
+            {
+                CleanReleaseViewFields();
+                _view.SetReleaseViewToSelectable(false);
+                _view.IsSuccessful = true;
+                return;
+            }
+
+            ShowRelease(model);
         }
 
         private void CleanProductViewFields()
@@ -117,7 +173,8 @@ namespace LicenseHubApp.Presenters
             _view.ReleaseDescription = "";
         }
 
-        private void OnProductSelectBtnClicked(object? sender, EventArgs e)
+
+        private void OnProductSelectionChanged(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedProduct();
         }
@@ -218,7 +275,6 @@ namespace LicenseHubApp.Presenters
                 }
 
                 _productManager.Delete(model);
-                // TODO check whether releases has been deleted
                 _view.Message = "Product has been deleted.";
 
                 _view.IsSuccessful = true;
@@ -232,19 +288,69 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnReleaseAddBtnClicked(object? sender, EventArgs e)
-        {
 
+        private void OnReleaseSelectionChanged(object? sender, EventArgs e)
+        {
+            ShowCurrentlySelectedRelease();
         }
 
-        private void OnReleaseRemoveBtnClicked(object? sender, EventArgs e)
+        private void OnReleaseAddBtnClicked(object? sender, EventArgs e)
         {
-
+            CleanReleaseViewFields();
+            _view.SetReleaseViewToEditable(true);
         }
 
         private void OnReleaseSaveBtnClicked(object? sender, EventArgs e)
         {
+            try
+            {
+                var model = new ProductReleaseModel()
+                {
+                    ReleaseNumber = _view.ReleaseNumber,
+                    InstallerVerificationPasscode = _view.ReleaseInstallerVerificationPasscode,
+                    Description = _view.ReleaseDescription,
+                };
 
+                _productManager.AddRelease(_view.ProductId, model);
+                _view.Message = "Release has been added.";
+
+                _view.SetReleaseViewToEditable(false);
+                LoadAllReleaseList();
+                ShowRelease(model);
+                _view.IsSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                _view.IsSuccessful = false;
+                _view.Message = ex.Message;
+            }
+        }
+
+        private void OnReleaseRemoveBtnClicked(object? sender, EventArgs e)
+        {
+            try
+            {
+                var model = GetCurrentlySelectedRelease();
+                if (model == null)
+                {
+                    CleanReleaseViewFields();
+                    _view.SetReleaseViewToSelectable(false);
+                    _view.IsSuccessful = true;
+                    throw new Exception("Release has not been deleted.");
+                }
+
+                _productManager.RemoveRelease(_view.ProductId, model);
+                _view.Message = "Release has been deleted.";
+
+                LoadAllReleaseList();
+                ShowCurrentlySelectedRelease();
+                _view.IsSuccessful = true;
+            }
+            catch (Exception ex)
+            {
+                _view.IsSuccessful = false;
+                _view.Message = ex.Message;
+            }
         }
     }
 }

@@ -31,7 +31,6 @@
             dgvReleaseData = new DataGridView();
             label1 = new Label();
             cbProductList = new ComboBox();
-            btnProductSelect = new Button();
             btnProductAdd = new Button();
             gbReleaseSelected = new GroupBox();
             btnReleaseRemove = new Button();
@@ -65,11 +64,11 @@
             dgvReleaseData.AllowUserToAddRows = false;
             dgvReleaseData.AllowUserToDeleteRows = false;
             dgvReleaseData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvReleaseData.Location = new Point(35, 43);
+            dgvReleaseData.Location = new Point(45, 43);
             dgvReleaseData.Name = "dgvReleaseData";
             dgvReleaseData.ReadOnly = true;
             dgvReleaseData.RowHeadersWidth = 62;
-            dgvReleaseData.Size = new Size(1127, 231);
+            dgvReleaseData.Size = new Size(322, 512);
             dgvReleaseData.TabIndex = 0;
             // 
             // label1
@@ -87,23 +86,14 @@
             cbProductList.DropDownStyle = ComboBoxStyle.DropDownList;
             cbProductList.Font = new Font("Segoe UI", 12F);
             cbProductList.FormattingEnabled = true;
-            cbProductList.Location = new Point(302, 169);
+            cbProductList.Location = new Point(389, 166);
             cbProductList.Name = "cbProductList";
             cbProductList.Size = new Size(400, 40);
             cbProductList.TabIndex = 4;
             // 
-            // btnProductSelect
-            // 
-            btnProductSelect.Location = new Point(725, 169);
-            btnProductSelect.Name = "btnProductSelect";
-            btnProductSelect.Size = new Size(231, 40);
-            btnProductSelect.TabIndex = 11;
-            btnProductSelect.Text = "Select";
-            btnProductSelect.UseVisualStyleBackColor = true;
-            // 
             // btnProductAdd
             // 
-            btnProductAdd.Location = new Point(962, 170);
+            btnProductAdd.Location = new Point(812, 166);
             btnProductAdd.Name = "btnProductAdd";
             btnProductAdd.Size = new Size(150, 40);
             btnProductAdd.TabIndex = 11;
@@ -113,15 +103,15 @@
             // gbReleaseSelected
             // 
             gbReleaseSelected.Controls.Add(dgvReleaseData);
-            gbReleaseSelected.Controls.Add(btnReleaseRemove);
-            gbReleaseSelected.Controls.Add(btnReleaseSave);
             gbReleaseSelected.Controls.Add(btnReleaseAdd);
+            gbReleaseSelected.Controls.Add(btnReleaseRemove);
             gbReleaseSelected.Controls.Add(label3);
             gbReleaseSelected.Controls.Add(txtReleaseNumber);
             gbReleaseSelected.Controls.Add(label5);
             gbReleaseSelected.Controls.Add(txtReleaseInstallerVerificationPasscode);
             gbReleaseSelected.Controls.Add(label4);
             gbReleaseSelected.Controls.Add(rtxtReleaseDescription);
+            gbReleaseSelected.Controls.Add(btnReleaseSave);
             gbReleaseSelected.Location = new Point(35, 204);
             gbReleaseSelected.Name = "gbReleaseSelected";
             gbReleaseSelected.Size = new Size(1195, 619);
@@ -131,7 +121,8 @@
             // 
             // btnReleaseRemove
             // 
-            btnReleaseRemove.Location = new Point(1006, 285);
+            btnReleaseRemove.Enabled = false;
+            btnReleaseRemove.Location = new Point(211, 561);
             btnReleaseRemove.Name = "btnReleaseRemove";
             btnReleaseRemove.Size = new Size(156, 40);
             btnReleaseRemove.TabIndex = 11;
@@ -140,16 +131,17 @@
             // 
             // btnReleaseSave
             // 
-            btnReleaseSave.Location = new Point(93, 552);
+            btnReleaseSave.Enabled = false;
+            btnReleaseSave.Location = new Point(1012, 448);
             btnReleaseSave.Name = "btnReleaseSave";
             btnReleaseSave.Size = new Size(109, 33);
             btnReleaseSave.TabIndex = 11;
-            btnReleaseSave.Text = "Save";
+            btnReleaseSave.Text = "Add";
             btnReleaseSave.UseVisualStyleBackColor = true;
             // 
             // btnReleaseAdd
             // 
-            btnReleaseAdd.Location = new Point(844, 285);
+            btnReleaseAdd.Location = new Point(45, 561);
             btnReleaseAdd.Name = "btnReleaseAdd";
             btnReleaseAdd.Size = new Size(156, 40);
             btnReleaseAdd.TabIndex = 11;
@@ -159,7 +151,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(85, 302);
+            label3.Location = new Point(582, 164);
             label3.Name = "label3";
             label3.Size = new Size(141, 25);
             label3.TabIndex = 5;
@@ -167,15 +159,16 @@
             // 
             // txtReleaseNumber
             // 
-            txtReleaseNumber.Location = new Point(228, 299);
+            txtReleaseNumber.Location = new Point(902, 164);
             txtReleaseNumber.Name = "txtReleaseNumber";
+            txtReleaseNumber.ReadOnly = true;
             txtReleaseNumber.Size = new Size(219, 31);
             txtReleaseNumber.TabIndex = 12;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(85, 344);
+            label5.Location = new Point(582, 206);
             label5.Name = "label5";
             label5.Size = new Size(233, 25);
             label5.TabIndex = 5;
@@ -183,15 +176,16 @@
             // 
             // txtReleaseInstallerVerificationPasscode
             // 
-            txtReleaseInstallerVerificationPasscode.Location = new Point(93, 372);
+            txtReleaseInstallerVerificationPasscode.Location = new Point(590, 234);
             txtReleaseInstallerVerificationPasscode.Name = "txtReleaseInstallerVerificationPasscode";
-            txtReleaseInstallerVerificationPasscode.Size = new Size(354, 31);
+            txtReleaseInstallerVerificationPasscode.ReadOnly = true;
+            txtReleaseInstallerVerificationPasscode.Size = new Size(531, 31);
             txtReleaseInstallerVerificationPasscode.TabIndex = 12;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(85, 416);
+            label4.Location = new Point(582, 278);
             label4.Name = "label4";
             label4.Size = new Size(102, 25);
             label4.TabIndex = 5;
@@ -199,16 +193,17 @@
             // 
             // rtxtReleaseDescription
             // 
-            rtxtReleaseDescription.Location = new Point(93, 444);
+            rtxtReleaseDescription.Location = new Point(590, 306);
             rtxtReleaseDescription.Name = "rtxtReleaseDescription";
-            rtxtReleaseDescription.Size = new Size(354, 102);
+            rtxtReleaseDescription.ReadOnly = true;
+            rtxtReleaseDescription.Size = new Size(531, 126);
             rtxtReleaseDescription.TabIndex = 13;
             rtxtReleaseDescription.Text = "";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(302, 141);
+            label2.Location = new Point(389, 138);
             label2.Name = "label2";
             label2.Size = new Size(126, 25);
             label2.TabIndex = 5;
@@ -244,16 +239,16 @@
             // 
             // gbProductSelected
             // 
-            gbProductSelected.Controls.Add(lbActiveClientBaseNumber);
-            gbProductSelected.Controls.Add(btnProductRemove);
             gbProductSelected.Controls.Add(label6);
+            gbProductSelected.Controls.Add(txtProductName);
+            gbProductSelected.Controls.Add(chbProductIsAvailable);
             gbProductSelected.Controls.Add(btnProductRename);
             gbProductSelected.Controls.Add(btnProductSave);
-            gbProductSelected.Controls.Add(lbLicensesGranted);
-            gbProductSelected.Controls.Add(txtProductName);
+            gbProductSelected.Controls.Add(btnProductRemove);
             gbProductSelected.Controls.Add(label7);
             gbProductSelected.Controls.Add(lbNewestRelease);
-            gbProductSelected.Controls.Add(chbProductIsAvailable);
+            gbProductSelected.Controls.Add(lbLicensesGranted);
+            gbProductSelected.Controls.Add(lbActiveClientBaseNumber);
             gbProductSelected.Controls.Add(gbReleaseSelected);
             gbProductSelected.Location = new Point(56, 297);
             gbProductSelected.Name = "gbProductSelected";
@@ -329,12 +324,11 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(gbProductSelected);
             Controls.Add(label1);
             Controls.Add(label2);
-            Controls.Add(btnProductSelect);
-            Controls.Add(btnProductAdd);
             Controls.Add(cbProductList);
+            Controls.Add(btnProductAdd);
+            Controls.Add(gbProductSelected);
             Name = "ProductManagementUC";
             Size = new Size(1407, 1156);
             ((System.ComponentModel.ISupportInitialize)dgvReleaseData).EndInit();
@@ -351,7 +345,6 @@
         private DataGridView dgvReleaseData;
         private Label label1;
         private ComboBox cbProductList;
-        private Button btnProductSelect;
         private Button btnProductAdd;
         private GroupBox gbReleaseSelected;
         private Button btnReleaseAdd;

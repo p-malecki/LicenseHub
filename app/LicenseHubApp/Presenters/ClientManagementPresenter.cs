@@ -59,7 +59,7 @@ namespace LicenseHubApp.Presenters
             _workstationManager.LoadAll();
         }
 
-        private void OnCloseRightPanelBtnClicked(object sender, EventArgs e)
+        private void OnCloseRightPanelBtnClicked(object? sender, EventArgs e)
         {
             _view.SidePanelTarget = "";
             CleanCompanyViewFields();
@@ -121,7 +121,7 @@ namespace LicenseHubApp.Presenters
         }
 
 
-        private void OnCompanySearchBtnClicked(object sender, EventArgs e)
+        private void OnCompanySearchBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -166,19 +166,19 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnCompanyShowDetailsBtnClicked(object sender, EventArgs e)
+        private void OnCompanyShowDetailsBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedCompany();
             LoadAllSidePanelModelsList();
             _view.IsEdit = false;
         }
 
-        private void OnCompanyEditBtnClicked(object sender, EventArgs e)
+        private void OnCompanyEditBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedCompany();
             _view.IsEdit = true;
         }
-        private void OnCompanyAddBtnClicked(object sender, EventArgs e)
+        private void OnCompanyAddBtnClicked(object? sender, EventArgs e)
         {
             CleanCompanyViewFields();
             _view.SetPanelToEditable(false);
@@ -187,7 +187,7 @@ namespace LicenseHubApp.Presenters
         }
 
 
-        private void OnCompanyEditSaveBtnClicked(object sender, EventArgs e)
+        private void OnCompanyEditSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -237,12 +237,12 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
-        private void OnCompanyEditCancelBtnClicked(object sender, EventArgs e)
+        private void OnCompanyEditCancelBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedCompany(); // reset data
             _view.IsEdit = false; // turn off editable
         }
-        private void OnCompanyToggleIsActiveBtnClicked(object sender, EventArgs e)
+        private void OnCompanyToggleIsActiveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -279,13 +279,13 @@ namespace LicenseHubApp.Presenters
             _view.IsSuccessful = false;
         }
 
-        private void OnCompanyShowEmployeesBtnClicked(object sender, EventArgs e)
+        private void OnCompanyShowEmployeesBtnClicked(object? sender, EventArgs e)
         {
             _view.SidePanelTarget = "Employee";
             LoadAllSidePanelModelsList();
         }
 
-        private void OnCompanyShowWorkstationsBtnClicked(object sender, EventArgs e)
+        private void OnCompanyShowWorkstationsBtnClicked(object? sender, EventArgs e)
         {
             _view.SidePanelTarget = "Workstation";
             LoadAllSidePanelModelsList();
@@ -428,7 +428,7 @@ namespace LicenseHubApp.Presenters
             _view.IsEdit = tmpIsEdit;
         }
 
-        private void OnSidePanelSearchBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelSearchBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -515,18 +515,18 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnSidePanelShowDetailsBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelShowDetailsBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedModel();
             _view.IsEdit = false;
         }
 
-        private void OnSidePanelEditBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelEditBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedModel();
             _view.IsEdit = true;
         }
-        private void OnSidePanelAddBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelAddBtnClicked(object? sender, EventArgs e)
         {
             CleanSidePanelViewFields();
             _view.SetPanelToEditable(false);
@@ -535,7 +535,7 @@ namespace LicenseHubApp.Presenters
         }
 
 
-        private void OnSidePanelEditSaveBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelEditSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -627,12 +627,12 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
-        private void OnSidePanelEditCancelBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelEditCancelBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedModel(); // reset data
             _view.IsEdit = false; // turn off editable
         }
-        private void OnSidePanelToggleIsActiveBtnClicked(object sender, EventArgs e)
+        private void OnSidePanelToggleIsActiveBtnClicked(object? sender, EventArgs e)
         {
             try
             {

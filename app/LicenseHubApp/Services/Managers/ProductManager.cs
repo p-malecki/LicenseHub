@@ -7,10 +7,12 @@ namespace LicenseHubApp.Services.Managers
     {
         private static readonly object LockObject = new();
         private static ProductManager? _instance;
-        //private static IStoreProductReleaseModelRepository? ReleaseRepository;
+        private static IProductReleaseModelRepository _releaseRepository;
+        private static IEnumerable<ProductReleaseModel> _releaseModelList;
+
 
         private ProductManager() { }
-        public static ProductManager GetInstance(IProductRepository productRepository)//, IStoreProductReleaseModelRepository releaseRepository)
+        public static ProductManager GetInstance(IProductRepository productRepository, IProductReleaseModelRepository releaseRepository)
         {
             if (_instance == null)
             {
@@ -20,17 +22,37 @@ namespace LicenseHubApp.Services.Managers
                     {
                         _instance = new ProductManager();
                         Repository = productRepository;
-                        //ReleaseRepository = releaseRepository;
+                        _releaseRepository = releaseRepository;
+                        _releaseModelList = new List<ProductReleaseModel>();
                     }
                 }
             }
             return _instance;
         }
 
+
+        public void LoadAllRelease()
+        {
+            _releaseModelList = _releaseRepository.GetAllAsync().Result.ToList();
+        }
+
+        public IEnumerable<ProductReleaseModel> GetAllRelease()
+        {
+            LoadAllRelease();
+            return _releaseModelList;
+        }
+
+
         public void AddRelease(int productId, ProductReleaseModel releaseModel)
         {
 
             ((IProductRepository)Repository).AddReleaseAsync(productId, releaseModel);
+        }
+
+        public void RemoveRelease(int productId, ProductReleaseModel releaseModel)
+        {
+
+            ((IProductRepository)Repository).RemoveReleaseAsync(productId, releaseModel);
         }
 
         public void ToggleIsAvailable(ProductModel model)
