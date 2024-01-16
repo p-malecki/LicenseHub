@@ -27,5 +27,6 @@ public class WorkstationProductModel : ValidatableModel, IModelWithId
 
     [ForeignKey("WorkstationId")]
     [Browsable(false)]
-    public WorkstationModel Workstation { get; set; }
+    [Description("Workstation where the WorkstationProduct is used.")]
+    public WorkstationModel? Workstation { get; set; }
 }

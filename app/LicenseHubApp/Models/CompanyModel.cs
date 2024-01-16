@@ -43,9 +43,11 @@ namespace LicenseHubApp.Models
 
 
         [Browsable(false)]
+        [Description("Employees who work for the company.")]
         public ICollection<EmployeeModel> Employees { get; set; } = new List<EmployeeModel>();
         
         [Browsable(false)]
+        [Description("Workstations owned by the company.")]
         public ICollection<WorkstationModel> Workstations { get; set; } = new List<WorkstationModel>();
 
         // public List<OrderModel> Orders { get; set; }

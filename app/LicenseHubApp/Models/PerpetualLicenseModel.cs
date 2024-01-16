@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Models;
 
-public class PerpetualLicenseModel : LicenseModel
+public partial class PerpetualLicenseModel : LicenseModel
 {
     private PerpetualLicenseModel(DateTime? registerDate, DateTime? activationDate)
     {
@@ -15,14 +15,5 @@ public class PerpetualLicenseModel : LicenseModel
         ActivationDate = activationDate;
         ActivationCode = code;
     }
-
-
-    public override bool IsActive() => true;
-
-    public override DateTime ExpirationDate()
-    {
-        throw new NotImplementedException();
-    }
-
 }
 

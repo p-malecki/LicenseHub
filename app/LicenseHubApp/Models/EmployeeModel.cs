@@ -19,6 +19,7 @@ namespace LicenseHubApp.Models
 
         [ForeignKey("CompanyId")]
         [Browsable(false)]
+        [Description("The company where the employee works.")]
         public CompanyModel Company { get; set; }
 
 
@@ -51,5 +52,9 @@ namespace LicenseHubApp.Models
         [DisplayName("Employee Description")]
         [Browsable(false)]
         public string Description { get; set; }
+
+        [Browsable(false)]
+        [Description("Workstations used by the employee.")]
+        public ICollection<WorkstationModel> Workstations { get; set; } = new List<WorkstationModel>();
     }
 }

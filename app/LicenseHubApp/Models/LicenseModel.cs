@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LicenseHubApp.Models;
 
-public abstract class LicenseModel : ValidatableModel, IModelWithId
+public abstract partial class LicenseModel : ValidatableModel, IModelWithId
 {
     [Key]
     [DisplayName("LicenseID")]
@@ -24,9 +24,7 @@ public abstract class LicenseModel : ValidatableModel, IModelWithId
 
     [ForeignKey("WorkstationProductId")]
     [Browsable(false)]
+    [Description("WorkstationProduct that is licensed.")]
     public WorkstationProductModel WorkstationProduct { get; set; }
 
-
-    public abstract bool IsActive();
-    public abstract DateTime ExpirationDate();
 }

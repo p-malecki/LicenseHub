@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 namespace LicenseHubApp.Models;
 
-public class SubscriptionLicenseModel : LicenseModel
+public partial class SubscriptionLicenseModel : LicenseModel
 {
     [DisplayName("Lease term in days")]
     public int LeaseTermInDays { get; set; }
@@ -27,16 +27,4 @@ public class SubscriptionLicenseModel : LicenseModel
         ActivationDate = activationDate;
         ActivationCode = code;
     }
-
-
-    public override bool IsActive()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override DateTime ExpirationDate()
-    {
-        throw new NotImplementedException();
-    }
-
 }

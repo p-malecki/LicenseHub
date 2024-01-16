@@ -38,6 +38,7 @@ public class ProductReleaseModel : ValidatableModel, IModelWithId, IComparable<P
 
 
     [Browsable(false)]
+    [Description("WorkstationProducts that use this release.")]
     public ICollection<WorkstationProductModel> WorkstationProducts { get; set; } = new List<WorkstationProductModel>();
 
 

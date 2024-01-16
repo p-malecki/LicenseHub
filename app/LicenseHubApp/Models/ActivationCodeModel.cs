@@ -18,5 +18,6 @@ public class ActivationCodeModel(string code) : ValidatableModel, IModelWithId
 
     [ForeignKey("LicenseId")]
     [Browsable(false)]
+    [Description("License that contains this ActivationCode.")]
     public LicenseModel License { get; set; }
 }

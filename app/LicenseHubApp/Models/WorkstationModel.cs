@@ -48,6 +48,13 @@ namespace LicenseHubApp.Models
         [Required(ErrorMessage = "{0} is Required")]
         public bool HasFault { get; set; }
 
+
+        [Browsable(false)]
+        [Description("WorkstationProducts included in this workstation.")]
         public List<WorkstationProductModel> WorkstationProducts { get; set; }
+
+        [Browsable(false)]
+        [Description("Employees that use this Workstation.")]
+        public ICollection<EmployeeModel> Employees { get; set; } = new List<EmployeeModel>();
     }
 }

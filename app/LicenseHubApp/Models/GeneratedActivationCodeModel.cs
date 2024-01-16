@@ -1,11 +1,10 @@
-﻿using System.ComponentModel;
-namespace LicenseHubApp.Models;
+﻿namespace LicenseHubApp.Models;
 
 public class GeneratedActivationCodeModel : ActivationCodeModel
 {
     public string CodeGeneratorVersion { get; set; } = "";
 
-    private GeneratedActivationCodeModel(string code) : base(code)
+    private GeneratedActivationCodeModel(string code) : base(code) 
     {
     }
 

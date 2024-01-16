@@ -23,6 +23,7 @@ namespace LicenseHubApp.Models
         public bool IsAvailable { get; set; }
 
         [Browsable(false)]
+        [Description("Product releases.")]
         public ICollection<ProductReleaseModel> Releases { get; set; } = new List<ProductReleaseModel>();
     }
 }
