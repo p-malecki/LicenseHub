@@ -4,17 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LicenseHubApp.Models;
 
-public abstract class LicenseModel
+public abstract class LicenseModel : ValidatableModel, IModelWithId
 {
     [Key]
     [DisplayName("LicenseID")]
     public int Id { get; set; }
 
     [DisplayName("Register date")]
-    public DateTime RegisterDate { get; set; }
+    public DateTime? RegisterDate { get; set; }
 
     [DisplayName("Activation date")]
-    public DateTime ActivationDate { get; set; }
+    public DateTime? ActivationDate { get; set; }
 
     [DisplayName("Activation code")]
     public ActivationCodeModel? ActivationCode { get; set; }

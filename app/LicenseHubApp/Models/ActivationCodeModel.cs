@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace LicenseHubApp.Models;
 
-public class ActivationCodeModel(string code)
+public class ActivationCodeModel(string code) : ValidatableModel, IModelWithId
 {
     [Key]
     [DisplayName("ActivationCode ID")]

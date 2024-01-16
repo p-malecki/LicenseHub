@@ -9,7 +9,7 @@ public class PerpetualLicenseModel : LicenseModel
         ActivationCode = null;
     }
 
-    public PerpetualLicenseModel(DateTime registerDate, DateTime activationDate, ActivationCodeModel code)
+    public PerpetualLicenseModel(DateTime? registerDate, DateTime? activationDate, ActivationCodeModel code)
     {
         RegisterDate = registerDate;
         ActivationDate = activationDate;

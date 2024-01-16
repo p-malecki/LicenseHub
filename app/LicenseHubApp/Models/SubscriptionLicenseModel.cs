@@ -13,7 +13,7 @@ public class SubscriptionLicenseModel : LicenseModel
         ActivationDate = activationDate;
         ActivationCode = null;
     }
-    public SubscriptionLicenseModel(int leaseTermInDays, DateTime registerDate, DateTime activationDate, ActivationCodeModel code)
+    public SubscriptionLicenseModel(int leaseTermInDays, DateTime? registerDate, DateTime? activationDate, ActivationCodeModel code)
     {
         LeaseTermInDays = leaseTermInDays;
         RegisterDate = registerDate;
