@@ -3,6 +3,7 @@ using System;
 using LicenseHubApp.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LicenseHubApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240115214335_AddWorkstationModel")]
+    partial class AddWorkstationModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
@@ -193,11 +196,17 @@ namespace LicenseHubApp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("WorkstationProductId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
 
                     b.HasIndex("ReleaseNumber")
+                        .IsUnique();
+
+                    b.HasIndex("WorkstationProductId")
                         .IsUnique();
 
                     b.ToTable("ProductReleases");
@@ -283,16 +292,7 @@ namespace LicenseHubApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("InstallerVerificationCode")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ReleaseID")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ReleaseID");
 
                     b.ToTable("WorkstationProducts");
                 });
@@ -366,7 +366,15 @@ namespace LicenseHubApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("LicenseHubApp.Models.WorkstationProductModel", "WorkstationProduct")
+                        .WithOne("Release")
+                        .HasForeignKey("LicenseHubApp.Models.ProductReleaseModel", "WorkstationProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
+
+                    b.Navigation("WorkstationProduct");
                 });
 
             modelBuilder.Entity("LicenseHubApp.Models.WorkstationModel", b =>
@@ -378,17 +386,6 @@ namespace LicenseHubApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Company");
-                });
-
-            modelBuilder.Entity("LicenseHubApp.Models.WorkstationProductModel", b =>
-                {
-                    b.HasOne("LicenseHubApp.Models.ProductReleaseModel", "ProductRelease")
-                        .WithMany("WorkstationProducts")
-                        .HasForeignKey("ReleaseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductRelease");
                 });
 
             modelBuilder.Entity("LicenseHubApp.Models.CompanyModel", b =>
@@ -408,14 +405,12 @@ namespace LicenseHubApp.Migrations
                     b.Navigation("Releases");
                 });
 
-            modelBuilder.Entity("LicenseHubApp.Models.ProductReleaseModel", b =>
-                {
-                    b.Navigation("WorkstationProducts");
-                });
-
             modelBuilder.Entity("LicenseHubApp.Models.WorkstationProductModel", b =>
                 {
                     b.Navigation("License")
+                        .IsRequired();
+
+                    b.Navigation("Release")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

@@ -24,6 +24,8 @@ namespace LicenseHubApp.Repositories
         public virtual DbSet<LicenseModel> Licenses { get; set; }
         public virtual DbSet<ActivationCodeModel> ActivationCodes { get; set; }
 
+        public virtual DbSet<WorkstationProductModel> WorkstationProducts { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,14 +43,14 @@ namespace LicenseHubApp.Repositories
 
             //// relationships
 
-            // many employees to one company 
+            // many Employees to one Company 
             modelBuilder.Entity<CompanyModel>()
                 .HasMany(m => m.Employees)
                 .WithOne(m => m.Company)
                 .HasForeignKey(m => m.CompanyId)
                 .IsRequired();
 
-            // many workstations to one company 
+            // many Workstations to one Company 
             modelBuilder.Entity<CompanyModel>()
                 .HasMany(m => m.Workstations)
                 .WithOne(m => m.Company)
@@ -56,7 +58,7 @@ namespace LicenseHubApp.Repositories
                 .IsRequired();
 
 
-            // many releases to one product 
+            // many Releases to one Product 
             modelBuilder.Entity<ProductModel>()
                 .HasMany(m => m.Releases)
                 .WithOne(m => m.Product)
@@ -64,11 +66,25 @@ namespace LicenseHubApp.Repositories
                 .IsRequired();
 
 
-            // one activationCode to one License 
+            // one ActivationCode to one License 
             modelBuilder.Entity<LicenseModel>()
                 .HasOne(m => m.ActivationCode)
                 .WithOne(m => m.License)
                 .HasForeignKey<ActivationCodeModel>(m => m.LicenseId)
+                .IsRequired();
+
+            // many WorkstationProducts to one Releases
+            modelBuilder.Entity<ProductReleaseModel>()
+                .HasMany(m => m.WorkstationProducts)
+                .WithOne(m => m.ProductRelease)
+                .HasForeignKey(m => m.ReleaseID)
+                .IsRequired();
+
+            // one License to one WorkstationProduct 
+            modelBuilder.Entity<WorkstationProductModel>()
+                .HasOne(m => m.License)
+                .WithOne(m => m.WorkstationProduct)
+                .HasForeignKey<LicenseModel>(m => m.WorkstationProductId)
                 .IsRequired();
         }
 

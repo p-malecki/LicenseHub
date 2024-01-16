@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace LicenseHubApp.Models;
 
 public abstract class LicenseModel
@@ -16,6 +18,13 @@ public abstract class LicenseModel
 
     [DisplayName("Activation code")]
     public ActivationCodeModel? ActivationCode { get; set; }
+    
+    [Browsable(false)]
+    public int WorkstationProductId { get; set; }
+
+    [ForeignKey("WorkstationProductId")]
+    [Browsable(false)]
+    public WorkstationProductModel WorkstationProduct { get; set; }
 
 
     public abstract bool IsActive();
