@@ -60,7 +60,9 @@ namespace LicenseHubApp.Repositories
 
         public bool IsIdUnique(int modelId)
         {
-            return !context.Licenses.Any(model => model.Id == modelId);
+            // TODO (?) check whether .OfType<PerpetualLicenseModel>() can be removed
+            //return !context.Licenses.Any(model => model.Id == modelId);
+            return !context.Licenses.OfType<PerpetualLicenseModel>().Any(model => model.Id == modelId);
         }
 
     }

@@ -2,7 +2,7 @@
 
 public class PerpetualLicenseModel : LicenseModel
 {
-    private PerpetualLicenseModel(DateTime registerDate, DateTime activationDate)
+    private PerpetualLicenseModel(DateTime? registerDate, DateTime? activationDate)
     {
         RegisterDate = registerDate;
         ActivationDate = activationDate;
