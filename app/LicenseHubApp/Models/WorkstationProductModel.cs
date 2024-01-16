@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace LicenseHubApp.Models;
 
-public class WorkstationProductModel
+public class WorkstationProductModel : ValidatableModel, IModelWithId
 {
     [Key]
     [DisplayName("WorkstationProduct ID")]
@@ -16,10 +16,16 @@ public class WorkstationProductModel
     public LicenseModel License { get; set; }
 
     [Browsable(false)]
-    public int ReleaseID { get; set; }
+    public int ReleaseId { get; set; }
 
-    [ForeignKey("ReleaseID")]
+    [ForeignKey("ReleaseId")]
     [Browsable(false)]
     public ProductReleaseModel ProductRelease { get; set; }
 
+    [Browsable(false)]
+    public int WorkstationId { get; set; }
+
+    [ForeignKey("WorkstationId")]
+    [Browsable(false)]
+    public WorkstationModel Workstation { get; set; }
 }

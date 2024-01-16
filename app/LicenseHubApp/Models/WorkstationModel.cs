@@ -48,6 +48,6 @@ namespace LicenseHubApp.Models
         [Required(ErrorMessage = "{0} is Required")]
         public bool HasFault { get; set; }
 
-        //public List<IWorkstationProduct> ProductsInstalled { get; set; }
+        public List<WorkstationProductModel> WorkstationProducts { get; set; }
     }
 }

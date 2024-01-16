@@ -1,4 +1,4 @@
-﻿namespace LicenseHubApp.Services.Managers;
+﻿namespace LicenseHubApp.Services;
 
 public class IncorrectPasswordException : Exception
 {

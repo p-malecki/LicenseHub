@@ -77,7 +77,7 @@ namespace LicenseHubApp.Repositories
             modelBuilder.Entity<ProductReleaseModel>()
                 .HasMany(m => m.WorkstationProducts)
                 .WithOne(m => m.ProductRelease)
-                .HasForeignKey(m => m.ReleaseID)
+                .HasForeignKey(m => m.ReleaseId)
                 .IsRequired();
 
             // one License to one WorkstationProduct 
