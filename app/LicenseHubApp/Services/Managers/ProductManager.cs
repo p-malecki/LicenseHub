@@ -1,4 +1,5 @@
 ﻿using LicenseHubApp.Models;
+using System.ComponentModel.Design;
 
 namespace LicenseHubApp.Services.Managers
 {
@@ -44,14 +45,25 @@ namespace LicenseHubApp.Services.Managers
 
         public void AddRelease(int productId, ProductReleaseModel releaseModel)
         {
-
-            ((IProductRepository)Repository).AddReleaseAsync(productId, releaseModel);
+            releaseModel.ThrowIfNotValid();
+            
+            Task.Run(async () =>
+            {
+                await ((IProductRepository)Repository).AddReleaseAsync(productId, releaseModel);
+            }).Wait();
+            LoadAll();
+            
         }
 
         public void RemoveRelease(int productId, ProductReleaseModel releaseModel)
         {
+            releaseModel.ThrowIfNotValid();
 
-            ((IProductRepository)Repository).RemoveReleaseAsync(productId, releaseModel);
+            Task.Run(async () =>
+            {
+                await ((IProductRepository)Repository).RemoveReleaseAsync(productId, releaseModel);
+            }).Wait();
+            LoadAll();
         }
 
         public void ToggleIsAvailable(ProductModel model)

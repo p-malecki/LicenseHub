@@ -80,6 +80,7 @@ namespace LicenseHubApp.Views.Forms
 
 
         #region Events
+
         public event EventHandler DashboardBtnClicked;
         public event EventHandler ClientsBtnClicked;
         public event EventHandler OrdersBtnClicked;

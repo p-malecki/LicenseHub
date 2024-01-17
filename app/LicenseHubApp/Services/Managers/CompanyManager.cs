@@ -47,12 +47,24 @@ namespace LicenseHubApp.Services.Managers
 
         public void AddEmployee(int companyId, EmployeeModel employeeModel)
         {
-            ((ICompanyRepository)Repository).AddEmployeeAsync(companyId, employeeModel);
+            employeeModel.ThrowIfNotValid();
+
+            Task.Run(async () =>
+            {
+                await ((ICompanyRepository)Repository).AddEmployeeAsync(companyId, employeeModel);
+            }).Wait();
+            LoadAll();
         }
 
         public void AddWorkstation(int companyId, WorkstationModel workstationModel)
         {
-            ((ICompanyRepository)Repository).AddWorkstationAsync(companyId, workstationModel);
+            workstationModel.ThrowIfNotValid();
+
+            Task.Run(async () =>
+            {
+                await ((ICompanyRepository)Repository).AddWorkstationAsync(companyId, workstationModel);
+            }).Wait();
+            LoadAll();
         }
 
         public void ToggleIsActive(CompanyModel model)

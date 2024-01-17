@@ -108,7 +108,7 @@ namespace LicenseHubApp.Views.Forms
             dgvCompanyData.SelectionChanged += delegate
             {
                 CompanyShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
-                SidePanelShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+                SidePanelShowSelectedBtnClicked?.Invoke(this, EventArgs.Empty);
             };
 
             btnCompanyShowEmployees.Click += delegate
@@ -171,9 +171,9 @@ namespace LicenseHubApp.Views.Forms
                 SidePanelSearchBtnClicked?.Invoke(this, EventArgs.Empty);
             };
 
-            btnSidePanelShowDetails.Click += delegate
+            btnSidePanelShowSelected.Click += delegate
             {
-                SidePanelShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+                SidePanelShowSelectedBtnClicked?.Invoke(this, EventArgs.Empty);
                 if (IsSuccessful)
                 {
                     ShowOnlyRightPanel(false);
@@ -221,7 +221,7 @@ namespace LicenseHubApp.Views.Forms
             btnSidePanelEditCancel.Click += delegate
             {
                 SidePanelEditCancelBtnClicked?.Invoke(this, EventArgs.Empty);
-                ShowBothPanels(false);
+                ShowOnlyRightPanel(false);
             };
 
             btnSidePanelToggleIsActive.Click += delegate
@@ -235,8 +235,14 @@ namespace LicenseHubApp.Views.Forms
 
             dgvSidePanelData.SelectionChanged += delegate
             {
-                SidePanelShowDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+                SidePanelShowSelectedBtnClicked?.Invoke(this, EventArgs.Empty);
             };
+
+            btnSidePanelGoToDetails.Click += delegate
+            {
+                SidePanelGoToDetailsBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+
 
             #endregion
 
@@ -375,8 +381,8 @@ namespace LicenseHubApp.Views.Forms
         public int WorkstationId { get; set; }
         public string WorkstationHasFaultInfo
         {
-            get => (lbEmployeeIsActiveInfo.Text == @"status: Has fault") ? "True" : "False";
-            set => lbEmployeeIsActiveInfo.Text = (value == "True") ? "status: Has fault" : "status: No fault";
+            get => (lbWorkstationHasFaultInfo.Text == @"status: Has fault") ? "True" : "False";
+            set => lbWorkstationHasFaultInfo.Text = (value == "True") ? @"status: Has fault" : @"status: No fault";
         }
         public string WorkstationComputerName
         {
@@ -430,12 +436,13 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler CompanyShowWorkstationsBtnClicked;
 
         public event EventHandler SidePanelSearchBtnClicked;
-        public event EventHandler SidePanelShowDetailsBtnClicked;
+        public event EventHandler SidePanelShowSelectedBtnClicked;
         public event EventHandler SidePanelAddBtnClicked;
         public event EventHandler SidePanelEditBtnClicked;
         public event EventHandler SidePanelSaveBtnClicked;
         public event EventHandler SidePanelEditCancelBtnClicked;
         public event EventHandler SidePanelToggleIsActiveBtnClicked;
+        public event EventHandler SidePanelGoToDetailsBtnClicked;
         #endregion
 
 
@@ -451,16 +458,16 @@ namespace LicenseHubApp.Views.Forms
             dgvSidePanelData.ClearSelection();
         }
 
-        public void SetSpecifiedCompanyBtnsToEnabled(bool enabled)
+        public void SetCompanyViewToSelectable(bool enabled)
         {
             btnCompanyShowDetails.Enabled = enabled;
             btnCompanyEdit.Enabled = enabled;
             btnCompanyShowEmployees.Enabled = enabled;
             btnCompanyShowWorkstations.Enabled = enabled;
         }
-        public void SetSpecifiedSidePanelBtnsToEnabled(bool enabled)
+        public void SetSidePanelViewToSelectable(bool enabled)
         {
-            btnSidePanelShowDetails.Enabled = enabled;
+            btnSidePanelShowSelected.Enabled = enabled;
             btnSidePanelEdit.Enabled = enabled;
         }
 

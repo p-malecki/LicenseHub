@@ -53,6 +53,7 @@ public interface IClientManagementView
 
 
     #region Events
+
     event EventHandler CloseRightPanelBtnClicked;
     event EventHandler CompanySearchBtnClicked;
     event EventHandler CompanyShowDetailsBtnClicked;
@@ -65,12 +66,14 @@ public interface IClientManagementView
     event EventHandler CompanyShowWorkstationsBtnClicked;
 
     event EventHandler SidePanelSearchBtnClicked;
-    event EventHandler SidePanelShowDetailsBtnClicked;
+    event EventHandler SidePanelShowSelectedBtnClicked;
     event EventHandler SidePanelAddBtnClicked;
     event EventHandler SidePanelEditBtnClicked;
     event EventHandler SidePanelSaveBtnClicked;
     event EventHandler SidePanelEditCancelBtnClicked;
     event EventHandler SidePanelToggleIsActiveBtnClicked;
+    event EventHandler SidePanelGoToDetailsBtnClicked;
+
     #endregion
 
 
@@ -78,8 +81,8 @@ public interface IClientManagementView
     void SetCompanyListBindingSource(BindingSource companyList);
     void SetSidePanelListBindingSource(BindingSource modelList);
 
-    void SetSpecifiedCompanyBtnsToEnabled(bool enabled);
-    void SetSpecifiedSidePanelBtnsToEnabled(bool enabled);
+    void SetCompanyViewToSelectable(bool enabled);
+    void SetSidePanelViewToSelectable(bool enabled);
     void SetPanelToEditable(bool editable);
 
     #endregion

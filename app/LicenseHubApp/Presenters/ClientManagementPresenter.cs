@@ -15,19 +15,25 @@ namespace LicenseHubApp.Presenters
         private readonly WorkstationManager _workstationManager;
         private readonly BindingSource _companyBindingSource;
         private readonly BindingSource _sidePanelBindingSource;
+        private readonly EventHandler _goToEmployeeDetailViewChanged;
+        private readonly EventHandler _goToWorkstationDetailViewChanged;
 
 
         public ClientManagementPresenter(
             IClientManagementView view,
             CompanyManager companyManager,
             EmployeeManager employeeManager,
-            WorkstationManager workstationManager
+            WorkstationManager workstationManager,
+            EventHandler goToEmployeeDetailViewChanged,
+            EventHandler goToWorkstationDetailViewChanged
             )
         {
             _view = view;
             _companyManager = companyManager;
             _employeeManager = employeeManager;
             _workstationManager = workstationManager;
+            _goToEmployeeDetailViewChanged = goToEmployeeDetailViewChanged;
+            _goToWorkstationDetailViewChanged = goToWorkstationDetailViewChanged;
 
             _companyBindingSource = [];
             _sidePanelBindingSource = [];
@@ -47,13 +53,13 @@ namespace LicenseHubApp.Presenters
             _view.CompanyToggleIsActiveBtnClicked += OnCompanyToggleIsActiveBtnClicked;
 
             _view.SidePanelSearchBtnClicked += OnSidePanelSearchBtnClicked;
-            _view.SidePanelShowDetailsBtnClicked += OnSidePanelShowDetailsBtnClicked;
+            _view.SidePanelShowSelectedBtnClicked += OnSidePanelShowSelectedBtnClicked;
             _view.SidePanelAddBtnClicked += OnSidePanelAddBtnClicked;
             _view.SidePanelEditBtnClicked += OnSidePanelEditBtnClicked;
             _view.SidePanelSaveBtnClicked += OnSidePanelEditSaveBtnClicked;
             _view.SidePanelEditCancelBtnClicked += OnSidePanelEditCancelBtnClicked;
             _view.SidePanelToggleIsActiveBtnClicked += OnSidePanelToggleIsActiveBtnClicked;
-
+            _view.SidePanelGoToDetailsBtnClicked += OnSidePanelGoToDetailsBtnClicked;
             LoadAllCompanyList();
             _employeeManager.LoadAll();
             _workstationManager.LoadAll();
@@ -80,12 +86,12 @@ namespace LicenseHubApp.Presenters
             if (results.Count != 0)
             {
                 _companyBindingSource.DataSource = results;
-                _view.SetSpecifiedCompanyBtnsToEnabled(true);
+                _view.SetCompanyViewToSelectable(true);
             }
             else
             {
                 _companyBindingSource.DataSource = new List<CompanyModel>();
-                _view.SetSpecifiedCompanyBtnsToEnabled(false);
+                _view.SetCompanyViewToSelectable(false);
             }
 
             _view.IsEdit = tmpIsEdit;
@@ -149,12 +155,12 @@ namespace LicenseHubApp.Presenters
                     if (results.Count != 0)
                     {
                         _companyBindingSource.DataSource = results;
-                        _view.SetSpecifiedCompanyBtnsToEnabled(true);
+                        _view.SetCompanyViewToSelectable(true);
                     }
                     else
                     {
                         _companyBindingSource.DataSource = new List<CompanyModel>();
-                        _view.SetSpecifiedCompanyBtnsToEnabled(false);
+                        _view.SetCompanyViewToSelectable(false);
                     }
                 }
                 _view.IsEdit = tmpIsEdit;
@@ -327,8 +333,8 @@ namespace LicenseHubApp.Presenters
                         return;
                     }
                     _view.EmployeeId = model.Id;
-                    _view.EmployeeIsActiveInfo = model.IsActive.ToString();
-                    _view.EmployeeName = model.Name;
+                    _view.EmployeeIsActiveInfo = model.IsActive ? "True" : "False";
+                        _view.EmployeeName = model.Name;
                     _view.EmployeeProfession = model.Profession;
                     _view.EmployeePhoneNumbers = model.PhoneNumbers;
                     _view.EmployeeEmails = model.Emails;
@@ -350,7 +356,7 @@ namespace LicenseHubApp.Presenters
                         return;
                     }
                     _view.WorkstationId = model.Id;
-                    _view.WorkstationHasFaultInfo = model.HasFault.ToString();
+                    _view.WorkstationHasFaultInfo = model.HasFault ? "True": "False";
                     _view.WorkstationComputerName = model.ComputerName;
                     _view.WorkstationUsername = model.Username;
                     _view.WorkstationHardDisk = model.HardDisk;
@@ -394,12 +400,12 @@ namespace LicenseHubApp.Presenters
                     if (results.Count != 0)
                     {
                         _sidePanelBindingSource.DataSource = results;
-                        _view.SetSpecifiedSidePanelBtnsToEnabled(true);
+                        _view.SetSidePanelViewToSelectable(true);
                     }
                     else
                     {
                         _sidePanelBindingSource.DataSource = new List<EmployeeModel>();
-                        _view.SetSpecifiedSidePanelBtnsToEnabled(false);
+                        _view.SetSidePanelViewToSelectable(false);
                     }
                     break;
                 }
@@ -414,12 +420,12 @@ namespace LicenseHubApp.Presenters
                     if (results.Count != 0)
                     {
                         _sidePanelBindingSource.DataSource = results;
-                        _view.SetSpecifiedSidePanelBtnsToEnabled(true);
+                        _view.SetSidePanelViewToSelectable(true);
                     }
                     else
                     {
                         _sidePanelBindingSource.DataSource = new List<WorkstationModel>();
-                        _view.SetSpecifiedSidePanelBtnsToEnabled(false);
+                        _view.SetSidePanelViewToSelectable(false);
                     }
                     break;
                 }
@@ -464,12 +470,12 @@ namespace LicenseHubApp.Presenters
                         if (results.Count != 0)
                         {
                             _sidePanelBindingSource.DataSource = results;
-                            _view.SetSpecifiedSidePanelBtnsToEnabled(true);
+                            _view.SetSidePanelViewToSelectable(true);
                         }
                         else
                         {
                             _sidePanelBindingSource.DataSource = new List<EmployeeModel>();
-                            _view.SetSpecifiedSidePanelBtnsToEnabled(false);
+                            _view.SetSidePanelViewToSelectable(false);
                         }
                         break;
                     }
@@ -496,12 +502,12 @@ namespace LicenseHubApp.Presenters
                         if (results.Count != 0)
                         {
                             _sidePanelBindingSource.DataSource = results;
-                            _view.SetSpecifiedSidePanelBtnsToEnabled(true);
+                            _view.SetSidePanelViewToSelectable(true);
                         }
                         else
                         {
                             _sidePanelBindingSource.DataSource = new List<WorkstationModel>();
-                            _view.SetSpecifiedSidePanelBtnsToEnabled(false);
+                            _view.SetSidePanelViewToSelectable(false);
                         }
                         break;
                     }
@@ -515,7 +521,7 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnSidePanelShowDetailsBtnClicked(object? sender, EventArgs e)
+        private void OnSidePanelShowSelectedBtnClicked(object? sender, EventArgs e)
         {
             ShowCurrentlySelectedModel();
             _view.IsEdit = false;
@@ -586,7 +592,6 @@ namespace LicenseHubApp.Presenters
                     {
                         var model = new WorkstationModel()
                         {
-                            Id = _view.WorkstationId,
                             HasFault = bool.Parse(_view.WorkstationHasFaultInfo),
                             ComputerName = _view.WorkstationComputerName,
                             Username = _view.WorkstationUsername,
@@ -677,6 +682,20 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
+
+        private void OnSidePanelGoToDetailsBtnClicked(object? sender, EventArgs e)
+        {
+            switch (_view.SidePanelTarget)
+            {
+                case "Employee":
+                    _goToEmployeeDetailViewChanged?.Invoke(this, EventArgs.Empty);
+                    break;
+                case "Workstation":
+                    _goToWorkstationDetailViewChanged?.Invoke(this, EventArgs.Empty);
+                    break;
+            }
+        }
+        
 
         private void CleanSidePanelViewFields()
         {

@@ -28,19 +28,14 @@ namespace LicenseHubApp.Services.Managers
         {
             try
             {
-                if (model.Validate())
+                model.ThrowIfNotValid();
+
+                // TODO (?) resign from async
+                Task.Run(async () =>
                 {
-                    // TODO (?) resign from async
-                    Task.Run(async () =>
-                    {
-                        await Repository.AddAsync(model);
-                    }).Wait();
-                    LoadAll();
-                }
-                else
-                {
-                    throw new InvalidOperationException("Model validation failed.");
-                }
+                    await Repository.AddAsync(model);
+                }).Wait();
+                LoadAll();
             }
             catch (Exception e)
             {
@@ -53,25 +48,20 @@ namespace LicenseHubApp.Services.Managers
         {
             try
             {
-                if (model.Validate())
+                model.ThrowIfNotValid();
+
+                if (!Repository.IsIdUnique(model.Id))
                 {
-                    if (!Repository.IsIdUnique(model.Id))
+                    Task.Run(async () =>
                     {
-                        Task.Run(async () =>
-                        {
-                            await Repository.EditAsync(model.Id, model);
-                        }).Wait();
-                        LoadAll();
-                    }
-                    else
-                    {
-                        var objType = model.GetType();
-                        throw new InvalidOperationException($"{objType.Name} with ID {model.Id} does not exist.");
-                    }
+                        await Repository.EditAsync(model.Id, model);
+                    }).Wait();
+                    LoadAll();
                 }
                 else
                 {
-                    throw new InvalidOperationException("Model validation failed.");
+                    var objType = model.GetType();
+                    throw new InvalidOperationException($"{objType.Name} with ID {model.Id} does not exist.");
                 }
             }
             catch (Exception e)

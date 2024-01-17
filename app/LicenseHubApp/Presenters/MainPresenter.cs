@@ -1,4 +1,5 @@
-﻿using LicenseHubApp.Views.Interfaces;
+﻿using System.Security.Authentication;
+using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Views.Forms;
 using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
@@ -20,6 +21,10 @@ namespace LicenseHubApp.Presenters
         private WorkstationManager _workstationManager;
         private ProductManager _productManager;
 
+        private event EventHandler GoToEmployeeDetailViewChanged;
+        private event EventHandler GoToWorkstationDetailViewChanged;
+
+
         public MainPresenter(IMainView view, AuthenticationManager authenticator, DataContext dataContext, IUserRepository userRepository)
         {
             _view = view;
@@ -32,8 +37,11 @@ namespace LicenseHubApp.Presenters
             _view.ProductsBtnClicked += OnProductsBtnClicked;
             _view.LogoutBtnClicked += OnLogoutBtnClicked;
             _view.SettingsBtnClicked += OnSettingsBtnClicked;
+            GoToEmployeeDetailViewChanged += OnGoToEmployeeEmployeeDetailViewChanged;
+            GoToWorkstationDetailViewChanged += OnGoToWorkstationDetailViewChanged;
 
-            _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser().Username;
+
+            _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser()!.Username ?? throw new AuthenticationException("No logged-in user.");
         }
 
         private void CreateManagers()
@@ -56,7 +64,7 @@ namespace LicenseHubApp.Presenters
         private void OnClientsBtnClicked(object? sender, EventArgs e)
         {
             var companyManagementView = new ClientManagementUC();
-            _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager);
+            _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
 
             _view.ClientTabPageCollection.Add(companyManagementView);
             companyManagementView.Dock = DockStyle.Fill;
@@ -84,5 +92,16 @@ namespace LicenseHubApp.Presenters
             userManagementForm.TopLevel = true;
             userManagementForm.Show();
         }
+
+        private void OnGoToEmployeeEmployeeDetailViewChanged(object? sender, EventArgs e)
+        {
+            // TODO launch Employee detail view
+            _view.ClientTabPageCollection.Clear();
+        }
+        private void OnGoToWorkstationDetailViewChanged(object? sender, EventArgs e)
+        {
+            // TODO launch Workstation detail view
+            _view.ClientTabPageCollection.Clear();
+        }   
     }
 }

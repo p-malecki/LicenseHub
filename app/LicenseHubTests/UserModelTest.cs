@@ -20,7 +20,7 @@ public class UserModelTest
         };
 
         // Act and Assert
-        Assert.True(model.Validate());
+        Assert.True(model.ThrowIfNotValid());
     }
 
     [Theory]
@@ -38,7 +38,7 @@ public class UserModelTest
         };
 
         // Act and Assert
-        Assert.False(model.Validate());
+        Assert.False(model.ThrowIfNotValid());
     }
 
 
@@ -57,7 +57,7 @@ public class UserModelTest
         };
 
         // Act and Assert
-        Assert.True(model.Validate());
+        Assert.True(model.ThrowIfNotValid());
     }
 
     [Theory]
@@ -76,7 +76,7 @@ public class UserModelTest
         };
 
         // Act and Assert
-        Assert.False(model.Validate());
+        Assert.False(model.ThrowIfNotValid());
     }
 
 
@@ -95,7 +95,7 @@ public class UserModelTest
         };
 
         // Act
-        var isValid = model.Validate();
+        var isValid = model.ThrowIfNotValid();
 
         // Assert
         Assert.True(isValid);
@@ -120,7 +120,7 @@ public class UserModelTest
         };
 
         // Act
-        var isValid = model.Validate();
+        var isValid = model.ThrowIfNotValid();
 
         // Assert
         Assert.False(isValid);
@@ -139,7 +139,7 @@ public class UserModelTest
         };
 
         // Act
-        var isValid = model.Validate();
+        var isValid = model.ThrowIfNotValid();
 
         // Assert
         Assert.False(isValid);
@@ -157,7 +157,7 @@ public class UserModelTest
         };
 
         // Act
-        var isValid = model.Validate();
+        var isValid = model.ThrowIfNotValid();
 
         // Assert
         Assert.False(isValid);

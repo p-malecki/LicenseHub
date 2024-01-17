@@ -86,11 +86,7 @@ namespace LicenseHubApp.Repositories
         {
             try
             {
-                if (!employeeModel.Validate())
-                {
-                    throw new InvalidOperationException("Model validation failed.");
-                }
-
+                employeeModel.ThrowIfNotValid();
 
                 var modelToUpdate = context.Companies
                                         .Include(m => m.Employees)
@@ -127,11 +123,7 @@ namespace LicenseHubApp.Repositories
         {
             try
             {
-                if (!workstationModel.Validate())
-                {
-                    throw new InvalidOperationException("Model validation failed.");
-                }
-
+                workstationModel.ThrowIfNotValid();
 
                 var modelToUpdate = context.Companies
                                         .Include(m => m.Workstations)

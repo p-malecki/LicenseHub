@@ -51,7 +51,7 @@ namespace LicenseHubApp.Models
 
         [Browsable(false)]
         [Description("WorkstationProducts included in this workstation.")]
-        public List<WorkstationProductModel> WorkstationProducts { get; set; }
+        public ICollection<WorkstationProductModel> WorkstationProducts { get; set; } = new List<WorkstationProductModel>();
 
         [Browsable(false)]
         [Description("Employees that use this Workstation.")]

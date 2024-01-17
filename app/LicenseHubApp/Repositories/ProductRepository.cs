@@ -15,6 +15,7 @@ namespace LicenseHubApp.Repositories
         {
             try
             {
+                model.ThrowIfNotValid();
                 if (!IsNameUnique(model.Id, model.Name))
                 {
                     throw new InvalidDataException("Product has not unique name.");
@@ -46,6 +47,7 @@ namespace LicenseHubApp.Repositories
 
             if (modelToUpdate != null)
             {
+                updatedModel.ThrowIfNotValid();
                 if (!IsNameUnique(modelId, updatedModel.Name))
                 {
                     throw new InvalidDataException("Product has not unique name.");
@@ -81,10 +83,7 @@ namespace LicenseHubApp.Repositories
         {
             try
             {
-                if (!releaseModel.Validate())
-                {
-                    throw new InvalidOperationException("Model validation failed.");
-                }
+                releaseModel.ThrowIfNotValid();
 
                 var modelToUpdate = context.Products
                                         .Include(m => m.Releases)

@@ -47,19 +47,20 @@
             rtxtCompanyWebsites = new RichTextBox();
             label6 = new Label();
             rtxtCompanyDescription = new RichTextBox();
-            btnCompanyToggleIsActive = new Button();
             btnCompanySave = new Button();
             btnCompanyEditCancel = new Button();
             tpSidePanelData = new TabPage();
+            btnSidePanelToggleIsActive = new Button();
             lbSidePanelLeftTabTitle = new Label();
             chbSidePanelSearchOnlyActive = new CheckBox();
             cbSidePanelSelectedFilter = new ComboBox();
             txtSidePanelSearchValue = new TextBox();
             btnSidePanelSearch = new Button();
             dgvSidePanelData = new DataGridView();
-            btnSidePanelShowDetails = new Button();
+            btnSidePanelShowSelected = new Button();
             btnSidePanelAdd = new Button();
             btnSidePanelEdit = new Button();
+            btnCompanyToggleIsActive = new Button();
             splitContainer1 = new SplitContainer();
             chbCompanySearchOnlyActive = new CheckBox();
             btnCompanyShowDetails = new Button();
@@ -74,6 +75,7 @@
             lbEmployeeIsActiveInfo = new Label();
             label10 = new Label();
             txtEmployeeName = new TextBox();
+            rtxtEmployeeDescription = new RichTextBox();
             label11 = new Label();
             txtEmployeeProfession = new TextBox();
             label12 = new Label();
@@ -85,7 +87,6 @@
             label8 = new Label();
             rtxtEmployeeIPs = new RichTextBox();
             label14 = new Label();
-            rtxtEmployeeDescription = new RichTextBox();
             tpSidePanelWorkstationDetails = new TabPage();
             label16 = new Label();
             lbWorkstationHasFaultInfo = new Label();
@@ -104,7 +105,7 @@
             label24 = new Label();
             txtWorkstationOsBitVersion = new TextBox();
             groupBox1 = new GroupBox();
-            btnSidePanelToggleIsActive = new Button();
+            btnSidePanelGoToDetails = new Button();
             btnSidePanelSave = new Button();
             btnSidePanelEditCancel = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvCompanyData).BeginInit();
@@ -186,6 +187,7 @@
             tpCompanyDetails.Controls.Add(label9);
             tpCompanyDetails.Controls.Add(lbCompanyIsActiveInfo);
             tpCompanyDetails.Controls.Add(label2);
+            tpCompanyDetails.Controls.Add(btnCompanyToggleIsActive);
             tpCompanyDetails.Controls.Add(txtCompanyName);
             tpCompanyDetails.Controls.Add(label3);
             tpCompanyDetails.Controls.Add(txtCompanyNip);
@@ -195,7 +197,6 @@
             tpCompanyDetails.Controls.Add(rtxtCompanyWebsites);
             tpCompanyDetails.Controls.Add(label6);
             tpCompanyDetails.Controls.Add(rtxtCompanyDescription);
-            tpCompanyDetails.Controls.Add(btnCompanyToggleIsActive);
             tpCompanyDetails.Controls.Add(btnCompanySave);
             tpCompanyDetails.Controls.Add(btnCompanyEditCancel);
             tpCompanyDetails.Location = new Point(4, 34);
@@ -264,7 +265,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(17, 272);
+            label4.Location = new Point(17, 257);
             label4.Name = "label4";
             label4.Size = new Size(112, 25);
             label4.TabIndex = 6;
@@ -273,17 +274,17 @@
             // rtxtCompanyLocalizations
             // 
             rtxtCompanyLocalizations.BorderStyle = BorderStyle.FixedSingle;
-            rtxtCompanyLocalizations.Location = new Point(26, 300);
+            rtxtCompanyLocalizations.Location = new Point(26, 285);
             rtxtCompanyLocalizations.Name = "rtxtCompanyLocalizations";
             rtxtCompanyLocalizations.ReadOnly = true;
-            rtxtCompanyLocalizations.Size = new Size(523, 82);
+            rtxtCompanyLocalizations.Size = new Size(523, 69);
             rtxtCompanyLocalizations.TabIndex = 2;
             rtxtCompanyLocalizations.Text = "";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(17, 398);
+            label5.Location = new Point(17, 363);
             label5.Name = "label5";
             label5.Size = new Size(83, 25);
             label5.TabIndex = 8;
@@ -292,17 +293,17 @@
             // rtxtCompanyWebsites
             // 
             rtxtCompanyWebsites.BorderStyle = BorderStyle.FixedSingle;
-            rtxtCompanyWebsites.Location = new Point(26, 426);
+            rtxtCompanyWebsites.Location = new Point(26, 391);
             rtxtCompanyWebsites.Name = "rtxtCompanyWebsites";
             rtxtCompanyWebsites.ReadOnly = true;
-            rtxtCompanyWebsites.Size = new Size(523, 82);
+            rtxtCompanyWebsites.Size = new Size(523, 69);
             rtxtCompanyWebsites.TabIndex = 3;
             rtxtCompanyWebsites.Text = "";
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(17, 524);
+            label6.Location = new Point(17, 467);
             label6.Name = "label6";
             label6.Size = new Size(102, 25);
             label6.TabIndex = 10;
@@ -311,21 +312,12 @@
             // rtxtCompanyDescription
             // 
             rtxtCompanyDescription.BorderStyle = BorderStyle.FixedSingle;
-            rtxtCompanyDescription.Location = new Point(26, 552);
+            rtxtCompanyDescription.Location = new Point(26, 495);
             rtxtCompanyDescription.Name = "rtxtCompanyDescription";
             rtxtCompanyDescription.ReadOnly = true;
             rtxtCompanyDescription.Size = new Size(523, 145);
             rtxtCompanyDescription.TabIndex = 4;
             rtxtCompanyDescription.Text = "";
-            // 
-            // btnCompanyToggleIsActive
-            // 
-            btnCompanyToggleIsActive.Location = new Point(26, 714);
-            btnCompanyToggleIsActive.Name = "btnCompanyToggleIsActive";
-            btnCompanyToggleIsActive.Size = new Size(114, 68);
-            btnCompanyToggleIsActive.TabIndex = 5;
-            btnCompanyToggleIsActive.Text = "Toggle\r\nIsActive";
-            btnCompanyToggleIsActive.UseVisualStyleBackColor = true;
             // 
             // btnCompanySave
             // 
@@ -354,7 +346,7 @@
             tpSidePanelData.Controls.Add(txtSidePanelSearchValue);
             tpSidePanelData.Controls.Add(btnSidePanelSearch);
             tpSidePanelData.Controls.Add(dgvSidePanelData);
-            tpSidePanelData.Controls.Add(btnSidePanelShowDetails);
+            tpSidePanelData.Controls.Add(btnSidePanelShowSelected);
             tpSidePanelData.Controls.Add(btnSidePanelAdd);
             tpSidePanelData.Controls.Add(btnSidePanelEdit);
             tpSidePanelData.Location = new Point(4, 34);
@@ -364,15 +356,24 @@
             tpSidePanelData.TabIndex = 1;
             tpSidePanelData.Text = "SidePanel data";
             // 
+            // btnSidePanelToggleIsActive
+            // 
+            btnSidePanelToggleIsActive.Location = new Point(29, 34);
+            btnSidePanelToggleIsActive.Name = "btnSidePanelToggleIsActive";
+            btnSidePanelToggleIsActive.Size = new Size(106, 68);
+            btnSidePanelToggleIsActive.TabIndex = 25;
+            btnSidePanelToggleIsActive.Text = "Toggle\r\nIsActive";
+            btnSidePanelToggleIsActive.UseVisualStyleBackColor = true;
+            // 
             // lbSidePanelLeftTabTitle
             // 
             lbSidePanelLeftTabTitle.AutoSize = true;
             lbSidePanelLeftTabTitle.Font = new Font("Segoe UI", 16F);
             lbSidePanelLeftTabTitle.Location = new Point(6, 15);
             lbSidePanelLeftTabTitle.Name = "lbSidePanelLeftTabTitle";
-            lbSidePanelLeftTabTitle.Size = new Size(173, 45);
+            lbSidePanelLeftTabTitle.Size = new Size(230, 45);
             lbSidePanelLeftTabTitle.TabIndex = 16;
-            lbSidePanelLeftTabTitle.Text = "Employees";
+            lbSidePanelLeftTabTitle.Text = "Empl/Workstat";
             // 
             // chbSidePanelSearchOnlyActive
             // 
@@ -422,18 +423,18 @@
             dgvSidePanelData.Size = new Size(574, 817);
             dgvSidePanelData.TabIndex = 7;
             // 
-            // btnSidePanelShowDetails
+            // btnSidePanelShowSelected
             // 
-            btnSidePanelShowDetails.Location = new Point(6, 930);
-            btnSidePanelShowDetails.Name = "btnSidePanelShowDetails";
-            btnSidePanelShowDetails.Size = new Size(156, 68);
-            btnSidePanelShowDetails.TabIndex = 16;
-            btnSidePanelShowDetails.Text = "Show details ";
-            btnSidePanelShowDetails.UseVisualStyleBackColor = true;
+            btnSidePanelShowSelected.Location = new Point(10, 930);
+            btnSidePanelShowSelected.Name = "btnSidePanelShowSelected";
+            btnSidePanelShowSelected.Size = new Size(250, 68);
+            btnSidePanelShowSelected.TabIndex = 16;
+            btnSidePanelShowSelected.Text = "Show selected";
+            btnSidePanelShowSelected.UseVisualStyleBackColor = true;
             // 
             // btnSidePanelAdd
             // 
-            btnSidePanelAdd.Location = new Point(167, 930);
+            btnSidePanelAdd.Location = new Point(266, 930);
             btnSidePanelAdd.Name = "btnSidePanelAdd";
             btnSidePanelAdd.Size = new Size(156, 68);
             btnSidePanelAdd.TabIndex = 16;
@@ -442,17 +443,25 @@
             // 
             // btnSidePanelEdit
             // 
-            btnSidePanelEdit.Location = new Point(329, 930);
+            btnSidePanelEdit.Location = new Point(428, 930);
             btnSidePanelEdit.Name = "btnSidePanelEdit";
-            btnSidePanelEdit.Size = new Size(156, 68);
+            btnSidePanelEdit.Size = new Size(152, 68);
             btnSidePanelEdit.TabIndex = 17;
             btnSidePanelEdit.Text = "Edit";
             btnSidePanelEdit.UseVisualStyleBackColor = true;
             // 
+            // btnCompanyToggleIsActive
+            // 
+            btnCompanyToggleIsActive.Location = new Point(26, 714);
+            btnCompanyToggleIsActive.Name = "btnCompanyToggleIsActive";
+            btnCompanyToggleIsActive.Size = new Size(114, 68);
+            btnCompanyToggleIsActive.TabIndex = 5;
+            btnCompanyToggleIsActive.Text = "Toggle\r\nIsActive";
+            btnCompanyToggleIsActive.UseVisualStyleBackColor = true;
+            // 
             // splitContainer1
             // 
             splitContainer1.Dock = DockStyle.Fill;
-            splitContainer1.IsSplitterFixed = true;
             splitContainer1.Location = new Point(0, 0);
             splitContainer1.Name = "splitContainer1";
             // 
@@ -478,7 +487,7 @@
             splitContainer1.Panel2.Controls.Add(tabControlSidePanelRight);
             splitContainer1.Panel2.Controls.Add(groupBox1);
             splitContainer1.Size = new Size(1407, 1156);
-            splitContainer1.SplitterDistance = 736;
+            splitContainer1.SplitterDistance = 25;
             splitContainer1.TabIndex = 6;
             // 
             // chbCompanySearchOnlyActive
@@ -539,7 +548,7 @@
             // btnCloseSidePanel
             // 
             btnCloseSidePanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnCloseSidePanel.Location = new Point(568, 0);
+            btnCloseSidePanel.Location = new Point(1279, 0);
             btnCloseSidePanel.Name = "btnCloseSidePanel";
             btnCloseSidePanel.Size = new Size(56, 34);
             btnCloseSidePanel.TabIndex = 6;
@@ -553,7 +562,7 @@
             tabControlSidePanelRight.Location = new Point(671, 55);
             tabControlSidePanelRight.Name = "tabControlSidePanelRight";
             tabControlSidePanelRight.SelectedIndex = 0;
-            tabControlSidePanelRight.Size = new Size(592, 988);
+            tabControlSidePanelRight.Size = new Size(592, 903);
             tabControlSidePanelRight.TabIndex = 18;
             // 
             // tpSidePanelEmployeeDetails
@@ -563,6 +572,7 @@
             tpSidePanelEmployeeDetails.Controls.Add(lbEmployeeIsActiveInfo);
             tpSidePanelEmployeeDetails.Controls.Add(label10);
             tpSidePanelEmployeeDetails.Controls.Add(txtEmployeeName);
+            tpSidePanelEmployeeDetails.Controls.Add(rtxtEmployeeDescription);
             tpSidePanelEmployeeDetails.Controls.Add(label11);
             tpSidePanelEmployeeDetails.Controls.Add(txtEmployeeProfession);
             tpSidePanelEmployeeDetails.Controls.Add(label12);
@@ -574,13 +584,12 @@
             tpSidePanelEmployeeDetails.Controls.Add(label8);
             tpSidePanelEmployeeDetails.Controls.Add(rtxtEmployeeIPs);
             tpSidePanelEmployeeDetails.Controls.Add(label14);
-            tpSidePanelEmployeeDetails.Controls.Add(rtxtEmployeeDescription);
             tpSidePanelEmployeeDetails.Location = new Point(4, 34);
             tpSidePanelEmployeeDetails.Name = "tpSidePanelEmployeeDetails";
             tpSidePanelEmployeeDetails.Padding = new Padding(3);
-            tpSidePanelEmployeeDetails.Size = new Size(584, 950);
+            tpSidePanelEmployeeDetails.Size = new Size(584, 865);
             tpSidePanelEmployeeDetails.TabIndex = 0;
-            tpSidePanelEmployeeDetails.Text = "Employee details";
+            tpSidePanelEmployeeDetails.Text = "Employee";
             // 
             // label7
             // 
@@ -588,9 +597,9 @@
             label7.Font = new Font("Segoe UI", 16F);
             label7.Location = new Point(24, 31);
             label7.Name = "label7";
-            label7.Size = new Size(261, 45);
+            label7.Size = new Size(290, 45);
             label7.TabIndex = 31;
-            label7.Text = "Employee details";
+            label7.Text = "Selected employee";
             // 
             // lbEmployeeIsActiveInfo
             // 
@@ -620,6 +629,16 @@
             txtEmployeeName.Size = new Size(523, 31);
             txtEmployeeName.TabIndex = 17;
             // 
+            // rtxtEmployeeDescription
+            // 
+            rtxtEmployeeDescription.BorderStyle = BorderStyle.FixedSingle;
+            rtxtEmployeeDescription.Location = new Point(44, 734);
+            rtxtEmployeeDescription.Name = "rtxtEmployeeDescription";
+            rtxtEmployeeDescription.ReadOnly = true;
+            rtxtEmployeeDescription.Size = new Size(523, 82);
+            rtxtEmployeeDescription.TabIndex = 23;
+            rtxtEmployeeDescription.Text = "";
+            // 
             // label11
             // 
             label11.AutoSize = true;
@@ -641,7 +660,7 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(35, 285);
+            label12.Location = new Point(35, 277);
             label12.Name = "label12";
             label12.Size = new Size(137, 25);
             label12.TabIndex = 26;
@@ -650,17 +669,17 @@
             // rtxtEmployeePhoneNumbers
             // 
             rtxtEmployeePhoneNumbers.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeePhoneNumbers.Location = new Point(44, 313);
+            rtxtEmployeePhoneNumbers.Location = new Point(44, 305);
             rtxtEmployeePhoneNumbers.Name = "rtxtEmployeePhoneNumbers";
             rtxtEmployeePhoneNumbers.ReadOnly = true;
-            rtxtEmployeePhoneNumbers.Size = new Size(523, 82);
+            rtxtEmployeePhoneNumbers.Size = new Size(523, 69);
             rtxtEmployeePhoneNumbers.TabIndex = 20;
             rtxtEmployeePhoneNumbers.Text = "";
             // 
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(35, 406);
+            label15.Location = new Point(35, 384);
             label15.Name = "label15";
             label15.Size = new Size(62, 25);
             label15.TabIndex = 26;
@@ -669,17 +688,17 @@
             // rtxtEmployeeEmails
             // 
             rtxtEmployeeEmails.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeEmails.Location = new Point(44, 434);
+            rtxtEmployeeEmails.Location = new Point(44, 412);
             rtxtEmployeeEmails.Name = "rtxtEmployeeEmails";
             rtxtEmployeeEmails.ReadOnly = true;
-            rtxtEmployeeEmails.Size = new Size(523, 82);
+            rtxtEmployeeEmails.Size = new Size(523, 69);
             rtxtEmployeeEmails.TabIndex = 20;
             rtxtEmployeeEmails.Text = "";
             // 
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(35, 530);
+            label13.Location = new Point(35, 491);
             label13.Name = "label13";
             label13.Size = new Size(83, 25);
             label13.TabIndex = 29;
@@ -688,17 +707,17 @@
             // rtxtEmployeeWebsites
             // 
             rtxtEmployeeWebsites.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeWebsites.Location = new Point(44, 558);
+            rtxtEmployeeWebsites.Location = new Point(44, 519);
             rtxtEmployeeWebsites.Name = "rtxtEmployeeWebsites";
             rtxtEmployeeWebsites.ReadOnly = true;
-            rtxtEmployeeWebsites.Size = new Size(523, 82);
+            rtxtEmployeeWebsites.Size = new Size(523, 74);
             rtxtEmployeeWebsites.TabIndex = 21;
             rtxtEmployeeWebsites.Text = "";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(35, 650);
+            label8.Location = new Point(35, 601);
             label8.Name = "label8";
             label8.Size = new Size(35, 25);
             label8.TabIndex = 29;
@@ -707,31 +726,21 @@
             // rtxtEmployeeIPs
             // 
             rtxtEmployeeIPs.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeIPs.Location = new Point(44, 678);
+            rtxtEmployeeIPs.Location = new Point(44, 629);
             rtxtEmployeeIPs.Name = "rtxtEmployeeIPs";
             rtxtEmployeeIPs.ReadOnly = true;
-            rtxtEmployeeIPs.Size = new Size(523, 82);
+            rtxtEmployeeIPs.Size = new Size(523, 74);
             rtxtEmployeeIPs.TabIndex = 21;
             rtxtEmployeeIPs.Text = "";
             // 
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(24, 772);
+            label14.Location = new Point(24, 706);
             label14.Name = "label14";
             label14.Size = new Size(102, 25);
             label14.TabIndex = 30;
             label14.Text = "Description";
-            // 
-            // rtxtEmployeeDescription
-            // 
-            rtxtEmployeeDescription.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeDescription.Location = new Point(44, 800);
-            rtxtEmployeeDescription.Name = "rtxtEmployeeDescription";
-            rtxtEmployeeDescription.ReadOnly = true;
-            rtxtEmployeeDescription.Size = new Size(523, 129);
-            rtxtEmployeeDescription.TabIndex = 23;
-            rtxtEmployeeDescription.Text = "";
             // 
             // tpSidePanelWorkstationDetails
             // 
@@ -755,9 +764,9 @@
             tpSidePanelWorkstationDetails.Location = new Point(4, 34);
             tpSidePanelWorkstationDetails.Name = "tpSidePanelWorkstationDetails";
             tpSidePanelWorkstationDetails.Padding = new Padding(3);
-            tpSidePanelWorkstationDetails.Size = new Size(584, 950);
+            tpSidePanelWorkstationDetails.Size = new Size(584, 865);
             tpSidePanelWorkstationDetails.TabIndex = 1;
-            tpSidePanelWorkstationDetails.Text = "Workstation details";
+            tpSidePanelWorkstationDetails.Text = "Workstation";
             // 
             // label16
             // 
@@ -765,9 +774,9 @@
             label16.Font = new Font("Segoe UI", 16F);
             label16.Location = new Point(22, 33);
             label16.Name = "label16";
-            label16.Size = new Size(294, 45);
+            label16.Size = new Size(325, 45);
             label16.TabIndex = 48;
-            label16.Text = "Workstation details";
+            label16.Text = "Selected workstation ";
             // 
             // lbWorkstationHasFaultInfo
             // 
@@ -911,22 +920,23 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(btnSidePanelToggleIsActive);
+            groupBox1.Controls.Add(btnSidePanelGoToDetails);
             groupBox1.Controls.Add(btnSidePanelSave);
             groupBox1.Controls.Add(btnSidePanelEditCancel);
-            groupBox1.Location = new Point(675, 1019);
+            groupBox1.Location = new Point(675, 960);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(584, 119);
+            groupBox1.Size = new Size(584, 178);
             groupBox1.TabIndex = 32;
             groupBox1.TabStop = false;
             // 
-            // btnSidePanelToggleIsActive
+            // btnSidePanelGoToDetails
             // 
-            btnSidePanelToggleIsActive.Location = new Point(38, 34);
-            btnSidePanelToggleIsActive.Name = "btnSidePanelToggleIsActive";
-            btnSidePanelToggleIsActive.Size = new Size(114, 68);
-            btnSidePanelToggleIsActive.TabIndex = 25;
-            btnSidePanelToggleIsActive.Text = "Toggle\r\nIsActive";
-            btnSidePanelToggleIsActive.UseVisualStyleBackColor = true;
+            btnSidePanelGoToDetails.Location = new Point(29, 108);
+            btnSidePanelGoToDetails.Name = "btnSidePanelGoToDetails";
+            btnSidePanelGoToDetails.Size = new Size(532, 49);
+            btnSidePanelGoToDetails.TabIndex = 29;
+            btnSidePanelGoToDetails.Text = "Go to details";
+            btnSidePanelGoToDetails.UseVisualStyleBackColor = true;
             // 
             // btnSidePanelSave
             // 
@@ -1006,7 +1016,7 @@
         private Button btnCompanyShowEmployees;
         private DataGridView dgvSidePanelData;
         private Button btnSidePanelAdd;
-        private Button btnSidePanelShowDetails;
+        private Button btnSidePanelShowSelected;
         private Button btnSidePanelEdit;
         private Label lbSidePanelLeftTabTitle;
         private TabControl tabControlSidePanelRight;
@@ -1055,5 +1065,6 @@
         private Label label24;
         private TextBox txtWorkstationOsBitVersion;
         private Button btnCompanyShowWorkstations;
+        private Button btnSidePanelGoToDetails;
     }
 }
