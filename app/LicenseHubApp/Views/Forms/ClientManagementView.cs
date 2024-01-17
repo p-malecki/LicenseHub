@@ -19,6 +19,8 @@ namespace LicenseHubApp.Views.Forms
             cbCompanySelectedFilter.Items.Add("name");
             cbCompanySelectedFilter.Items.Add("nip");
             cbCompanySelectedFilter.SelectedIndex = 0;
+
+            SidePanelTarget = "";
         }
 
         private void AssociateAndRaiseViewEvents()
@@ -493,71 +495,66 @@ namespace LicenseHubApp.Views.Forms
         }
         public void SetPanelToEditable(bool editable)
         {
-            switch (SidePanelTarget)
+            if (SidePanelTarget == "")
             {
-                case "Employee":
+                txtCompanyName.ReadOnly = !editable;
+                txtCompanyNip.ReadOnly = !editable;
+                rtxtCompanyLocalizations.ReadOnly = !editable;
+                rtxtCompanyWebsites.ReadOnly = !editable;
+                rtxtCompanyDescription.ReadOnly = !editable;
+
+                rtxtCompanyLocalizations.BackColor = editable ? Color.White : SystemColors.Control;
+                rtxtCompanyWebsites.BackColor = editable ? Color.White : SystemColors.Control;
+                rtxtCompanyDescription.BackColor = editable ? Color.White : SystemColors.Control;
+
+                btnCompanySave.Visible = editable;
+                btnCompanyEditCancel.Visible = editable;
+                btnCompanyToggleIsActive.Visible = editable && IsEdit;
+
+                btnCompanySave.Text = IsEdit ? "Save changes" : "Add company";
+            }
+            else
+            {
+                switch (SidePanelTarget)
                 {
-                    txtEmployeeName.ReadOnly = !editable;
-                    txtEmployeeProfession.ReadOnly = !editable;
-                    rtxtEmployeePhoneNumbers.ReadOnly = !editable;
-                    rtxtEmployeeEmails.ReadOnly = !editable;
-                    rtxtEmployeeWebsites.ReadOnly = !editable;
-                    rtxtEmployeeIPs.ReadOnly = !editable;
-                    rtxtEmployeeDescription.ReadOnly = !editable;
+                    case "Employee":
+                        txtEmployeeName.ReadOnly = !editable;
+                        txtEmployeeProfession.ReadOnly = !editable;
+                        rtxtEmployeePhoneNumbers.ReadOnly = !editable;
+                        rtxtEmployeeEmails.ReadOnly = !editable;
+                        rtxtEmployeeWebsites.ReadOnly = !editable;
+                        rtxtEmployeeIPs.ReadOnly = !editable;
+                        rtxtEmployeeDescription.ReadOnly = !editable;
 
-                    rtxtEmployeePhoneNumbers.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtEmployeeEmails.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtEmployeeWebsites.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtEmployeeIPs.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtEmployeeDescription.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtEmployeePhoneNumbers.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtEmployeeEmails.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtEmployeeWebsites.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtEmployeeIPs.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtEmployeeDescription.BackColor = editable ? Color.White : SystemColors.Control;
 
-                    btnSidePanelSave.Visible = editable;
-                    btnSidePanelEditCancel.Visible = editable;
-                    btnSidePanelToggleIsActive.Visible = editable && IsEdit;
+                        btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add employee";
+                        break;
+                    case "Workstation":
+                        txtWorkstationComputerName.ReadOnly = !editable;
+                        txtWorkstationUsername.ReadOnly = !editable;
+                        rtxtWorkstationHardDisk.ReadOnly = !editable;
+                        rtxtWorkstationCpu.ReadOnly = !editable;
+                        rtxtWorkstationBiosVersion.ReadOnly = !editable;
+                        txtWorkstationOs.ReadOnly = !editable;
+                        txtWorkstationOsBitVersion.ReadOnly = !editable;
 
-                    btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add employee";
-                    break;
+                        rtxtWorkstationHardDisk.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtWorkstationCpu.BackColor = editable ? Color.White : SystemColors.Control;
+                        rtxtWorkstationBiosVersion.BackColor = editable ? Color.White : SystemColors.Control;
+
+                        btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add workstation";
+                        break;
                 }
-                case "Workstation":
-                {
-                    txtWorkstationComputerName.ReadOnly = !editable;
-                    txtWorkstationUsername.ReadOnly = !editable;
-                    rtxtWorkstationHardDisk.ReadOnly = !editable;
-                    rtxtWorkstationCpu.ReadOnly = !editable;
-                    rtxtWorkstationBiosVersion.ReadOnly = !editable;
-                    txtWorkstationOs.ReadOnly = !editable;
-                    txtWorkstationOsBitVersion.ReadOnly = !editable;
 
-                    rtxtWorkstationHardDisk.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtWorkstationCpu.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtWorkstationBiosVersion.BackColor = editable ? Color.White : SystemColors.Control;
-
-                    btnSidePanelSave.Visible = editable;
-                    btnSidePanelEditCancel.Visible = editable;
-                    btnSidePanelToggleIsActive.Visible = editable && IsEdit;
-
-                    btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add workstation";
-                    break;
-                }
-                default: // Company
-                    {
-                    txtCompanyName.ReadOnly = !editable;
-                    txtCompanyNip.ReadOnly = !editable;
-                    rtxtCompanyLocalizations.ReadOnly = !editable;
-                    rtxtCompanyWebsites.ReadOnly = !editable;
-                    rtxtCompanyDescription.ReadOnly = !editable;
-
-                    rtxtCompanyLocalizations.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtCompanyWebsites.BackColor = editable ? Color.White : SystemColors.Control;
-                    rtxtCompanyDescription.BackColor = editable ? Color.White : SystemColors.Control;
-
-                    btnCompanySave.Visible = editable;
-                    btnCompanyEditCancel.Visible = editable;
-                    btnCompanyToggleIsActive.Visible = editable && IsEdit;
-
-                    btnCompanySave.Text = IsEdit ? "Save changes" : "Add company";
-                break;
-                }
+                btnSidePanelGoToDetails.Enabled = !editable;
+                btnSidePanelSave.Visible = editable;
+                btnSidePanelEditCancel.Visible = editable;
+                btnSidePanelToggleIsActive.Visible = editable && IsEdit;
             }
         }
 

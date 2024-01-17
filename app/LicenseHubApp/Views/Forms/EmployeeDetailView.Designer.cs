@@ -249,7 +249,7 @@
             groupBox1.Controls.Add(rtxtEmployeePhoneNumbers);
             groupBox1.Controls.Add(txtEmployeeProfession);
             groupBox1.Controls.Add(label12);
-            groupBox1.Location = new Point(57, 215);
+            groupBox1.Location = new Point(57, 158);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(1278, 539);
             groupBox1.TabIndex = 52;
@@ -288,18 +288,19 @@
             // 
             groupBox2.Controls.Add(btnGoToWorkstation);
             groupBox2.Controls.Add(dgvWorkstationsData);
-            groupBox2.Location = new Point(57, 774);
+            groupBox2.Location = new Point(57, 703);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(1278, 345);
+            groupBox2.Size = new Size(1278, 435);
             groupBox2.TabIndex = 53;
             groupBox2.TabStop = false;
             groupBox2.Text = "Workstations used by the employee";
             // 
             // btnGoToWorkstation
             // 
-            btnGoToWorkstation.Location = new Point(908, 159);
+            btnGoToWorkstation.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnGoToWorkstation.Location = new Point(1083, 371);
             btnGoToWorkstation.Name = "btnGoToWorkstation";
-            btnGoToWorkstation.Size = new Size(175, 52);
+            btnGoToWorkstation.Size = new Size(175, 48);
             btnGoToWorkstation.TabIndex = 55;
             btnGoToWorkstation.Text = "Go to workstation";
             btnGoToWorkstation.UseVisualStyleBackColor = true;
@@ -313,16 +314,17 @@
             dgvWorkstationsData.MultiSelect = false;
             dgvWorkstationsData.Name = "dgvWorkstationsData";
             dgvWorkstationsData.ReadOnly = true;
+            dgvWorkstationsData.RowHeadersVisible = false;
             dgvWorkstationsData.RowHeadersWidth = 62;
             dgvWorkstationsData.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvWorkstationsData.Size = new Size(634, 277);
+            dgvWorkstationsData.Size = new Size(1228, 314);
             dgvWorkstationsData.TabIndex = 54;
             // 
             // btnCloseDetailView
             // 
-            btnCloseDetailView.Location = new Point(1223, 32);
+            btnCloseDetailView.Location = new Point(1279, 0);
             btnCloseDetailView.Name = "btnCloseDetailView";
-            btnCloseDetailView.Size = new Size(112, 34);
+            btnCloseDetailView.Size = new Size(56, 34);
             btnCloseDetailView.TabIndex = 54;
             btnCloseDetailView.Text = "X";
             btnCloseDetailView.UseVisualStyleBackColor = true;

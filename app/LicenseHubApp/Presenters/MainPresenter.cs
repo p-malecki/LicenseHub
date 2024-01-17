@@ -105,10 +105,15 @@ namespace LicenseHubApp.Presenters
             _view.ClientTabPageCollection.Add(employeeDetailView);
             employeeDetailView.Dock = DockStyle.Fill;
         }
-        private void OnGoToWorkstationDetailViewChanged(object? sender, EventArgs e)
+        private void OnGoToWorkstationDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
         {
-            // TODO launch Workstation detail view
+            var workstation = e.Workstation!;
+            var workstationDetailView = new WorkstationDetailView();
+            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+
             _view.ClientTabPageCollection.Clear();
+            _view.ClientTabPageCollection.Add(workstationDetailView);
+            workstationDetailView.Dock = DockStyle.Fill;
         }   
     }
 }

@@ -37,13 +37,13 @@ namespace LicenseHubApp.Presenters
             _view.SetWorkstationListBindingSource(_workstationBindingSource);
             LoadWorkstationList();
 
-            _view.EditBtnClicked += OnSidePanelEditBtnClicked;
+            _view.EditBtnClicked += OnEditBtnClicked;
             _view.SaveBtnClicked += OnSaveBtnClicked;
             _view.EditCancelBtnClicked += OnEditCancelBtnClicked;
-            _view.IsActiveToggled += OnSidePanelToggleIsActiveBtnClicked;
+            _view.IsActiveToggled += OnToggleIsActiveBtnClicked;
             _view.GoToWorkstationBtnClicked += delegate
             {
-                var workstation = GetCurrentlySelectedWorkstation();
+                var workstation = GetSelectedWorkstation();
                 if (workstation != null)
                 {
                     _goToWorkstationDetailViewChanged?.Invoke(this,
@@ -58,21 +58,19 @@ namespace LicenseHubApp.Presenters
 
         private void ShowModel()
         {
-            var model = _employee;
-            
-            _view.EmployeeId = model.Id;
-            _view.EmployeeIsActive = model.IsActive;
-            _view.EmployeeName = model.Name;
-            _view.EmployeeProfession = model.Profession;
-            _view.EmployeePhoneNumbers = model.PhoneNumbers;
-            _view.EmployeeEmails = model.Emails;
-            _view.EmployeeWebsites = model.Websites;
-            _view.EmployeeIPs = model.IPs;
-            _view.EmployeeDescription = model.Description;
+            _view.EmployeeCompanyName = _employee.Company.Name;
+            _view.EmployeeId = _employee.Id;
+            _view.EmployeeIsActive = _employee.IsActive;
+            _view.EmployeeName = _employee.Name;
+            _view.EmployeeProfession = _employee.Profession;
+            _view.EmployeePhoneNumbers = _employee.PhoneNumbers;
+            _view.EmployeeEmails = _employee.Emails;
+            _view.EmployeeWebsites = _employee.Websites;
+            _view.EmployeeIPs = _employee.IPs;
+            _view.EmployeeDescription = _employee.Description;
 
             _view.IsSuccessful = true;
         }
-
         private void LoadWorkstationList()
         {
             var workstationsList = _employee.Workstations.ToList();
@@ -88,7 +86,7 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnSidePanelEditBtnClicked(object? sender, EventArgs e)
+        private void OnEditBtnClicked(object? sender, EventArgs e)
         {
             _view.SetViewToEditable(true);
         }
@@ -96,13 +94,13 @@ namespace LicenseHubApp.Presenters
         {
             _view.SetViewToEditable(false);
         }
-
         private void OnSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
                 var model = new EmployeeModel()
                 {
+                    Id = _view.EmployeeId,
                     IsActive = _view.EmployeeIsActive,
                     Name = _view.EmployeeName,
                     Profession = _view.EmployeeProfession,
@@ -122,12 +120,10 @@ namespace LicenseHubApp.Presenters
                 {
                     throw new InvalidDataException("Incorrect email(s).");
                 }
-
-                model.Id = _view.EmployeeId;
+                
                 _employeeManager.Save(model);
                 _view.Message = "Employee details have been saved.";
                 _view.SetViewToEditable(false);
-
                 _view.IsSuccessful = true;
             }
             catch (Exception ex)
@@ -138,19 +134,15 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
-
-
-        private void OnSidePanelToggleIsActiveBtnClicked(object? sender, EventArgs e)
+        private void OnToggleIsActiveBtnClicked(object? sender, EventArgs e)
         {
             _employeeManager.ToggleIsActive(_employee);
         }
 
-        private WorkstationModel? GetCurrentlySelectedWorkstation()
+        private WorkstationModel? GetSelectedWorkstation()
         {
             if (_workstationBindingSource.Count == 0)
-            {
                 return null;
-            }
             return (WorkstationModel)_workstationBindingSource.Current;
         }
     }

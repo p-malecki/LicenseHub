@@ -75,7 +75,6 @@
             lbEmployeeIsActiveInfo = new Label();
             label10 = new Label();
             txtEmployeeName = new TextBox();
-            rtxtEmployeeDescription = new RichTextBox();
             label11 = new Label();
             txtEmployeeProfession = new TextBox();
             label12 = new Label();
@@ -87,6 +86,7 @@
             label8 = new Label();
             rtxtEmployeeIPs = new RichTextBox();
             label14 = new Label();
+            rtxtEmployeeDescription = new RichTextBox();
             tpSidePanelWorkstationDetails = new TabPage();
             label16 = new Label();
             lbWorkstationHasFaultInfo = new Label();
@@ -629,16 +629,6 @@
             txtEmployeeName.Size = new Size(523, 31);
             txtEmployeeName.TabIndex = 17;
             // 
-            // rtxtEmployeeDescription
-            // 
-            rtxtEmployeeDescription.BorderStyle = BorderStyle.FixedSingle;
-            rtxtEmployeeDescription.Location = new Point(44, 734);
-            rtxtEmployeeDescription.Name = "rtxtEmployeeDescription";
-            rtxtEmployeeDescription.ReadOnly = true;
-            rtxtEmployeeDescription.Size = new Size(523, 82);
-            rtxtEmployeeDescription.TabIndex = 23;
-            rtxtEmployeeDescription.Text = "";
-            // 
             // label11
             // 
             label11.AutoSize = true;
@@ -741,6 +731,16 @@
             label14.Size = new Size(102, 25);
             label14.TabIndex = 30;
             label14.Text = "Description";
+            // 
+            // rtxtEmployeeDescription
+            // 
+            rtxtEmployeeDescription.BorderStyle = BorderStyle.FixedSingle;
+            rtxtEmployeeDescription.Location = new Point(44, 734);
+            rtxtEmployeeDescription.Name = "rtxtEmployeeDescription";
+            rtxtEmployeeDescription.ReadOnly = true;
+            rtxtEmployeeDescription.Size = new Size(523, 82);
+            rtxtEmployeeDescription.TabIndex = 23;
+            rtxtEmployeeDescription.Text = "";
             // 
             // tpSidePanelWorkstationDetails
             // 
