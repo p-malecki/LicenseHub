@@ -21,8 +21,9 @@ namespace LicenseHubApp.Presenters
         private WorkstationManager _workstationManager;
         private ProductManager _productManager;
 
-        private event EventHandler GoToEmployeeDetailViewChanged;
-        private event EventHandler GoToWorkstationDetailViewChanged;
+        private event EventHandler<GoToDetailViewEventArgs>? GoToEmployeeDetailViewChanged;
+        private event EventHandler<GoToDetailViewEventArgs>? GoToWorkstationDetailViewChanged;
+        private event EventHandler GoToClientViewChanged;
 
 
         public MainPresenter(IMainView view, AuthenticationManager authenticator, DataContext dataContext, IUserRepository userRepository)
@@ -39,7 +40,7 @@ namespace LicenseHubApp.Presenters
             _view.SettingsBtnClicked += OnSettingsBtnClicked;
             GoToEmployeeDetailViewChanged += OnGoToEmployeeEmployeeDetailViewChanged;
             GoToWorkstationDetailViewChanged += OnGoToWorkstationDetailViewChanged;
-
+            GoToClientViewChanged += OnClientsBtnClicked;
 
             _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser()!.Username ?? throw new AuthenticationException("No logged-in user.");
         }
@@ -66,6 +67,7 @@ namespace LicenseHubApp.Presenters
             var companyManagementView = new ClientManagementView();
             _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
 
+            _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(companyManagementView);
             companyManagementView.Dock = DockStyle.Fill;
         }
@@ -93,10 +95,15 @@ namespace LicenseHubApp.Presenters
             userManagementForm.Show();
         }
 
-        private void OnGoToEmployeeEmployeeDetailViewChanged(object? sender, EventArgs e)
+        private void OnGoToEmployeeEmployeeDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
         {
-            // TODO launch Employee detail view
+            var employee = e.Employee!;
+            var employeeDetailView = new EmployeeDetailView();
+            _ = new EmployeeDetailPresenter(employeeDetailView, employee, _employeeManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+
             _view.ClientTabPageCollection.Clear();
+            _view.ClientTabPageCollection.Add(employeeDetailView);
+            employeeDetailView.Dock = DockStyle.Fill;
         }
         private void OnGoToWorkstationDetailViewChanged(object? sender, EventArgs e)
         {

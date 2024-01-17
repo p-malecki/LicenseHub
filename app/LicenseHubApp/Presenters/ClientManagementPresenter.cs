@@ -15,8 +15,8 @@ namespace LicenseHubApp.Presenters
         private readonly WorkstationManager _workstationManager;
         private readonly BindingSource _companyBindingSource;
         private readonly BindingSource _sidePanelBindingSource;
-        private readonly EventHandler _goToEmployeeDetailViewChanged;
-        private readonly EventHandler _goToWorkstationDetailViewChanged;
+        private readonly EventHandler<GoToDetailViewEventArgs>? _goToEmployeeDetailViewChanged;
+        private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationDetailViewChanged;
 
 
         public ClientManagementPresenter(
@@ -24,8 +24,8 @@ namespace LicenseHubApp.Presenters
             CompanyManager companyManager,
             EmployeeManager employeeManager,
             WorkstationManager workstationManager,
-            EventHandler goToEmployeeDetailViewChanged,
-            EventHandler goToWorkstationDetailViewChanged
+            EventHandler<GoToDetailViewEventArgs>? goToEmployeeDetailViewChanged,
+            EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged
             )
         {
             _view = view;
@@ -688,10 +688,15 @@ namespace LicenseHubApp.Presenters
             switch (_view.SidePanelTarget)
             {
                 case "Employee":
-                    _goToEmployeeDetailViewChanged?.Invoke(this, EventArgs.Empty);
+                    var employee = GetCurrentlySelectedEmployee();
+                    if (employee != null)
+                        _goToEmployeeDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Employee = employee });
                     break;
+
                 case "Workstation":
-                    _goToWorkstationDetailViewChanged?.Invoke(this, EventArgs.Empty);
+                    var workstation = GetCurrentlySelectedWorkstation();
+                    if (workstation != null)
+                        _goToWorkstationDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Workstation = workstation });
                     break;
             }
         }

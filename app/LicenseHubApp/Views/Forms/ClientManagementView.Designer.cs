@@ -38,6 +38,7 @@
             label9 = new Label();
             lbCompanyIsActiveInfo = new Label();
             label2 = new Label();
+            btnCompanyToggleIsActive = new Button();
             txtCompanyName = new TextBox();
             label3 = new Label();
             txtCompanyNip = new TextBox();
@@ -50,7 +51,6 @@
             btnCompanySave = new Button();
             btnCompanyEditCancel = new Button();
             tpSidePanelData = new TabPage();
-            btnSidePanelToggleIsActive = new Button();
             lbSidePanelLeftTabTitle = new Label();
             chbSidePanelSearchOnlyActive = new CheckBox();
             cbSidePanelSelectedFilter = new ComboBox();
@@ -60,7 +60,7 @@
             btnSidePanelShowSelected = new Button();
             btnSidePanelAdd = new Button();
             btnSidePanelEdit = new Button();
-            btnCompanyToggleIsActive = new Button();
+            btnSidePanelToggleIsActive = new Button();
             splitContainer1 = new SplitContainer();
             chbCompanySearchOnlyActive = new CheckBox();
             btnCompanyShowDetails = new Button();
@@ -235,6 +235,15 @@
             label2.TabIndex = 2;
             label2.Text = "Company Name";
             // 
+            // btnCompanyToggleIsActive
+            // 
+            btnCompanyToggleIsActive.Location = new Point(26, 714);
+            btnCompanyToggleIsActive.Name = "btnCompanyToggleIsActive";
+            btnCompanyToggleIsActive.Size = new Size(114, 68);
+            btnCompanyToggleIsActive.TabIndex = 5;
+            btnCompanyToggleIsActive.Text = "Toggle\r\nIsActive";
+            btnCompanyToggleIsActive.UseVisualStyleBackColor = true;
+            // 
             // txtCompanyName
             // 
             txtCompanyName.BorderStyle = BorderStyle.FixedSingle;
@@ -356,15 +365,6 @@
             tpSidePanelData.TabIndex = 1;
             tpSidePanelData.Text = "SidePanel data";
             // 
-            // btnSidePanelToggleIsActive
-            // 
-            btnSidePanelToggleIsActive.Location = new Point(29, 34);
-            btnSidePanelToggleIsActive.Name = "btnSidePanelToggleIsActive";
-            btnSidePanelToggleIsActive.Size = new Size(106, 68);
-            btnSidePanelToggleIsActive.TabIndex = 25;
-            btnSidePanelToggleIsActive.Text = "Toggle\r\nIsActive";
-            btnSidePanelToggleIsActive.UseVisualStyleBackColor = true;
-            // 
             // lbSidePanelLeftTabTitle
             // 
             lbSidePanelLeftTabTitle.AutoSize = true;
@@ -450,14 +450,14 @@
             btnSidePanelEdit.Text = "Edit";
             btnSidePanelEdit.UseVisualStyleBackColor = true;
             // 
-            // btnCompanyToggleIsActive
+            // btnSidePanelToggleIsActive
             // 
-            btnCompanyToggleIsActive.Location = new Point(26, 714);
-            btnCompanyToggleIsActive.Name = "btnCompanyToggleIsActive";
-            btnCompanyToggleIsActive.Size = new Size(114, 68);
-            btnCompanyToggleIsActive.TabIndex = 5;
-            btnCompanyToggleIsActive.Text = "Toggle\r\nIsActive";
-            btnCompanyToggleIsActive.UseVisualStyleBackColor = true;
+            btnSidePanelToggleIsActive.Location = new Point(29, 34);
+            btnSidePanelToggleIsActive.Name = "btnSidePanelToggleIsActive";
+            btnSidePanelToggleIsActive.Size = new Size(106, 68);
+            btnSidePanelToggleIsActive.TabIndex = 25;
+            btnSidePanelToggleIsActive.Text = "Toggle\r\nIsActive";
+            btnSidePanelToggleIsActive.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
@@ -572,7 +572,6 @@
             tpSidePanelEmployeeDetails.Controls.Add(lbEmployeeIsActiveInfo);
             tpSidePanelEmployeeDetails.Controls.Add(label10);
             tpSidePanelEmployeeDetails.Controls.Add(txtEmployeeName);
-            tpSidePanelEmployeeDetails.Controls.Add(rtxtEmployeeDescription);
             tpSidePanelEmployeeDetails.Controls.Add(label11);
             tpSidePanelEmployeeDetails.Controls.Add(txtEmployeeProfession);
             tpSidePanelEmployeeDetails.Controls.Add(label12);
@@ -584,6 +583,7 @@
             tpSidePanelEmployeeDetails.Controls.Add(label8);
             tpSidePanelEmployeeDetails.Controls.Add(rtxtEmployeeIPs);
             tpSidePanelEmployeeDetails.Controls.Add(label14);
+            tpSidePanelEmployeeDetails.Controls.Add(rtxtEmployeeDescription);
             tpSidePanelEmployeeDetails.Location = new Point(4, 34);
             tpSidePanelEmployeeDetails.Name = "tpSidePanelEmployeeDetails";
             tpSidePanelEmployeeDetails.Padding = new Padding(3);

@@ -35,11 +35,11 @@ namespace LicenseHubApp.Views.Forms
 
         private void AssociateAndRaiseViewEvents()
         {
-            btnDashboard.Click += delegate
-            {
-                //DashboardBtnClicked?.Invoke(this, EventArgs.Empty);
-                ShowOnlyOnePageInTabControl(mainTabControl, tpDashboard);
-            };
+            //btnDashboard.Click += delegate
+            //{
+            //    DashboardBtnClicked?.Invoke(this, EventArgs.Empty);
+            //    ShowOnlyOnePageInTabControl(mainTabControl, tpDashboard);
+            //};
 
             btnClients.Click += delegate
             {
