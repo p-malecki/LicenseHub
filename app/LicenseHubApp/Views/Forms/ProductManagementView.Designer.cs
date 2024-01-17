@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Forms
 {
-    partial class ProductManagementUC
+    partial class ProductManagementView
     {
         /// <summary> 
         /// Required designer variable.
@@ -320,7 +320,7 @@
             lbNewestRelease.TabIndex = 14;
             lbNewestRelease.Text = "The newest release: X";
             // 
-            // ProductManagementUC
+            // ProductManagementView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -329,7 +329,7 @@
             Controls.Add(cbProductList);
             Controls.Add(btnProductAdd);
             Controls.Add(gbProductSelected);
-            Name = "ProductManagementUC";
+            Name = "ProductManagementView";
             Size = new Size(1407, 1156);
             ((System.ComponentModel.ISupportInitialize)dgvReleaseData).EndInit();
             gbReleaseSelected.ResumeLayout(false);

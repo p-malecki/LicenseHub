@@ -2,22 +2,22 @@
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class MainForm : Form, IMainView
+    public partial class MainFormView : Form, IMainView
     {
         #region Constructor
 
-        private static MainForm? _instance;
+        private static MainFormView? _instance;
 
-        private MainForm()
+        private MainFormView()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();
         }
-        public static MainForm GetInstance(Form parentContainer)
+        public static MainFormView GetInstance(Form parentContainer)
         {
             if (_instance == null || _instance.IsDisposed)
             {
-                _instance = new MainForm();
+                _instance = new MainFormView();
             }
             else
             {

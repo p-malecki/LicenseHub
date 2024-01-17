@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Forms
 {
-    partial class ClientManagementUC
+    partial class ClientManagementView
     {
         /// <summary> 
         /// Required designer variable.
@@ -956,12 +956,12 @@
             btnSidePanelEditCancel.Text = "Cancel";
             btnSidePanelEditCancel.UseVisualStyleBackColor = true;
             // 
-            // ClientManagementUC
+            // ClientManagementView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(splitContainer1);
-            Name = "ClientManagementUC";
+            Name = "ClientManagementView";
             Size = new Size(1407, 1156);
             ((System.ComponentModel.ISupportInitialize)dgvCompanyData).EndInit();
             tabControlSidePanelLeft.ResumeLayout(false);

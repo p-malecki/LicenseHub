@@ -3,11 +3,11 @@ using static LicenseHubApp.Utils.ListStoredInStringParser;
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class ClientManagementUC : UserControl, IClientManagementView
+    public partial class ClientManagementView : UserControl, IClientManagementView
     {
 
         #region Constructor
-        public ClientManagementUC()
+        public ClientManagementView()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();

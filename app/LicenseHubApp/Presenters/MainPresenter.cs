@@ -63,7 +63,7 @@ namespace LicenseHubApp.Presenters
 
         private void OnClientsBtnClicked(object? sender, EventArgs e)
         {
-            var companyManagementView = new ClientManagementUC();
+            var companyManagementView = new ClientManagementView();
             _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
 
             _view.ClientTabPageCollection.Add(companyManagementView);
@@ -72,7 +72,7 @@ namespace LicenseHubApp.Presenters
 
         private void OnProductsBtnClicked(object? sender, EventArgs e)
         {
-            var productManagementView = new ProductManagementUC();
+            var productManagementView = new ProductManagementView();
             _ = new ProductManagementPresenter(productManagementView, _productManager);
 
             _view.ProductTabPageCollection.Add(productManagementView);
@@ -82,12 +82,12 @@ namespace LicenseHubApp.Presenters
         private void OnLogoutBtnClicked(object? sender, EventArgs e)
         {
             _authenticator.Logout();
-            var view = (ILoginView)LoginForm.GetInstance((MainForm)_view);
+            var view = (ILoginView)LoginFormView.GetInstance((MainFormView)_view);
             _ = new LoginPresenter(view, _authenticator, _dataContext, _userRepository);
         }
         private void OnSettingsBtnClicked(object? sender, EventArgs e)
         {
-            var userManagementForm = new UserManagementForm();
+            var userManagementForm = new UserManagementFormView();
             _ = new UserManagementPresenter(userManagementForm, _userManager);
             userManagementForm.TopLevel = true;
             userManagementForm.Show();

@@ -2,10 +2,10 @@
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class UserManagementForm : Form, IUserManagementView
+    public partial class UserManagementFormView : Form, IUserManagementView
     {
         #region Constructor
-        public UserManagementForm()
+        public UserManagementFormView()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();

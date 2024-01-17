@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Forms
 {
-    partial class MainForm
+    partial class MainFormView
     {
         /// <summary>
         /// Required designer variable.
@@ -313,7 +313,7 @@
             sqliteCommand1.Transaction = null;
             sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
             // 
-            // MainForm
+            // MainFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -321,7 +321,7 @@
             Controls.Add(splitContainer1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "MainForm";
+            Name = "MainFormView";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "LicenseHub";
             panel2.ResumeLayout(false);

@@ -53,7 +53,7 @@ namespace LicenseHubApp.Presenters
         }
         private void ShowMainView()
         {
-            var view = (IMainView)MainForm.GetInstance((LoginForm)_view);
+            var view = (IMainView)MainFormView.GetInstance((LoginFormView)_view);
             new MainPresenter(view, _authenticator, _dataContext, _userRepository);
         }
     }

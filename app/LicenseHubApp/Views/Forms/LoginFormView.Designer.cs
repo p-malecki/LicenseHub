@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Forms
 {
-    partial class LoginForm
+    partial class LoginFormView
     {
         /// <summary>
         /// Required designer variable.
@@ -91,7 +91,7 @@
             lbIncorrectLoginMessage.Text = "incorrectLoginMessage";
             lbIncorrectLoginMessage.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // LoginForm
+            // LoginFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -104,9 +104,9 @@
             Controls.Add(btnLogin);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
-            Name = "LoginForm";
+            Name = "LoginFormView";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "LoginForm";
+            Text = "LoginFormView";
             ResumeLayout(false);
             PerformLayout();
         }

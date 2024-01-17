@@ -2,21 +2,21 @@
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class LoginForm : Form, ILoginView
+    public partial class LoginFormView : Form, ILoginView
     {
-        private static LoginForm? _instance;
+        private static LoginFormView? _instance;
 
         #region Constructor
-        private LoginForm()
+        private LoginFormView()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();
         }
-        public static LoginForm GetInstance(Form? parentContainer)
+        public static LoginFormView GetInstance(Form? parentContainer)
         {
             if (_instance == null || _instance.IsDisposed)
             {
-                _instance = new LoginForm();
+                _instance = new LoginFormView();
             }
             else
             {

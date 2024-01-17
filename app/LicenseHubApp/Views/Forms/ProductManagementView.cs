@@ -2,11 +2,11 @@
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class ProductManagementUC : UserControl, IProductManagementView
+    public partial class ProductManagementView : UserControl, IProductManagementView
     {
 
         #region Constructor
-        public ProductManagementUC()
+        public ProductManagementView()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();

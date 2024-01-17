@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Forms
 {
-    partial class UserManagementForm
+    partial class UserManagementFormView
     {
         /// <summary>
         /// Required designer variable.
@@ -252,15 +252,15 @@
             btnCancel.Text = "Cancel";
             btnCancel.UseVisualStyleBackColor = true;
             // 
-            // UserManagementForm
+            // UserManagementFormView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(644, 334);
             Controls.Add(splitContainer1);
-            Name = "UserManagementForm";
+            Name = "UserManagementFormView";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "UserManagementForm";
+            Text = "UserManagementFormView";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             splitContainer1.Panel1.ResumeLayout(false);
             splitContainer1.Panel1.PerformLayout();
