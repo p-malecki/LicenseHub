@@ -29,4 +29,12 @@ public class WorkstationProductModel : ValidatableModel, IModelWithId
     [Browsable(false)]
     [Description("Workstation where the WorkstationProduct is used.")]
     public WorkstationModel? Workstation { get; set; }
+
+    [Browsable(false)]
+    public int OrderId { get; set; }
+
+    [ForeignKey("OrderId")]
+    [Browsable(false)]
+    [Description("The order in which the WorkstationProduct was purchased.")]
+    public OrderModel? Order { get; set; }
 }

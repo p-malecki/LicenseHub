@@ -16,6 +16,8 @@ namespace LicenseHubApp.Repositories
         public virtual DbSet<CompanyModel> Companies { get; set; }
         public virtual DbSet<EmployeeModel> Employees { get; set; }
         public virtual DbSet<WorkstationModel> Workstations { get; set; }
+        public virtual DbSet<WorkstationProductModel> WorkstationProducts { get; set; }
+        public virtual DbSet<OrderModel> Orders { get; set; }
         
         
         public virtual DbSet<ProductModel> Products { get; set; }
@@ -23,8 +25,6 @@ namespace LicenseHubApp.Repositories
 
         public virtual DbSet<LicenseModel> Licenses { get; set; }
         public virtual DbSet<ActivationCodeModel> ActivationCodes { get; set; }
-
-        public virtual DbSet<WorkstationProductModel> WorkstationProducts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,6 +57,13 @@ namespace LicenseHubApp.Repositories
                 .HasForeignKey(m => m.CompanyId)
                 .IsRequired();
 
+            // many Orders to one Company 
+            modelBuilder.Entity<CompanyModel>()
+                .HasMany(m => m.Orders)
+                .WithOne(m => m.Company)
+                .HasForeignKey(m => m.CompanyId)
+                .IsRequired();
+
 
             // many Releases to one Product 
             modelBuilder.Entity<ProductModel>()
@@ -85,6 +92,13 @@ namespace LicenseHubApp.Repositories
                 .HasOne(m => m.License)
                 .WithOne(m => m.WorkstationProduct)
                 .HasForeignKey<LicenseModel>(m => m.WorkstationProductId)
+                .IsRequired();
+
+            // many WorkstationProducts to one Order
+            modelBuilder.Entity<OrderModel>()
+                .HasMany(m => m.WorkstationProducts)
+                .WithOne(m => m.Order)
+                .HasForeignKey(m => m.OrderId)
                 .IsRequired();
         }
 

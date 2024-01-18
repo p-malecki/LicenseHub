@@ -1,6 +1,5 @@
 ﻿using LicenseHubApp.Views.Interfaces;
-using System.Collections.Generic;
-using static LicenseHubApp.Utils.ListStoredInStringParser;
+
 namespace LicenseHubApp.Views.Forms;
 
 public partial class WorkstationDetailView : UserControl, IWorkstationDetailView

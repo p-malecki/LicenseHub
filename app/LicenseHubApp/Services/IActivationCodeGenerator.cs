@@ -1,5 +1,4 @@
-﻿using LicenseHubApp.Models;
-namespace LicenseHubApp.Services;
+﻿namespace LicenseHubApp.Services;
 
 public interface IActivationCodeGenerator
 {

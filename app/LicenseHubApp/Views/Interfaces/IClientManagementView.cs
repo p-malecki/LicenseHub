@@ -1,6 +1,4 @@
-﻿using LicenseHubApp.Presenters;
-
-namespace LicenseHubApp.Views.Interfaces;
+﻿namespace LicenseHubApp.Views.Interfaces;
 
 public interface IClientManagementView
 {

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
 namespace LicenseHubApp.Models;
+
 
 public abstract partial class LicenseModel : ValidatableModel, IModelWithId
 {

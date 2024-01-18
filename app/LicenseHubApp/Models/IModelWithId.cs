@@ -1,7 +1,6 @@
-﻿namespace LicenseHubApp.Models
+﻿namespace LicenseHubApp.Models;
+
+public interface IModelWithId
 {
-    public interface IModelWithId
-    {
-        public int Id { get; set; }
-    }
+    public int Id { get; set; }
 }
