@@ -49,6 +49,7 @@
             tpClients = new TabPage();
             tpProducts = new TabPage();
             sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
+            tpOrders = new TabPage();
             panel2.SuspendLayout();
             topBarPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
@@ -269,6 +270,7 @@
             mainTabControl.Controls.Add(tpDashboard);
             mainTabControl.Controls.Add(tpClients);
             mainTabControl.Controls.Add(tpProducts);
+            mainTabControl.Controls.Add(tpOrders);
             mainTabControl.Dock = DockStyle.Fill;
             mainTabControl.Location = new Point(0, 72);
             mainTabControl.Name = "mainTabControl";
@@ -312,6 +314,16 @@
             sqliteCommand1.Connection = null;
             sqliteCommand1.Transaction = null;
             sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
+            // 
+            // tpOrders
+            // 
+            tpOrders.Location = new Point(4, 34);
+            tpOrders.Name = "tpOrders";
+            tpOrders.Padding = new Padding(3);
+            tpOrders.Size = new Size(1407, 1156);
+            tpOrders.TabIndex = 3;
+            tpOrders.Text = "Orders";
+            tpOrders.UseVisualStyleBackColor = true;
             // 
             // MainFormView
             // 
@@ -360,5 +372,6 @@
         private TableLayoutPanel tableLayoutPanel1;
         private TableLayoutPanel tableLayoutPanel2;
         private TabPage tpProducts;
+        private TabPage tpOrders;
     }
 }

@@ -18,7 +18,8 @@ namespace LicenseHubApp.Presenters
         private UserManager _userManager;
         private CompanyManager _companyManager;
         private EmployeeManager _employeeManager;
-        private WorkstationManager _workstationManager;
+        private WorkstationManager _workstationProductManager;
+        private OrderManager _orderManager;
         private ProductManager _productManager;
 
         private event EventHandler<GoToDetailViewEventArgs>? GoToEmployeeDetailViewChanged;
@@ -35,6 +36,7 @@ namespace LicenseHubApp.Presenters
             CreateManagers();
 
             _view.ClientsBtnClicked += OnClientsBtnClicked;
+            _view.OrdersBtnClicked += OnOrdersBtnClicked;
             _view.ProductsBtnClicked += OnProductsBtnClicked;
             _view.LogoutBtnClicked += OnLogoutBtnClicked;
             _view.SettingsBtnClicked += OnSettingsBtnClicked;
@@ -50,35 +52,46 @@ namespace LicenseHubApp.Presenters
             var dataContext = new DataContext();
             ICompanyRepository companyRepository = new CompanyRepository(dataContext);
             IEmployeeRepository employeeRepository = new EmployeeRepository(dataContext);
-            IWorkstationRepository workstationRepository = new WorkstationRepository(dataContext);
+            IWorkstationRepository workstationProductRepository = new WorkstationRepository(dataContext);
+            IOrderRepository orderRepository = new OrderRepository(dataContext);
             IProductRepository productRepository = new ProductRepository(dataContext);
             IProductReleaseModelRepository releaseProductRepository = new ProductReleaseModelRepository(dataContext);
 
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
             _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
-            _workstationManager = WorkstationManager.GetInstance(workstationRepository, new WorkstationComputerNameFilterStrategy());
+            _workstationProductManager = WorkstationManager.GetInstance(workstationProductRepository, new WorkstationComputerNameFilterStrategy());
+            _orderManager = OrderManager.GetInstance(orderRepository, new OrderContractNumberFilterStrategy());
             _productManager = ProductManager.GetInstance(productRepository, releaseProductRepository);
         }
 
 
         private void OnClientsBtnClicked(object? sender, EventArgs e)
         {
-            var companyManagementView = new ClientManagementView();
-            _ = new ClientManagementPresenter(companyManagementView, _companyManager, _employeeManager, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
+            var clientView = new ClientView();
+            _ = new ClientPresenter(clientView, _companyManager, _employeeManager, _workstationProductManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
 
             _view.ClientTabPageCollection.Clear();
-            _view.ClientTabPageCollection.Add(companyManagementView);
-            companyManagementView.Dock = DockStyle.Fill;
+            _view.ClientTabPageCollection.Add(clientView);
+            clientView.Dock = DockStyle.Fill;
+        }
+
+        private void OnOrdersBtnClicked(object? sender, EventArgs e)
+        {
+            var orderView = new OrderView();
+            _ = new OrderPresenter(orderView, _orderManager, _companyManager);
+
+            _view.OrderTabPageCollection.Add(orderView);
+            orderView.Dock = DockStyle.Fill;
         }
 
         private void OnProductsBtnClicked(object? sender, EventArgs e)
         {
-            var productManagementView = new ProductManagementView();
-            _ = new ProductManagementPresenter(productManagementView, _productManager);
+            var productView = new ProductView();
+            _ = new ProductPresenter(productView, _productManager);
 
-            _view.ProductTabPageCollection.Add(productManagementView);
-            productManagementView.Dock = DockStyle.Fill;
+            _view.ProductTabPageCollection.Add(productView);
+            productView.Dock = DockStyle.Fill;
         }
 
         private void OnLogoutBtnClicked(object? sender, EventArgs e)
@@ -109,11 +122,21 @@ namespace LicenseHubApp.Presenters
         {
             var workstation = e.Workstation!;
             var workstationDetailView = new WorkstationDetailView();
-            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationProductManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(workstationDetailView);
             workstationDetailView.Dock = DockStyle.Fill;
-        }   
+        }
+        //private void OnGoToWorkstationProductDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
+        //{
+        //    var workstationProduct = e.WorkstationProduct!;
+        //    var workstationProductDetailView = new WorkstationProductDetailView();
+        //    _ = new WorkstationProductDetailPresenter(workstationProductDetailView, workstationProduct, _workstationProductManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+
+        //    _view.ClientTabPageCollection.Clear();
+        //    _view.ClientTabPageCollection.Add(workstationProductDetailView);
+        //    workstationProductDetailView.Dock = DockStyle.Fill;
+        //}
     }
 }

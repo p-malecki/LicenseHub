@@ -47,6 +47,12 @@ namespace LicenseHubApp.Views.Forms
                 ShowOnlyOnePageInTabControl(mainTabControl, tpClients);
             };
 
+            btnOrders.Click += delegate
+            {
+                OrdersBtnClicked?.Invoke(this, EventArgs.Empty);
+                ShowOnlyOnePageInTabControl(mainTabControl, tpOrders);
+            };
+
             btnProducts.Click += delegate
             {
                 ProductsBtnClicked?.Invoke(this, EventArgs.Empty);
@@ -74,6 +80,7 @@ namespace LicenseHubApp.Views.Forms
         }
 
         public Control.ControlCollection ClientTabPageCollection => tpClients.Controls;
+        public Control.ControlCollection OrderTabPageCollection => tpOrders.Controls;
         public Control.ControlCollection ProductTabPageCollection => tpProducts.Controls;
 
         #endregion

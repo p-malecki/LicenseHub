@@ -5,6 +5,7 @@ public interface IMainView
     #region Properties
     string LoggedInUser { get; set; }
     Control.ControlCollection ClientTabPageCollection { get; }
+    Control.ControlCollection OrderTabPageCollection { get; }
     Control.ControlCollection ProductTabPageCollection { get; }
 
     #endregion
