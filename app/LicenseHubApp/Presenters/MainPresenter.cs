@@ -18,13 +18,16 @@ namespace LicenseHubApp.Presenters
         private UserManager _userManager;
         private CompanyManager _companyManager;
         private EmployeeManager _employeeManager;
-        private WorkstationManager _workstationProductManager;
+        private WorkstationManager _workstationManager;
         private OrderManager _orderManager;
         private ProductManager _productManager;
 
+        private event EventHandler GoToClientViewChanged;
+        private event EventHandler GoToOrderViewChanged;
         private event EventHandler<GoToDetailViewEventArgs>? GoToEmployeeDetailViewChanged;
         private event EventHandler<GoToDetailViewEventArgs>? GoToWorkstationDetailViewChanged;
-        private event EventHandler GoToClientViewChanged;
+        private event EventHandler<GoToDetailViewEventArgs>? GoToOrderDetailViewChanged;
+        private event EventHandler<GoToDetailViewEventArgs>? GoToWorkstationProductDetailViewChanged;
 
 
         public MainPresenter(IMainView view, AuthenticationManager authenticator, DataContext dataContext, IUserRepository userRepository)
@@ -40,9 +43,12 @@ namespace LicenseHubApp.Presenters
             _view.ProductsBtnClicked += OnProductsBtnClicked;
             _view.LogoutBtnClicked += OnLogoutBtnClicked;
             _view.SettingsBtnClicked += OnSettingsBtnClicked;
+
+            GoToClientViewChanged += OnClientsBtnClicked;
+            GoToOrderViewChanged += OnOrdersBtnClicked;
             GoToEmployeeDetailViewChanged += OnGoToEmployeeEmployeeDetailViewChanged;
             GoToWorkstationDetailViewChanged += OnGoToWorkstationDetailViewChanged;
-            GoToClientViewChanged += OnClientsBtnClicked;
+            GoToOrderDetailViewChanged += OnGoToOrderDetailViewChanged;
 
             _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser()!.Username ?? throw new AuthenticationException("No logged-in user.");
         }
@@ -60,7 +66,7 @@ namespace LicenseHubApp.Presenters
             _userManager = UserManager.GetInstance(_userRepository);
             _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
             _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
-            _workstationProductManager = WorkstationManager.GetInstance(workstationProductRepository, new WorkstationComputerNameFilterStrategy());
+            _workstationManager = WorkstationManager.GetInstance(workstationProductRepository, new WorkstationComputerNameFilterStrategy());
             _orderManager = OrderManager.GetInstance(orderRepository, new OrderContractNumberFilterStrategy());
             _productManager = ProductManager.GetInstance(productRepository, releaseProductRepository);
         }
@@ -69,7 +75,7 @@ namespace LicenseHubApp.Presenters
         private void OnClientsBtnClicked(object? sender, EventArgs e)
         {
             var clientView = new ClientView();
-            _ = new ClientPresenter(clientView, _companyManager, _employeeManager, _workstationProductManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
+            _ = new ClientPresenter(clientView, _companyManager, _employeeManager, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(clientView);
@@ -122,21 +128,31 @@ namespace LicenseHubApp.Presenters
         {
             var workstation = e.Workstation!;
             var workstationDetailView = new WorkstationDetailView();
-            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationProductManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(workstationDetailView);
             workstationDetailView.Dock = DockStyle.Fill;
         }
-        //private void OnGoToWorkstationProductDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
-        //{
-        //    var workstationProduct = e.WorkstationProduct!;
-        //    var workstationProductDetailView = new WorkstationProductDetailView();
-        //    _ = new WorkstationProductDetailPresenter(workstationProductDetailView, workstationProduct, _workstationProductManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+        private void OnGoToOrderDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
+        {
+            var order = e.Order!;
+            var orderDetailView = new OrderDetailView();
+            _ = new OrderDetailPresenter(orderDetailView, order, _orderManager, GoToWorkstationDetailViewChanged, GoToOrderViewChanged);
 
-        //    _view.ClientTabPageCollection.Clear();
-        //    _view.ClientTabPageCollection.Add(workstationProductDetailView);
-        //    workstationProductDetailView.Dock = DockStyle.Fill;
-        //}
+            _view.OrderTabPageCollection.Clear();
+            _view.OrderTabPageCollection.Add(orderDetailView);
+            orderDetailView.Dock = DockStyle.Fill;
+        }
+        private void OnGoToWorkstationProductDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
+        {
+            //var workstationProduct = e.WorkstationProduct!;
+            //var workstationProductDetailView = new WorkstationProductDetailView();
+            //_ = new WorkstationProductDetailPresenter(workstationProductDetailView, workstationProduct, _workstationManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+
+            //_view.ClientTabPageCollection.Clear();
+            //_view.ClientTabPageCollection.Add(workstationProductDetailView);
+            //workstationProductDetailView.Dock = DockStyle.Fill;
+        }
     }
 }

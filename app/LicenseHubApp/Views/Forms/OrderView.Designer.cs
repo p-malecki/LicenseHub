@@ -167,6 +167,7 @@
             // 
             // cmbSearchCompanyName
             // 
+            cmbSearchCompanyName.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbSearchCompanyName.FormattingEnabled = true;
             cmbSearchCompanyName.Location = new Point(65, 90);
             cmbSearchCompanyName.Name = "cmbSearchCompanyName";

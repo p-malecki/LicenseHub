@@ -62,6 +62,7 @@ namespace LicenseHubApp.Presenters
                 if (!_view.AreCompanyFiltersActive & !_view.AreOrderFiltersActive)
                 {
                     LoadAllOrderList();
+                    _view.IsSuccessful = true;
                     return;
                 }
 
@@ -112,6 +113,8 @@ namespace LicenseHubApp.Presenters
                     _orderBindingSource.DataSource = new List<OrderModel>();
                     _view.SetViewToSelectable(false);
                 }
+
+                _view.IsSuccessful = true;
             }
             catch (Exception ex)
             {

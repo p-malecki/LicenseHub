@@ -12,6 +12,7 @@ public partial class OrderView : UserControl, IOrderView
         AssociateAndRaiseViewEvents();
 
         cmbSearchCompanyName.Items.Add("all");
+        cmbSearchCompanyName.SelectedIndex = 0;
         // TODO load combobox filters
     }
 
@@ -26,10 +27,14 @@ public partial class OrderView : UserControl, IOrderView
         {
             AreOrderFiltersActive = chbOrderFilters.Checked;
         };
-        
+
         btnSearch.Click += delegate
         {
             SearchBtnClicked?.Invoke(this, EventArgs.Empty);
+            if (!IsSuccessful)
+            {
+                MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         };
 
         btnAdd.Click += delegate
@@ -55,6 +60,9 @@ public partial class OrderView : UserControl, IOrderView
             }
         };
 
+        txtSearchCompanyNip.KeyPress += NumbersOnlyTextBoxKeyPressed;
+        txtSearchOrderContractNumber.KeyPress += NumbersOnlyTextBoxKeyPressed;
+
     }
 
     #endregion
@@ -74,7 +82,7 @@ public partial class OrderView : UserControl, IOrderView
             chbCompanyFilters.Checked = value;
             cmbSearchCompanyName.Enabled = value;
             txtSearchCompanyNip.Enabled = value;
-            btnSearch.Enabled = value | chbOrderFilters.Checked;
+            //btnSearch.Enabled = value | chbOrderFilters.Checked;
         }
     }
 
@@ -95,7 +103,7 @@ public partial class OrderView : UserControl, IOrderView
         {
             chbOrderFilters.Checked = value;
             txtSearchOrderContractNumber.Enabled = value;
-            btnSearch.Enabled = value | chbCompanyFilters.Checked;
+            //btnSearch.Enabled = value | chbCompanyFilters.Checked;
         }
     }
     public string OrderSearchOrderContractNumber
@@ -129,6 +137,16 @@ public partial class OrderView : UserControl, IOrderView
     {
         btnShowDetails.Enabled = enabled;
         btnEdit.Enabled = enabled;
+    }
+
+
+    // TODO (ref) extract method, add to num textboxes
+    private void NumbersOnlyTextBoxKeyPressed(object sender, KeyPressEventArgs e)
+    {
+        if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+        {
+            e.Handled = true;
+        }
     }
 
     #endregion
