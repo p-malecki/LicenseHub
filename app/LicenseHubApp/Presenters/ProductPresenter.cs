@@ -5,14 +5,14 @@ using LicenseHubApp.Views.Interfaces;
 
 namespace LicenseHubApp.Presenters
 {
-    public class ProductManagementPresenter
+    public class ProductPresenter
     {
-        private readonly IProductManagementView _view;
+        private readonly IProductView _view;
         private readonly ProductManager _productManager;
         private readonly BindingSource _productBindingSource;
         private readonly BindingSource _releaseBindingSource;
 
-        public ProductManagementPresenter(IProductManagementView view, ProductManager productManager
+        public ProductPresenter(IProductView view, ProductManager productManager
         )
         {
             _view = view;

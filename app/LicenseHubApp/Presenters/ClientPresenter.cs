@@ -7,23 +7,23 @@ using LicenseHubApp.Services.Managers;
 
 namespace LicenseHubApp.Presenters
 {
-    public class ClientManagementPresenter
+    public class ClientPresenter
     {
-        private readonly IClientManagementView _view;
+        private readonly IClientView _view;
         private readonly CompanyManager _companyManager;
         private readonly EmployeeManager _employeeManager;
-        private readonly WorkstationManager _workstationManager;
+        private readonly WorkstationManager _workstationProductManager;
         private readonly BindingSource _companyBindingSource;
         private readonly BindingSource _sidePanelBindingSource;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToEmployeeDetailViewChanged;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationDetailViewChanged;
 
 
-        public ClientManagementPresenter(
-            IClientManagementView view,
+        public ClientPresenter(
+            IClientView view,
             CompanyManager companyManager,
             EmployeeManager employeeManager,
-            WorkstationManager workstationManager,
+            WorkstationManager workstationProductManager,
             EventHandler<GoToDetailViewEventArgs>? goToEmployeeDetailViewChanged,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged
             )
@@ -31,7 +31,7 @@ namespace LicenseHubApp.Presenters
             _view = view;
             _companyManager = companyManager;
             _employeeManager = employeeManager;
-            _workstationManager = workstationManager;
+            _workstationProductManager = workstationProductManager;
             _goToEmployeeDetailViewChanged = goToEmployeeDetailViewChanged;
             _goToWorkstationDetailViewChanged = goToWorkstationDetailViewChanged;
 
@@ -62,7 +62,7 @@ namespace LicenseHubApp.Presenters
             _view.SidePanelGoToDetailsBtnClicked += OnSidePanelGoToDetailsBtnClicked;
             LoadAllCompanyList();
             _employeeManager.LoadAll();
-            _workstationManager.LoadAll();
+            _workstationProductManager.LoadAll();
         }
 
         private void OnCloseRightPanelBtnClicked(object? sender, EventArgs e)
@@ -491,9 +491,9 @@ namespace LicenseHubApp.Presenters
                             "os bit version" => new WorkstationOsBitVersionFilterStrategy(),
                             _ => new WorkstationComputerNameFilterStrategy(),
                         };
-                        _workstationManager.SetFilterStrategy(strategy);
+                        _workstationProductManager.SetFilterStrategy(strategy);
 
-                        var results = _workstationManager.FilterWorkstation(enteredSearchValue).ToList();
+                        var results = _workstationProductManager.FilterWorkstation(enteredSearchValue).ToList();
                         results = results.Where(m => m.CompanyId == _view.CompanyId).ToList();
 
                         if (_view.SidePanelSearchOnlyActive)
@@ -605,14 +605,14 @@ namespace LicenseHubApp.Presenters
                         if (_view.IsEdit)
                         {
                             model.Id = _view.WorkstationId;
-                            _workstationManager.Save(model);
+                            _workstationProductManager.Save(model);
                             _view.Message = "Workstation details have been saved.";
                         }
                         else
                         {
                             model.HasFault = false;
                             _companyManager.AddWorkstation(companyId, model);
-                            _workstationManager.LoadAll();
+                            _workstationProductManager.LoadAll();
                             _view.Message = "Workstation has been added.";
                         }
                         break;
@@ -659,8 +659,8 @@ namespace LicenseHubApp.Presenters
                         break;
                     }
                     case "Workstation":
-                        var workstationModel = GetCurrentlySelectedWorkstation();
-                        if (workstationModel == null)
+                        var workstationProductModel = GetCurrentlySelectedWorkstation();
+                        if (workstationProductModel == null)
                         {
                             CleanSidePanelViewFields();
                             _view.SetPanelToEditable(false);
@@ -668,7 +668,7 @@ namespace LicenseHubApp.Presenters
                             _view.IsSuccessful = true;
                             return;
                         }
-                        _workstationManager.ToggleHasFault(workstationModel);
+                        _workstationProductManager.ToggleHasFault(workstationProductModel);
                         break;
                 }
 
@@ -694,9 +694,9 @@ namespace LicenseHubApp.Presenters
                     break;
 
                 case "Workstation":
-                    var workstation = GetCurrentlySelectedWorkstation();
-                    if (workstation != null)
-                        _goToWorkstationDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Workstation = workstation });
+                    var workstationProduct = GetCurrentlySelectedWorkstation();
+                    if (workstationProduct != null)
+                        _goToWorkstationDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Workstation = workstationProduct });
                     break;
             }
         }

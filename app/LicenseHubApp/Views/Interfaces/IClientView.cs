@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Interfaces;
 
-public interface IClientManagementView
+public interface IClientView
 {
     #region Properties
     bool IsSuccessful { get; set; }

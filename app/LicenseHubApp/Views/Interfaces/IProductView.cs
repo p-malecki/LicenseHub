@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Interfaces;
 
-public interface IProductManagementView
+public interface IProductView
 {
     #region Properties
 

@@ -3,11 +3,11 @@ using static LicenseHubApp.Utils.ListStoredInStringParser;
 
 namespace LicenseHubApp.Views.Forms
 {
-    public partial class ClientManagementView : UserControl, IClientManagementView
+    public partial class ClientView : UserControl, IClientView
     {
 
         #region Constructor
-        public ClientManagementView()
+        public ClientView()
         {
             InitializeComponent();
             AssociateAndRaiseViewEvents();
@@ -426,6 +426,7 @@ namespace LicenseHubApp.Views.Forms
 
 
         #region Events
+
         public event EventHandler CloseRightPanelBtnClicked;
         public event EventHandler CompanySearchBtnClicked;
         public event EventHandler CompanyShowDetailsBtnClicked;
@@ -445,6 +446,7 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler SidePanelEditCancelBtnClicked;
         public event EventHandler SidePanelToggleIsActiveBtnClicked;
         public event EventHandler SidePanelGoToDetailsBtnClicked;
+        
         #endregion
 
 
@@ -546,7 +548,7 @@ namespace LicenseHubApp.Views.Forms
                         rtxtWorkstationCpu.BackColor = editable ? Color.White : SystemColors.Control;
                         rtxtWorkstationBiosVersion.BackColor = editable ? Color.White : SystemColors.Control;
 
-                        btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add workstation";
+                        btnSidePanelSave.Text = IsEdit ? "Save changes" : "Add workstationProduct";
                         break;
                 }
 

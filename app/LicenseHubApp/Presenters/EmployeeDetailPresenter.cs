@@ -22,7 +22,7 @@ namespace LicenseHubApp.Presenters
             EmployeeManager employeeManager,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged,
             EventHandler CloseDetailViewClicked
-        )
+            )
         {
             _view = view;
             _employee = employee;
@@ -73,10 +73,10 @@ namespace LicenseHubApp.Presenters
         }
         private void LoadWorkstationList()
         {
-            var workstationsList = _employee.Workstations.ToList();
-            if (workstationsList.Count > 0)
+            var workstationList = _employee.Workstations.ToList();
+            if (workstationList.Count > 0)
             {
-                _workstationBindingSource.DataSource = workstationsList;
+                _workstationBindingSource.DataSource = workstationList;
                 _view.IsGoToWorkstationEnabled = true;
             }
             else

@@ -102,10 +102,10 @@ namespace LicenseHubApp.Presenters
         }
         private void LoadWorkstationProductList()
         {
-            var workstationsList = _workstation.WorkstationProducts.ToList();
-            if (workstationsList.Count > 0)
+            var workstationProductsList = _workstation.WorkstationProducts.ToList();
+            if (workstationProductsList.Count > 0)
             {
-                _workstationProductBindingSource.DataSource = workstationsList;
+                _workstationProductBindingSource.DataSource = workstationProductsList;
                 _view.IsGoToWorkstationProductEnabled = true;
             }
             else

@@ -1,6 +1,6 @@
 ﻿namespace LicenseHubApp.Views.Forms
 {
-    partial class ClientManagementView
+    partial class ClientView
     {
         /// <summary> 
         /// Required designer variable.
@@ -149,15 +149,16 @@
             // 
             // txtCompanySearchValue
             // 
+            txtCompanySearchValue.Font = new Font("Segoe UI", 9.5F);
             txtCompanySearchValue.Location = new Point(210, 120);
             txtCompanySearchValue.Name = "txtCompanySearchValue";
-            txtCompanySearchValue.Size = new Size(258, 31);
+            txtCompanySearchValue.Size = new Size(258, 33);
             txtCompanySearchValue.TabIndex = 2;
             // 
             // cbCompanySelectedFilter
             // 
             cbCompanySelectedFilter.FormattingEnabled = true;
-            cbCompanySelectedFilter.Location = new Point(474, 122);
+            cbCompanySelectedFilter.Location = new Point(474, 120);
             cbCompanySelectedFilter.Name = "cbCompanySelectedFilter";
             cbCompanySelectedFilter.Size = new Size(182, 33);
             cbCompanySelectedFilter.TabIndex = 3;
@@ -487,7 +488,7 @@
             splitContainer1.Panel2.Controls.Add(tabControlSidePanelRight);
             splitContainer1.Panel2.Controls.Add(groupBox1);
             splitContainer1.Size = new Size(1407, 1156);
-            splitContainer1.SplitterDistance = 25;
+            splitContainer1.SplitterDistance = 911;
             splitContainer1.TabIndex = 6;
             // 
             // chbCompanySearchOnlyActive
@@ -542,13 +543,13 @@
             btnCompanyShowWorkstations.Name = "btnCompanyShowWorkstations";
             btnCompanyShowWorkstations.Size = new Size(185, 68);
             btnCompanyShowWorkstations.TabIndex = 16;
-            btnCompanyShowWorkstations.Text = "Show workstations";
+            btnCompanyShowWorkstations.Text = "Show workstationProducts";
             btnCompanyShowWorkstations.UseVisualStyleBackColor = true;
             // 
             // btnCloseSidePanel
             // 
             btnCloseSidePanel.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnCloseSidePanel.Location = new Point(1279, 0);
+            btnCloseSidePanel.Location = new Point(393, 0);
             btnCloseSidePanel.Name = "btnCloseSidePanel";
             btnCloseSidePanel.Size = new Size(56, 34);
             btnCloseSidePanel.TabIndex = 6;
@@ -776,7 +777,7 @@
             label16.Name = "label16";
             label16.Size = new Size(325, 45);
             label16.TabIndex = 48;
-            label16.Text = "Selected workstation ";
+            label16.Text = "Selected workstationProduct ";
             // 
             // lbWorkstationHasFaultInfo
             // 
@@ -956,12 +957,12 @@
             btnSidePanelEditCancel.Text = "Cancel";
             btnSidePanelEditCancel.UseVisualStyleBackColor = true;
             // 
-            // ClientManagementView
+            // ClientView
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(splitContainer1);
-            Name = "ClientManagementView";
+            Name = "ClientView";
             Size = new Size(1407, 1156);
             ((System.ComponentModel.ISupportInitialize)dgvCompanyData).EndInit();
             tabControlSidePanelLeft.ResumeLayout(false);
