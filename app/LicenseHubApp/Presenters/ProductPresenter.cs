@@ -107,6 +107,7 @@ namespace LicenseHubApp.Presenters
             _view.ProductId = model.Id;
             _view.ProductIsAvailable = model.IsAvailable;
             _view.ProductName = model.Name;
+            _view.ProductDescription = model.Description;
 
             LoadAllReleaseList(); // loads productNewestRelease stat
 
@@ -226,6 +227,7 @@ namespace LicenseHubApp.Presenters
                 {
                     Name = _view.ProductName,
                     IsAvailable = _view.ProductIsAvailable,
+                    Description = _view.ProductDescription,
                 };
 
                 if (_view.IsEdit)

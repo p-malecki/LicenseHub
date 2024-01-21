@@ -9,9 +9,6 @@ public class WorkstationProductModel : ValidatableModel, IModelWithId
     [DisplayName("WorkstationProduct ID")]
     public int Id { get; set; }
 
-    [DisplayName("Installer verification code")]
-    public string InstallerVerificationCode { get; set; }
-
     [Browsable(false)]
     public LicenseModel License { get; set; }
 

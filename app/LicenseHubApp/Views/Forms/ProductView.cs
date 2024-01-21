@@ -116,6 +116,11 @@ namespace LicenseHubApp.Views.Forms
             get => chbProductIsAvailable.Checked;
             set => chbProductIsAvailable.Checked = value;
         }
+        public string ProductDescription
+        {
+            get => rtxProductDescription.Text;
+            set => rtxProductDescription.Text = value;
+        }
         public string ProductNewestRelease
         {
             get => lbNewestRelease.Text[20..];
@@ -207,6 +212,8 @@ namespace LicenseHubApp.Views.Forms
             btnProductRename.Enabled = !enabled;
             btnProductRemove.Enabled = !enabled;
             txtProductName.ReadOnly = !enabled;
+            rtxProductDescription.ReadOnly = !enabled;
+            rtxProductDescription.BackColor = enabled ? Color.White : SystemColors.Control;
             gbReleaseSelected.Enabled = !enabled;
         }
 

@@ -48,6 +48,7 @@ namespace LicenseHubApp.Presenters
             GoToOrderViewChanged += OnOrdersBtnClicked;
             GoToEmployeeDetailViewChanged += OnGoToEmployeeEmployeeDetailViewChanged;
             GoToWorkstationDetailViewChanged += OnGoToWorkstationDetailViewChanged;
+            GoToWorkstationProductDetailViewChanged += OnGoToWorkstationProductDetailViewChanged;
             GoToOrderDetailViewChanged += OnGoToOrderDetailViewChanged;
 
             _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser()!.Username ?? throw new AuthenticationException("No logged-in user.");
@@ -128,7 +129,7 @@ namespace LicenseHubApp.Presenters
         {
             var workstation = e.Workstation!;
             var workstationDetailView = new WorkstationDetailView();
-            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(workstationDetailView);
@@ -146,13 +147,13 @@ namespace LicenseHubApp.Presenters
         }
         private void OnGoToWorkstationProductDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
         {
-            //var workstationProduct = e.WorkstationProduct!;
-            //var workstationProductDetailView = new WorkstationProductDetailView();
-            //_ = new WorkstationProductDetailPresenter(workstationProductDetailView, workstationProduct, _workstationManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+            var workstationProduct = e.WorkstationProduct!;
+            var workstationProductDetailView = new WorkstationProductDetailView();
+            _ = new WorkstationProductDetailPresenter(workstationProductDetailView, workstationProduct, GoToClientViewChanged);
 
-            //_view.ClientTabPageCollection.Clear();
-            //_view.ClientTabPageCollection.Add(workstationProductDetailView);
-            //workstationProductDetailView.Dock = DockStyle.Fill;
+            _view.ClientTabPageCollection.Clear();
+            _view.ClientTabPageCollection.Add(workstationProductDetailView);
+            workstationProductDetailView.Dock = DockStyle.Fill;
         }
     }
 }

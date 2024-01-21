@@ -12,6 +12,7 @@ public interface IProductView
     int ProductId { get; set; }
     string ProductName { get; set; }
     bool ProductIsAvailable { get; set; }
+    string ProductDescription { get; set; }
     string ProductNewestRelease { get; set; }
     string ProductNumberOfLicensesGranted { get; set; }
     string ProductActiveClientBaseNumber { get; set; }

@@ -13,6 +13,7 @@ namespace LicenseHubApp.Presenters
         private readonly BindingSource _employeeBindingSource;
         private readonly BindingSource _workstationProductBindingSource;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToEmployeeDetailViewChanged;
+        private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationProductDetailViewChanged;
         private readonly EventHandler _closeDetailViewClicked;
 
 
@@ -21,7 +22,7 @@ namespace LicenseHubApp.Presenters
             WorkstationModel workstation,
             WorkstationManager workstationManager,
             EventHandler<GoToDetailViewEventArgs>? goToEmployeeDetailViewChanged,
-            //EventHandler<GoToDetailViewEventArgs>? goToWorkstationProductDetailViewChanged, // TODO WP detail view
+            EventHandler<GoToDetailViewEventArgs>? goToWorkstationProductDetailViewChanged,
             EventHandler closeDetailViewClicked
         )
         {
@@ -29,6 +30,7 @@ namespace LicenseHubApp.Presenters
             _workstation = workstation;
             _workstationManager = workstationManager;
             _goToEmployeeDetailViewChanged = goToEmployeeDetailViewChanged;
+            _goToWorkstationProductDetailViewChanged = goToWorkstationProductDetailViewChanged;
             _closeDetailViewClicked = closeDetailViewClicked;
 
             ShowModel();
@@ -50,8 +52,7 @@ namespace LicenseHubApp.Presenters
                 var employee = GetSelectedEmployee();
                 if (employee != null)
                 {
-                    _goToEmployeeDetailViewChanged?.Invoke(this,
-                        new GoToDetailViewEventArgs() { Employee = employee });
+                    _goToEmployeeDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Employee = employee });
                 }
             };
             _view.GoToWorkstationProductBtnClicked += delegate
@@ -59,10 +60,7 @@ namespace LicenseHubApp.Presenters
                 var workstationProduct = GetSelectedWorkstationProduct();
                 if (workstationProduct != null)
                 {
-                    // TODO WP detail view
-                    //_goToEmployeeDetailViewChanged?.Invoke(this,
-                    //    new GoToDetailViewEventArgs() { WorkstationProduct = workstationProduct });
-                    MessageBox.Show(@"workstation product detail view");
+                    _goToWorkstationProductDetailViewChanged?.Invoke(this,new GoToDetailViewEventArgs() { WorkstationProduct = workstationProduct });
                 }
             };
             _view.CloseDetailViewBtnClicked += delegate

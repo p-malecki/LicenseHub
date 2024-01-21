@@ -29,13 +29,12 @@ namespace LicenseHubApp.Repositories
 
         public async Task EditAsync(int modelId, WorkstationProductModel updatedModel)
         {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.InstallerVerificationCode = updatedModel.InstallerVerificationCode;
-
-                await context.SaveChangesAsync();
-            }
+            //var modelToUpdate = await GetModelByIdAsync(modelId);
+            //if (modelToUpdate != null)
+            //{
+            //    await context.SaveChangesAsync();
+            //}
+            // TODO (REF) edit WorkstationProductModel
         }
 
         public async Task<WorkstationProductModel?> GetModelByIdAsync(int modelId)

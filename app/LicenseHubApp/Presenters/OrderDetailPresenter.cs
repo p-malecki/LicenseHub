@@ -13,20 +13,21 @@ namespace LicenseHubApp.Presenters
         private readonly OrderModel _order;
         private readonly OrderManager _orderManager;
         private readonly BindingSource _workstationProductBindingSource;
-        private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationDetailViewChanged;
+        private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationProductDetailViewChanged;
         private readonly EventHandler _closeDetailViewClicked;
 
         public OrderDetailPresenter(
             IOrderDetailView view,
             OrderModel order,
             OrderManager orderManager,
-            EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged,
+            EventHandler<GoToDetailViewEventArgs>? goToWorkstationProductDetailViewChanged,
             EventHandler CloseDetailViewClicked
             )
         {
             _view = view;
             _order = order;
             _orderManager = orderManager;
+            _goToWorkstationProductDetailViewChanged = goToWorkstationProductDetailViewChanged;
 
             ShowModel();
             _view.SetViewToEditable(false);
@@ -43,7 +44,7 @@ namespace LicenseHubApp.Presenters
                 var workstationProduct = GetSelectedWorkstationProduct();
                 if (workstationProduct != null)
                 {
-                    _goToWorkstationDetailViewChanged?.Invoke(this,
+                    _goToWorkstationProductDetailViewChanged?.Invoke(this,
                         new GoToDetailViewEventArgs() { WorkstationProduct = workstationProduct });
                 }
             };

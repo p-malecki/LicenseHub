@@ -55,6 +55,7 @@ namespace LicenseHubApp.Repositories
 
                 modelToUpdate.Name = updatedModel.Name;
                 modelToUpdate.IsAvailable = updatedModel.IsAvailable;
+                modelToUpdate.Description = updatedModel.Description;
 
                 await context.SaveChangesAsync();
             }

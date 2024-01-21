@@ -20,6 +20,9 @@ public class ProductModel : ValidatableModel, IModelWithId
     [DisplayName("Is available")]
     public bool IsAvailable { get; set; }
 
+    [DisplayName("Product description")]
+    public string Description { get; set; }
+
     [Browsable(false)]
     [Description("Product releases.")]
     public ICollection<ProductReleaseModel> Releases { get; set; } = new List<ProductReleaseModel>();
