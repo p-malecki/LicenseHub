@@ -3,10 +3,10 @@ namespace LicenseHubApp.Services;
 
 public interface ILicense
 {
-    DateTime RegisterDate { get; set; }
-    DateTime ActivationDate { get; set; }
-    ActivationCodeModel? ActivationCodeData { get; set; }
+    DateTime? RegisterDate { get; set; }
+    DateTime? ActivationDate { get; set; }
+    ActivationCodeModel? ActivationCode { get; set; }
 
-    bool IsActive();
-    DateTime ExpirationDate();
+    //bool IsActive();
+    //DateTime ExpirationDate();
 }

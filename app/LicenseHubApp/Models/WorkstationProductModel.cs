@@ -10,7 +10,7 @@ public class WorkstationProductModel : ValidatableModel, IModelWithId
     public int Id { get; set; }
 
     [Browsable(false)]
-    public LicenseModel License { get; set; }
+    public LicenseModel? License { get; set; }
 
     [Browsable(false)]
     public int ReleaseId { get; set; }

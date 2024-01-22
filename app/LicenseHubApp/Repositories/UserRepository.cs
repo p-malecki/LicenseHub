@@ -5,12 +5,6 @@ namespace LicenseHubApp.Repositories;
 
 public class UserRepository(DataContext context) : GenericRepository<UserModel>(context), IUserRepository
 {
-    //public async Task<UserModel?> GetUserByUsername(string username)
-    //{
-    //    return GetAll().Result.FirstOrDefault(m => m.Username == username);
-    //    //return GetAll().Result.FirstOrDefault(e => e.Username == username);
-    //}
-
     public async Task<UserModel?> GetUserByUsername(string username)
     {
         return await Context.Users.FirstOrDefaultAsync(m => m.Username == username);

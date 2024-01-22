@@ -1,7 +1,7 @@
 ﻿using LicenseHubApp.Models;
 namespace LicenseHubApp.Services;
 
-public abstract class SubscriptionLicenseCreator : LicenseCreator
+public class SubscriptionLicenseCreator : LicenseCreator
 {
     public override ILicense CreateLicense(DateTime? registerDate, DateTime? activationDate)
     {
