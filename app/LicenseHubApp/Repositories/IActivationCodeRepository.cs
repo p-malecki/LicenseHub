@@ -1,11 +1,11 @@
-﻿namespace LicenseHubApp.Models;
+﻿using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Models;
 
-public interface IActivationCodeRepository : IModelRepository<ActivationCodeModel>
+public interface IActivationCodeRepository : IGenericRepository<ActivationCodeModel>
 {
-    Task AddGeneratedActivationCodeAsync(GeneratedActivationCodeModel model);
-    Task DeleteGeneratedActivationCodeAsync(int modelId);
-    Task EditGeneratedActivationCodeAsync(int modelId, GeneratedActivationCodeModel updatedModel);
-    Task<GeneratedActivationCodeModel?> GetByIdGeneratedActivationCodeModelAsync(int modelId);
-    Task<IList<GeneratedActivationCodeModel>> GetAllGeneratedActivationCodeAsync();
-
+    Task<IList<GeneratedActivationCodeModel>> GetAllGeneratedActivationCode();
+    Task<GeneratedActivationCodeModel?> GetByIdGeneratedActivationCodeModel(int id);
+    Task CreateGeneratedActivationCode(GeneratedActivationCodeModel model);
+    Task UpdateGeneratedActivationCode(int id, GeneratedActivationCodeModel model);
+    Task DeleteGeneratedActivationCode(int id);
 }

@@ -1,64 +1,39 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using LicenseHubApp.Models;
+using LicenseHubApp.Models.Filters;
+using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Repositories;
 
-
-namespace LicenseHubApp.Repositories
+public class WorkstationRepository(DataContext context) : GenericRepository<WorkstationModel>(context), IWorkstationRepository
 {
-    public class WorkstationRepository : BaseRepository, IWorkstationRepository
+    private IFilterStrategy<WorkstationModel> _filterStrategy = new WorkstationComputerNameFilterStrategy();
+
+    public new async Task Update(int id, WorkstationModel model)
     {
-        public WorkstationRepository(DataContext dataContext)
-        {
-            this.context = dataContext;
-        }
+        model.ThrowIfNotValid();
 
-        public async Task AddAsync(WorkstationModel model)
-        {
-            context.Workstations.Add(model);
-            await context.SaveChangesAsync();
-        }
+        var modelToUpdate = await GetById(id) ?? throw new NullReferenceException("Model not found.");
 
-        public async Task DeleteAsync(int modelId)
-        {
-            var modelToDelete = await GetModelByIdAsync(modelId);
-            if (modelToDelete != null)
-            {
-                context.Workstations.Remove(modelToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
+        modelToUpdate.ComputerName = model.ComputerName;
+        modelToUpdate.Username = model.Username;
+        modelToUpdate.HardDisk = model.HardDisk;
+        modelToUpdate.Cpu = model.Cpu;
+        modelToUpdate.BiosVersion = model.BiosVersion;
+        modelToUpdate.Os = model.Os;
+        modelToUpdate.OsBitVersion = model.OsBitVersion;
+        modelToUpdate.HasFault = model.HasFault;
 
-        public async Task EditAsync(int modelId, WorkstationModel updatedModel)
-        {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.ComputerName = updatedModel.ComputerName;
-                modelToUpdate.Username = updatedModel.Username;
-                modelToUpdate.HardDisk = updatedModel.HardDisk;
-                modelToUpdate.Cpu = updatedModel.Cpu;
-                modelToUpdate.BiosVersion = updatedModel.BiosVersion;
-                modelToUpdate.Os = updatedModel.Os;
-                modelToUpdate.OsBitVersion = updatedModel.OsBitVersion;
-                modelToUpdate.HasFault = updatedModel.HasFault;
-
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<WorkstationModel?> GetModelByIdAsync(int modelId)
-        {
-            return await context.Workstations.FirstOrDefaultAsync(m => m.Id == modelId);
-        }
-
-        public async Task<IList<WorkstationModel>> GetAllAsync()
-        {
-            return await context.Workstations.ToListAsync();
-        }
-
-        public bool IsIdUnique(int modelId)
-        {
-            return !context.Workstations.Any(model => model.Id == modelId);
-        }
-
+        await context.SaveChangesAsync();
     }
+
+    public void SetFilterStrategy(IFilterStrategy<WorkstationModel> fs)
+    {
+        _filterStrategy = fs;
+    }
+
+    public IEnumerable<WorkstationModel> FilterWorkstation(string filterValue)
+    {
+        return _filterStrategy.Filter(GetAll(), filterValue);
+    }
+
 }

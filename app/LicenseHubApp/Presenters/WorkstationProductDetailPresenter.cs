@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 using System.Reflection;
 
 

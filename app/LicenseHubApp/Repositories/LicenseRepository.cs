@@ -1,11 +1,14 @@
-﻿using LicenseHubApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using LicenseHubApp.Models;
+using LicenseHubApp.Repositories.GenericRepository;
+using System.Linq;
 namespace LicenseHubApp.Repositories;
 
 
 public class LicenseRepository(
     IPerpetualLicenseRepository perpetualLicenseRepository,
     ISubscriptionLicenseRepository subscriptionLicenseRepository)
-    : BaseRepository, ILicenseRepository
+    : ILicenseRepository
 {
     private string? _licenseType;
     private readonly IPerpetualLicenseRepository? _perpetualLicenseRepository = perpetualLicenseRepository;
@@ -21,82 +24,82 @@ public class LicenseRepository(
         };
     }
 
-    public async Task AddAsync(LicenseModel model)
-    {
-        switch (_licenseType)
-        {
-            case null:
-                throw new Exception("LicenseType is not set.");
-            case "PerpetualLicense":
-                await _perpetualLicenseRepository!.AddAsync((PerpetualLicenseModel)model);
-                break;
-            case "SubscriptionLicense":
-                await _subscriptionLicenseRepository!.AddAsync((SubscriptionLicenseModel)model);
-                break;
-        }
-    }
-    public async Task EditAsync(int modelId, LicenseModel updatedModel)
-    {
-        switch (_licenseType)
-        {
-            case null:
-                throw new Exception("LicenseType is not set.");
-            case "PerpetualLicense":
-                await _perpetualLicenseRepository!.EditAsync(modelId, (PerpetualLicenseModel)updatedModel);
-                break;
-            case "SubscriptionLicense":
-                await _subscriptionLicenseRepository!.EditAsync(modelId, (SubscriptionLicenseModel)updatedModel);
-                break;
-        }
-    }
-    public async Task DeleteAsync(int modelId)
-    {
-        switch (_licenseType)
-        {
-            case null:
-                throw new Exception("LicenseType is not set.");
-            case "PerpetualLicense":
-                await _perpetualLicenseRepository!.DeleteAsync(modelId);
-                break;
-            case "SubscriptionLicense":
-                await _subscriptionLicenseRepository!.DeleteAsync(modelId);
-                break;
-        }
-    }
-    public async Task<IList<LicenseModel>> GetAllAsync()
+    public async Task Create(LicenseModel model)
     {
         switch (_licenseType)
         {
             case "PerpetualLicense":
-                return (IList<LicenseModel>)await _perpetualLicenseRepository!.GetAllAsync();
+                await _perpetualLicenseRepository!.Create((PerpetualLicenseModel)model);
+                break;
             case "SubscriptionLicense":
-                return (IList<LicenseModel>)await _subscriptionLicenseRepository!.GetAllAsync();
+                await _subscriptionLicenseRepository!.Create((SubscriptionLicenseModel)model);
+                break;
             default:
                 throw new Exception("LicenseType is not set.");
         }
     }
-    public async Task<LicenseModel?> GetModelByIdAsync(int modelId)
+    public async Task Update(int id, LicenseModel model)
     {
         switch (_licenseType)
         {
             case "PerpetualLicense":
-                return await _perpetualLicenseRepository!.GetModelByIdAsync(modelId);
+                await _perpetualLicenseRepository!.Update(id, (PerpetualLicenseModel)model);
+                break;
             case "SubscriptionLicense":
-                return await _subscriptionLicenseRepository!.GetModelByIdAsync(modelId);
+                await _subscriptionLicenseRepository!.Update(id, (SubscriptionLicenseModel)model);
+                break;
             default:
                 throw new Exception("LicenseType is not set.");
         }
+    }
+    public async Task Delete(int id)
+    {
+        switch (_licenseType)
+        {
+            case "PerpetualLicense":
+                await _perpetualLicenseRepository!.Delete(id);
+                break;
+            case "SubscriptionLicense":
+                await _subscriptionLicenseRepository!.Delete(id);
+                break;
+            default:
+                throw new Exception("LicenseType is not set.");
+        }
+    }
+
+    public IEnumerable<LicenseModel> GetAll()
+    {
+        switch (_licenseType)
+        {
+            case "PerpetualLicense":
+                var perpetualLicenses = _perpetualLicenseRepository!.GetAll();
+                return perpetualLicenses.Cast<LicenseModel>().ToList();
+
+            case "SubscriptionLicense":
+                var subscriptionLicenses = _subscriptionLicenseRepository!.GetAll();
+                return subscriptionLicenses.Cast<LicenseModel>().ToList();
+
+            default:
+                throw new Exception("LicenseType is not set.");
+        }
+    }
+
+    public async Task<LicenseModel?> GetById(int modelId)
+    {
+        return _licenseType switch
+        {
+            "PerpetualLicense" => await _perpetualLicenseRepository!.GetById(modelId),
+            "SubscriptionLicense" => await _subscriptionLicenseRepository!.GetById(modelId),
+            _ => throw new Exception("LicenseType is not set.")
+        };
     }
     public bool IsIdUnique(int modelId)
     {
-        switch (_licenseType)
+        return _licenseType switch
         {
-            case "PerpetualLicense":
-                return _perpetualLicenseRepository!.IsIdUnique(modelId);
-            case "SubscriptionLicense":
-                return _subscriptionLicenseRepository!.IsIdUnique(modelId);
-            default:
-                throw new Exception("LicenseType is not set.");
-        }
+            "PerpetualLicense" => _perpetualLicenseRepository!.IsIdUnique(modelId),
+            "SubscriptionLicense" => _subscriptionLicenseRepository!.IsIdUnique(modelId),
+            _ => throw new Exception("LicenseType is not set.")
+        };
     }
 }

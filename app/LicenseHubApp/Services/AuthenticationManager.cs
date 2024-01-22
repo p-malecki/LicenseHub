@@ -1,5 +1,5 @@
 ﻿using LicenseHubApp.Models;
-namespace LicenseHubApp.Services.Managers;
+namespace LicenseHubApp.Services;
 
 public sealed class AuthenticationManager
 {
@@ -7,7 +7,6 @@ public sealed class AuthenticationManager
     private static AuthenticationManager? _instance;
     private static IUserRepository? _repository;
     private UserModel? _currentlyLoggedUser;
-
     private static int _failedAttempts = 0;
 
 
@@ -15,7 +14,6 @@ public sealed class AuthenticationManager
 
     public static AuthenticationManager GetInstance(IUserRepository repository)
     {
-        // Double-check locking for thread safety
         if (_instance == null)
         {
             lock (LockObject)
@@ -30,26 +28,31 @@ public sealed class AuthenticationManager
         return _instance;
     }
 
-    public void Login(string username, string password)
+    public async void Login(string username, string password)
     {
         try
         {
-            var user = (_repository.GetUserByUsernameAsync(username)?.Result) ?? throw new InvalidDataException($"User {username} doesn't exist.");
+            //var user =  await (_repository?.GetUserByUsername(username) ?? throw new InvalidOperationException(@"Repository not set."));
+            var user = (_repository.GetUserByUsername(username)?.Result) ?? throw new InvalidDataException($"User {username} doesn't exist.");
+
+            if (user == null)
+                throw new InvalidDataException(@$"User {username} doesn't exist.");
+
             if (user.Password == password)
             {
                 _currentlyLoggedUser = user;
                 _failedAttempts = 0;
-                Console.WriteLine($"User '{username}' logged in successfully.");
+                Console.WriteLine(@$"User '{username}' logged in successfully.");
             }
             else
             {
-                // Wait when incorrect password entered
+                // Sleep when incorrect password entered
                 _failedAttempts++;
                 if (_failedAttempts > 5)
                 {
                     Thread.Sleep(_failedAttempts * _failedAttempts * 400);
                 }
-                throw new IncorrectPasswordException("The entered password is incorrect.");
+                throw new IncorrectPasswordException(@"The entered password is incorrect.");
             }
         }
         catch (Exception e)
@@ -61,11 +64,10 @@ public sealed class AuthenticationManager
 
     public void Logout()
     {
-        if (_currentlyLoggedUser != null)
-        {
-            _currentlyLoggedUser = null;
-            Console.WriteLine("User logged out successfully.");
-        }
+        if (_currentlyLoggedUser == null) return;
+
+        _currentlyLoggedUser = null;
+        Console.WriteLine(@"User logged out successfully.");
     }
 
     public UserModel? GetCurrentlyLoggedUser()

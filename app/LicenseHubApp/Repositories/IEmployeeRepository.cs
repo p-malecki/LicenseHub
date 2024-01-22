@@ -1,7 +1,9 @@
-﻿namespace LicenseHubApp.Models
+﻿using LicenseHubApp.Models.Filters;
+using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Models;
+
+public interface IEmployeeRepository : IGenericRepository<EmployeeModel>
 {
-    public interface IEmployeeRepository : IModelRepository<EmployeeModel>
-    {
-        
-    }
+    void SetFilterStrategy(IFilterStrategy<EmployeeModel> fs);
+    IEnumerable<EmployeeModel> FilterEmployee(string filterValue);
 }

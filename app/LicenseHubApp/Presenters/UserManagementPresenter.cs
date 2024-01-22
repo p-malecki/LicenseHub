@@ -1,6 +1,6 @@
 ﻿using LicenseHubApp.Models;
+using LicenseHubApp.Repositories;
 using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Services.Managers;
 
 
 namespace LicenseHubApp.Presenters
@@ -8,15 +8,15 @@ namespace LicenseHubApp.Presenters
     public class UserManagementPresenter
     {
         private readonly IUserManagementView _view;
-        private readonly UserManager _manager;
+        private readonly IUserRepository _repository;
         private readonly BindingSource _userBindingSource;
 
 
-        public UserManagementPresenter(IUserManagementView view, UserManager manager)
+        public UserManagementPresenter(IUserManagementView view, IUserRepository repository)
         {
             _view = view;
-            _manager = manager;
-            _userBindingSource = new BindingSource();
+            _repository = repository;
+            _userBindingSource = [];
             view.SetUserListBindingSource(_userBindingSource);
 
             _view.AddBtnClicked += OnAddBtnClicked;
@@ -31,7 +31,7 @@ namespace LicenseHubApp.Presenters
 
         private void LoadAllList()
         {
-            _userBindingSource.DataSource = _manager.GetAll();
+            _userBindingSource.DataSource = _repository.GetAll();
         }
         private void OnAddBtnClicked(object sender, EventArgs e)
         {
@@ -51,7 +51,7 @@ namespace LicenseHubApp.Presenters
             try
             {
                 var model = (UserModel)_userBindingSource.Current;
-                _manager.Delete(model);
+                _repository.Delete(model.Id);
                 _view.IsSuccessful = true;
                 _view.Message = "You’ve deleted user.";
                 LoadAllList();
@@ -63,7 +63,7 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnSaveBtnClicked(object sender, EventArgs e)
+        private async void OnSaveBtnClicked(object sender, EventArgs e)
         {
             try
             {
@@ -76,24 +76,24 @@ namespace LicenseHubApp.Presenters
 
                 if (_view.IsEdit)
                 {
-                    var modelBeforeChange = _manager.GetModelById(_view.Id);
+                    var modelBeforeChange = await _repository.GetById(_view.Id);
 
-                    if (!_manager.IsUsernameUnique(_view.Id, _view.Username))
+                    if (!_repository.IsUsernameUnique(_view.Id, _view.Username))
                         throw new InvalidOperationException($"User with Username {_view.Username} already exists.");
 
-                    if (!_manager.IsAdminChangeValid(modelBeforeChange.IsAdmin, _view.IsAdmin))
+                    if (!_repository.IsAdminChangeValid(modelBeforeChange.IsAdmin, _view.IsAdmin))
                         throw new InvalidOperationException($"Unable to remove the last admin privileges.");
 
                     model.Id = _view.Id;
                     if (_view.Password.Length == 0)
                         model.Password = modelBeforeChange.Password;
 
-                    _manager.Save(model);
+                    await _repository.Update(model.Id, model);
                     _view.Message = "User details have been saved.";
                 }
                 else
                 {
-                    _manager.Add(model);
+                    await _repository.Create(model);
                     _view.Message = "User has been added.";
                 }
                 _view.IsSuccessful = true;

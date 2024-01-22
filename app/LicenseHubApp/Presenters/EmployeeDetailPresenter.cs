@@ -1,7 +1,7 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Utils;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Presenters
@@ -10,7 +10,7 @@ namespace LicenseHubApp.Presenters
     {
         private readonly IEmployeeDetailView _view;
         private readonly EmployeeModel _employee;
-        private readonly EmployeeManager _employeeManager;
+        private readonly IEmployeeRepository _employeeRepository;
         private readonly BindingSource _workstationBindingSource;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationDetailViewChanged;
         private readonly EventHandler _closeDetailViewClicked;
@@ -19,14 +19,14 @@ namespace LicenseHubApp.Presenters
         public EmployeeDetailPresenter(
             IEmployeeDetailView view,
             EmployeeModel employee,
-            EmployeeManager employeeManager,
+            IEmployeeRepository employeeRepository,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged,
             EventHandler CloseDetailViewClicked
             )
         {
             _view = view;
             _employee = employee;
-            _employeeManager = employeeManager;
+            _employeeRepository = employeeRepository;
             _goToWorkstationDetailViewChanged = goToWorkstationDetailViewChanged;
             _closeDetailViewClicked = CloseDetailViewClicked;
 
@@ -94,7 +94,7 @@ namespace LicenseHubApp.Presenters
         {
             _view.SetViewToEditable(false);
         }
-        private void OnSaveBtnClicked(object? sender, EventArgs e)
+        private async void OnSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace LicenseHubApp.Presenters
                     throw new InvalidDataException("Incorrect email(s).");
                 }
                 
-                _employeeManager.Save(model);
+                await _employeeRepository.Update(model.Id, model);
                 _view.Message = "Employee details have been saved.";
                 _view.SetViewToEditable(false);
                 _view.IsSuccessful = true;
@@ -134,9 +134,10 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
-        private void OnToggleIsActiveBtnClicked(object? sender, EventArgs e)
+        private async void OnToggleIsActiveBtnClicked(object? sender, EventArgs e)
         {
-            _employeeManager.ToggleIsActive(_employee);
+            _employee.IsActive = !_employee.IsActive;
+            await _employeeRepository.Update(_employee.Id, _employee);
         }
 
         private WorkstationModel? GetSelectedWorkstation()

@@ -17,10 +17,6 @@ public partial class EmployeeDetailView : UserControl, IEmployeeDetailView
         btnEdit.Click += delegate
         {
             EditBtnClicked?.Invoke(this, EventArgs.Empty);
-            if (!IsSuccessful)
-            {
-                MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         };
 
         btnSave.Click += delegate

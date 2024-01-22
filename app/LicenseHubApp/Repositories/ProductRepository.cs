@@ -1,122 +1,67 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using LicenseHubApp.Models;
+using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Repositories;
 
 
-namespace LicenseHubApp.Repositories
+public class ProductRepository(DataContext context) : GenericRepository<ProductModel>(context), IProductRepository
 {
-    public class ProductRepository : BaseRepository, IProductRepository
+    public new async Task Update(int id, ProductModel model)
     {
-        public ProductRepository(DataContext dataContext)
-        {
-            this.context = dataContext;
-        }
+        model.ThrowIfNotValid();
 
-        public async Task AddAsync(ProductModel model)
-        {
-            try
-            {
-                model.ThrowIfNotValid();
-                if (!IsNameUnique(model.Id, model.Name))
-                {
-                    throw new InvalidDataException("Product has not unique name.");
-                }
+        var modelToUpdate = await GetById(id) ?? throw new NullReferenceException("Model not found.");
 
-                context.Products.Add(model);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
-        }
+        if (!IsNameUnique(id, model.Name))
+            throw new InvalidDataException("Product has not unique name.");
 
-        public async Task DeleteAsync(int modelId)
-        {
-            var modelToDelete = await GetModelByIdAsync(modelId);
-            if (modelToDelete != null)
-            {
-                context.Products.Remove(modelToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
+        modelToUpdate.Name = model.Name;
+        modelToUpdate.IsAvailable = model.IsAvailable;
+        modelToUpdate.Description = model.Description;
 
-        public async Task EditAsync(int modelId, ProductModel updatedModel)
-        {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-
-            if (modelToUpdate != null)
-            {
-                updatedModel.ThrowIfNotValid();
-                if (!IsNameUnique(modelId, updatedModel.Name))
-                {
-                    throw new InvalidDataException("Product has not unique name.");
-                }
-
-                modelToUpdate.Name = updatedModel.Name;
-                modelToUpdate.IsAvailable = updatedModel.IsAvailable;
-                modelToUpdate.Description = updatedModel.Description;
-
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<ProductModel?> GetModelByIdAsync(int modelId)
-        {
-            return await context.Products.FirstOrDefaultAsync(m => m.Id == modelId);
-        }
-
-        public async Task<IList<ProductModel>> GetAllAsync()
-        {
-            return await context.Products.ToListAsync();
-        }
-
-        public bool IsIdUnique(int modelId)
-        {
-            return !context.Products.Any(model => model.Id == modelId);
-        }
-        public bool IsNameUnique(int modelId, string modelName)
-        {
-            return !context.Products.Any(model => (model.Name == modelName) && model.Id != modelId);
-        }
-
-        public async Task AddReleaseAsync(int productId, ProductReleaseModel releaseModel)
-        {
-            try
-            {
-                releaseModel.ThrowIfNotValid();
-
-                var modelToUpdate = context.Products
-                                        .Include(m => m.Releases)
-                                        .First(m => m.Id == productId)
-                                    ?? throw new NullReferenceException("Product model not found.");
-
-                modelToUpdate.Releases.Add(releaseModel);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-        public async Task RemoveReleaseAsync(int productId, ProductReleaseModel releaseModel)
-        {
-            try
-            {
-                var productModel = await GetModelByIdAsync(productId) ?? throw new NullReferenceException("Product model not found.");
-
-                productModel.Releases.Remove(releaseModel);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-        }
-
-
+        await context.SaveChangesAsync();
     }
+
+    public bool IsNameUnique(int id, string name)
+    {
+        return !Context.Set<ProductModel>().Any(model => (model.Name == name) && model.Id != id);
+    }
+
+    public async Task CreateRelease(int productId, ProductReleaseModel releaseModel)
+    {
+        try
+        {
+            releaseModel.ThrowIfNotValid();
+
+            var modelToUpdate = Context.Set<ProductModel>()
+                                    .Include(m => m.Releases)
+                                    .First(m => m.Id == productId)
+                                ?? throw new NullReferenceException("Product model not found.");
+
+            modelToUpdate.Releases.Add(releaseModel);
+            await Context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    public async Task DeleteRelease(int productId, ProductReleaseModel releaseModel)
+    {
+        try
+        {
+            var productModel = await GetById(productId) ?? throw new NullReferenceException("Product model not found.");
+
+            productModel.Releases.Remove(releaseModel);
+            await Context.SaveChangesAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
 }

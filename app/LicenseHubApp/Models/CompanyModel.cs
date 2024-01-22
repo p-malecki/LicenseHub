@@ -5,7 +5,6 @@ namespace LicenseHubApp.Models;
 
 
 [Microsoft.EntityFrameworkCore.Index(nameof(Name), IsUnique = true)]
-[Microsoft.EntityFrameworkCore.Index(nameof(Nip), IsUnique = true)]
 public class CompanyModel : ValidatableModel, IModelWithId
 {
     [Key]

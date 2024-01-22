@@ -4,7 +4,7 @@ using LicenseHubApp.Views.Forms;
 using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
 using LicenseHubApp.Repositories;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Presenters
@@ -15,13 +15,12 @@ namespace LicenseHubApp.Presenters
         private readonly AuthenticationManager _authenticator;
         private readonly DataContext _dataContext;
         private readonly IUserRepository _userRepository;
-        private UserManager _userManager;
-        private CompanyManager _companyManager;
-        private EmployeeManager _employeeManager;
-        private WorkstationManager _workstationManager;
-        private OrderManager _orderManager;
-        private ProductManager _productManager;
-
+        private ICompanyRepository _companyRepository;
+        private IEmployeeRepository _employeeRepository;
+        private IWorkstationRepository _workstationRepository;
+        private IOrderRepository _orderRepository;
+        private IProductRepository _productRepository;
+        private IProductReleaseRepository _releaseProductRepository;
         private event EventHandler GoToClientViewChanged;
         private event EventHandler GoToOrderViewChanged;
         private event EventHandler<GoToDetailViewEventArgs>? GoToEmployeeDetailViewChanged;
@@ -36,7 +35,13 @@ namespace LicenseHubApp.Presenters
             _authenticator = authenticator;
             _dataContext = dataContext;
             _userRepository = userRepository;
-            CreateManagers();
+
+            _companyRepository = new CompanyRepository(_dataContext);
+            _employeeRepository = new EmployeeRepository(_dataContext);
+            _workstationRepository = new WorkstationRepository(_dataContext);
+            _orderRepository = new OrderRepository(_dataContext);
+            _productRepository = new ProductRepository(_dataContext);
+            _releaseProductRepository = new ProductReleaseRepository(_dataContext);
 
             _view.ClientsBtnClicked += OnClientsBtnClicked;
             _view.OrdersBtnClicked += OnOrdersBtnClicked;
@@ -54,29 +59,11 @@ namespace LicenseHubApp.Presenters
             _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser()!.Username ?? throw new AuthenticationException("No logged-in user.");
         }
 
-        private void CreateManagers()
-        {
-            var dataContext = new DataContext();
-            ICompanyRepository companyRepository = new CompanyRepository(dataContext);
-            IEmployeeRepository employeeRepository = new EmployeeRepository(dataContext);
-            IWorkstationRepository workstationProductRepository = new WorkstationRepository(dataContext);
-            IOrderRepository orderRepository = new OrderRepository(dataContext);
-            IProductRepository productRepository = new ProductRepository(dataContext);
-            IProductReleaseModelRepository releaseProductRepository = new ProductReleaseModelRepository(dataContext);
-
-            _userManager = UserManager.GetInstance(_userRepository);
-            _companyManager = CompanyManager.GetInstance(companyRepository, new CustomerNameFilterStrategy());
-            _employeeManager = EmployeeManager.GetInstance(employeeRepository, new EmployeeNameFilterStrategy());
-            _workstationManager = WorkstationManager.GetInstance(workstationProductRepository, new WorkstationComputerNameFilterStrategy());
-            _orderManager = OrderManager.GetInstance(orderRepository, new OrderContractNumberFilterStrategy());
-            _productManager = ProductManager.GetInstance(productRepository, releaseProductRepository);
-        }
-
 
         private void OnClientsBtnClicked(object? sender, EventArgs e)
         {
             var clientView = new ClientView();
-            _ = new ClientPresenter(clientView, _companyManager, _employeeManager, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
+            _ = new ClientPresenter(clientView, _companyRepository, _employeeRepository, _workstationRepository, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(clientView);
@@ -86,7 +73,7 @@ namespace LicenseHubApp.Presenters
         private void OnOrdersBtnClicked(object? sender, EventArgs e)
         {
             var orderView = new OrderView();
-            _ = new OrderPresenter(orderView, _orderManager, _companyManager);
+            _ = new OrderPresenter(orderView, _orderRepository, _companyRepository);
 
             _view.OrderTabPageCollection.Add(orderView);
             orderView.Dock = DockStyle.Fill;
@@ -95,7 +82,7 @@ namespace LicenseHubApp.Presenters
         private void OnProductsBtnClicked(object? sender, EventArgs e)
         {
             var productView = new ProductView();
-            _ = new ProductPresenter(productView, _productManager);
+            _ = new ProductPresenter(productView, _productRepository, _releaseProductRepository);
 
             _view.ProductTabPageCollection.Add(productView);
             productView.Dock = DockStyle.Fill;
@@ -110,7 +97,7 @@ namespace LicenseHubApp.Presenters
         private void OnSettingsBtnClicked(object? sender, EventArgs e)
         {
             var userManagementForm = new UserManagementFormView();
-            _ = new UserManagementPresenter(userManagementForm, _userManager);
+            _ = new UserManagementPresenter(userManagementForm, _userRepository);
             userManagementForm.TopLevel = true;
             userManagementForm.Show();
         }
@@ -119,7 +106,7 @@ namespace LicenseHubApp.Presenters
         {
             var employee = e.Employee!;
             var employeeDetailView = new EmployeeDetailView();
-            _ = new EmployeeDetailPresenter(employeeDetailView, employee, _employeeManager, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+            _ = new EmployeeDetailPresenter(employeeDetailView, employee, _employeeRepository, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(employeeDetailView);
@@ -129,7 +116,7 @@ namespace LicenseHubApp.Presenters
         {
             var workstation = e.Workstation!;
             var workstationDetailView = new WorkstationDetailView();
-            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationManager, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
+            _ = new WorkstationDetailPresenter(workstationDetailView, workstation, _workstationRepository, GoToEmployeeDetailViewChanged, GoToWorkstationDetailViewChanged, GoToClientViewChanged);
 
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(workstationDetailView);
@@ -139,7 +126,7 @@ namespace LicenseHubApp.Presenters
         {
             var order = e.Order!;
             var orderDetailView = new OrderDetailView();
-            _ = new OrderDetailPresenter(orderDetailView, order, _orderManager, GoToWorkstationDetailViewChanged, GoToOrderViewChanged);
+            _ = new OrderDetailPresenter(orderDetailView, order, _orderRepository, GoToWorkstationDetailViewChanged, GoToOrderViewChanged);
 
             _view.OrderTabPageCollection.Clear();
             _view.OrderTabPageCollection.Add(orderDetailView);

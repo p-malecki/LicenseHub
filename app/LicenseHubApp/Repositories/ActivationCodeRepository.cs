@@ -1,95 +1,51 @@
-﻿using Microsoft.EntityFrameworkCore;
-using LicenseHubApp.Models;
+﻿using LicenseHubApp.Models;
+using LicenseHubApp.Repositories.GenericRepository;
+using System.Reflection;
+namespace LicenseHubApp.Repositories;
 
-
-namespace LicenseHubApp.Repositories
+public class ActivationCodeRepository(DataContext context) : GenericRepository<ActivationCodeModel>(context), IActivationCodeRepository
 {
-    public class ActivationCodeRepository : BaseRepository, IActivationCodeRepository
+    public async Task<IList<GeneratedActivationCodeModel>> GetAllGeneratedActivationCode()
     {
-        public ActivationCodeRepository(DataContext dataContext)
-        {
-            this.context = dataContext;
-        }
+        var destinationList = new List<GeneratedActivationCodeModel>();
+        var sourceList = GetAll();
 
-        public async Task AddAsync(ActivationCodeModel model)
+        foreach (var sourceElement in sourceList)
         {
-            context.ActivationCodes.Add(model);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task DeleteAsync(int modelId)
-        {
-            var modelToDelete = await GetModelByIdAsync(modelId);
-            if (modelToDelete != null)
+            var destElement = Activator.CreateInstance<GeneratedActivationCodeModel>();
+            PropertyInfo[] sourceProperties = typeof(ActivationCodeModel).GetProperties();
+            foreach (PropertyInfo sourceProperty in sourceProperties)
             {
-                context.ActivationCodes.Remove(modelToDelete);
-                await context.SaveChangesAsync();
+                var destProperty = typeof(GeneratedActivationCodeModel).GetProperty(sourceProperty.Name);
+
+                if (destProperty != null && destProperty.PropertyType.IsAssignableFrom(sourceProperty.PropertyType))
+                {
+                    destProperty.SetValue(destElement, sourceProperty.GetValue(sourceElement));
+                }
             }
+            destinationList.Add(destElement);
         }
+        return destinationList;
+    }
 
-        public async Task EditAsync(int modelId, ActivationCodeModel updatedModel)
-        {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.Code = updatedModel.Code;
+    public async Task<GeneratedActivationCodeModel?> GetByIdGeneratedActivationCodeModel(int id)
+    {
+        var model = await GetById(id);
+        return (GeneratedActivationCodeModel)model;
+    }
 
-                await context.SaveChangesAsync();
-            }
-        }
+    public async Task CreateGeneratedActivationCode(GeneratedActivationCodeModel model)
+    { 
+        await Create(model);
+    }
 
-        public async Task<ActivationCodeModel?> GetModelByIdAsync(int modelId)
-        {
-            return await context.ActivationCodes.FirstOrDefaultAsync(m => m.Id == modelId);
-        }
+    public async Task UpdateGeneratedActivationCode(int id, GeneratedActivationCodeModel model)
+    {
+        await Update(id, model);
+    }
 
-        public async Task<IList<ActivationCodeModel>> GetAllAsync()
-        {
-            return await context.ActivationCodes.ToListAsync();
-        }
-
-        public bool IsIdUnique(int modelId)
-        {
-            return !context.ActivationCodes
-                .Any(model => model.Id == modelId);
-        }
-
-        public async Task AddGeneratedActivationCodeAsync(GeneratedActivationCodeModel model)
-        {
-            context.ActivationCodes.Add(model);
-            await context.SaveChangesAsync();
-        }
-
-        public async Task DeleteGeneratedActivationCodeAsync(int modelId)
-        {
-            var modelToDelete = await GetByIdGeneratedActivationCodeModelAsync(modelId);
-            if (modelToDelete != null)
-            {
-                context.ActivationCodes.Remove(modelToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task EditGeneratedActivationCodeAsync(int modelId, GeneratedActivationCodeModel updatedModel)
-        {
-            var modelToUpdate = await GetByIdGeneratedActivationCodeModelAsync(modelId);
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.Code = updatedModel.Code;
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<GeneratedActivationCodeModel?> GetByIdGeneratedActivationCodeModelAsync(int modelId)
-        {
-            return await context.ActivationCodes
-                .OfType<GeneratedActivationCodeModel>()
-                .FirstOrDefaultAsync(m => m.Id == modelId);
-        }
-
-        public async Task<IList<GeneratedActivationCodeModel>> GetAllGeneratedActivationCodeAsync()
-        {
-            return await context.ActivationCodes.OfType<GeneratedActivationCodeModel>().ToListAsync();
-        }
+    public async Task DeleteGeneratedActivationCode(int id)
+    {
+        await Delete(id);
     }
 }

@@ -1,70 +1,19 @@
-﻿using Microsoft.EntityFrameworkCore;
-using LicenseHubApp.Models;
+﻿using LicenseHubApp.Models;
+using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Repositories;
 
-
-namespace LicenseHubApp.Repositories
+public class SubscriptionLicenseRepository(DataContext context) : GenericRepository<SubscriptionLicenseModel>(context), ISubscriptionLicenseRepository
 {
-    public class SubscriptionLicenseRepository : BaseRepository, ISubscriptionLicenseRepository
+    public new async Task Update(int id, SubscriptionLicenseModel model)
     {
-        public SubscriptionLicenseRepository(DataContext dataContext)
-        {
-            this.context = dataContext;
-        }
+        model.ThrowIfNotValid();
 
-        public async Task AddAsync(SubscriptionLicenseModel model)
-        {
-            try
-            {
-                context.Licenses.Add(model);
-                await context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
-        }
+        var modelToUpdate = await GetById(id) ?? throw new NullReferenceException("Model not found.");
 
-        public async Task DeleteAsync(int modelId)
-        {
-            var modelToDelete = await GetModelByIdAsync(modelId);
-            if (modelToDelete != null)
-            {
-                context.Licenses.Remove(modelToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
+        modelToUpdate.RegisterDate = model.RegisterDate;
+        modelToUpdate.ActivationDate = model.ActivationDate;
+        modelToUpdate.LeaseTermInDays = model.LeaseTermInDays;
 
-        public async Task EditAsync(int modelId, SubscriptionLicenseModel updatedModel)
-        {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.RegisterDate = updatedModel.RegisterDate;
-                modelToUpdate.ActivationDate = updatedModel.ActivationDate;
-                modelToUpdate.LeaseTermInDays = updatedModel.LeaseTermInDays;
-
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<SubscriptionLicenseModel?> GetModelByIdAsync(int modelId)
-        {
-            return await context.Licenses.OfType<SubscriptionLicenseModel>().FirstOrDefaultAsync(m => m.Id == modelId);
-        }
-
-        public async Task<IList<SubscriptionLicenseModel>> GetAllAsync()
-        {
-            return await context.Licenses.OfType<SubscriptionLicenseModel>().ToListAsync();
-        }
-
-        public bool IsIdUnique(int modelId)
-        {
-            // TODO (?) check whether .OfType<SubscriptionLicenseModel>() can be removed
-            //return !context.Licenses.Any(model => model.Id == modelId);
-            return !context.Licenses.OfType<SubscriptionLicenseModel>().Any(model => model.Id == modelId);
-        }
-
+        await context.SaveChangesAsync();
     }
 }

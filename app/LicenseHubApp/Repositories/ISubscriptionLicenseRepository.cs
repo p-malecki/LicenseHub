@@ -1,6 +1,7 @@
-﻿namespace LicenseHubApp.Models;
+﻿using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Models;
 
-public interface ISubscriptionLicenseRepository : IModelRepository<SubscriptionLicenseModel>
+public interface ISubscriptionLicenseRepository : IGenericRepository<SubscriptionLicenseModel>
 {
 
 }

@@ -1,6 +1,6 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 using LicenseHubApp.Views.Interfaces;
 
 
@@ -9,15 +9,15 @@ namespace LicenseHubApp.Presenters
     public class OrderPresenter
     {
         private readonly IOrderView _view;
-        private readonly OrderManager _orderManager;
-        private readonly CompanyManager _companyManager;
+        private readonly IOrderRepository _orderRepository;
+        private readonly ICompanyRepository _companyRepository;
         private readonly BindingSource _orderBindingSource;
 
-        public OrderPresenter(IOrderView view, OrderManager orderManager, CompanyManager companyManager)
+        public OrderPresenter(IOrderView view, IOrderRepository orderRepository, ICompanyRepository companyRepository)
         {
             _view = view;
-            _orderManager = orderManager;
-            _companyManager = companyManager;
+            _orderRepository = orderRepository;
+            _companyRepository = companyRepository;
 
             _orderBindingSource = [];
             view.SetOrderListBindingSource(_orderBindingSource);
@@ -34,7 +34,7 @@ namespace LicenseHubApp.Presenters
 
         private void LoadAllOrderList()
         {
-            var results = _orderManager.GetAll().ToList();
+            var results = _orderRepository.GetAll().ToList();
 
             if (results.Count > 0)
             {
@@ -82,13 +82,13 @@ namespace LicenseHubApp.Presenters
 
                     if (selectedCompanyName != "all")
                     {
-                        _companyManager.SetFilterStrategy(new CustomerNameFilterStrategy());
-                        companyResultsName = _companyManager.FilterCompany(selectedCompanyName).ToList();
+                        _companyRepository.SetFilterStrategy(new CustomerNameFilterStrategy());
+                        companyResultsName = _companyRepository.FilterCompany(selectedCompanyName).ToList();
                     }
                     if (!string.IsNullOrWhiteSpace(selectedCompanyNip))
                     {
-                        _companyManager.SetFilterStrategy(new CustomerNipFilterStrategy());
-                        companyResultsNip = _companyManager.FilterCompany(selectedCompanyNip).ToList();
+                        _companyRepository.SetFilterStrategy(new CustomerNipFilterStrategy());
+                        companyResultsNip = _companyRepository.FilterCompany(selectedCompanyNip).ToList();
                     }
 
                     companyFilterResults = companyResultsName.Intersect(companyResultsNip).ToList();
@@ -96,8 +96,8 @@ namespace LicenseHubApp.Presenters
 
                 if (_view.AreOrderFiltersActive && !string.IsNullOrWhiteSpace(selectedOrderContractNumber))
                 {
-                    _orderManager.SetFilterStrategy(new OrderContractNumberFilterStrategy());
-                    orderFilterResults = _orderManager.FilterOrder(selectedOrderContractNumber).ToList();
+                    _orderRepository.SetFilterStrategy(new OrderContractNumberFilterStrategy());
+                    orderFilterResults = _orderRepository.FilterOrder(selectedOrderContractNumber).ToList();
                 }
 
                 var companyOrderResults = companyFilterResults.SelectMany(m => m.Orders).ToList();

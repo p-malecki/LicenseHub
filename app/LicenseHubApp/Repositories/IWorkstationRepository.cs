@@ -1,7 +1,9 @@
-﻿namespace LicenseHubApp.Models
+﻿using LicenseHubApp.Models.Filters;
+using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Models;
+
+public interface IWorkstationRepository : IGenericRepository<WorkstationModel>
 {
-    public interface IWorkstationRepository : IModelRepository<WorkstationModel>
-    {
-        
-    }
+    void SetFilterStrategy(IFilterStrategy<WorkstationModel> fs);
+    IEnumerable<WorkstationModel> FilterWorkstation(string filterValue);
 }

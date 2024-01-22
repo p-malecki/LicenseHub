@@ -1,5 +1,6 @@
 ﻿using LicenseHubApp.Models;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Repositories;
+using LicenseHubApp.Services;
 using LicenseHubApp.Views.Interfaces;
 
 
@@ -8,15 +9,17 @@ namespace LicenseHubApp.Presenters
     public class ProductPresenter
     {
         private readonly IProductView _view;
-        private readonly ProductManager _productManager;
+        private readonly IProductRepository _productRepository;
+        private readonly IProductReleaseRepository _productReleaseRepository;
         private readonly BindingSource _productBindingSource;
         private readonly BindingSource _releaseBindingSource;
 
-        public ProductPresenter(IProductView view, ProductManager productManager
+        public ProductPresenter(IProductView view, IProductRepository productRepository, IProductReleaseRepository productReleaseRepository
         )
         {
             _view = view;
-            _productManager = productManager;
+            _productRepository = productRepository;
+            _productReleaseRepository = productReleaseRepository;
 
             _productBindingSource = [];
             _releaseBindingSource = [];
@@ -41,7 +44,7 @@ namespace LicenseHubApp.Presenters
         {
             var tmpIsEdit = _view.IsEdit;
 
-            var results = _productManager.GetAll().ToList();
+            var results = _productRepository.GetAll().ToList();
 
             if (results.Count > 0)
             {
@@ -62,7 +65,7 @@ namespace LicenseHubApp.Presenters
         {
             var tmpIsEdit = _view.IsEdit;
 
-            var results = _productManager.GetAllRelease().ToList();
+            var results = _productReleaseRepository.GetAll().ToList();
             results = results.Where(m => m.ProductId == _view.ProductId).ToList();
 
             if (results.Count > 0)
@@ -89,7 +92,7 @@ namespace LicenseHubApp.Presenters
                 return null;
             var productName = (string)_productBindingSource.Current;
 
-            var model = _productManager.GetAll().First(m => m.Name == productName);
+            var model = _productRepository.GetAll().First(m => m.Name == productName);
 
             return model;
         }
@@ -187,7 +190,7 @@ namespace LicenseHubApp.Presenters
             _view.IsEdit = false;
         }
 
-        private void OnProductIsAvailableChbToggled(object? sender, EventArgs e)
+        private async void OnProductIsAvailableChbToggled(object? sender, EventArgs e)
         {
             try
             {
@@ -201,7 +204,8 @@ namespace LicenseHubApp.Presenters
                     return;
                 }
 
-                _productManager.ToggleIsAvailable(model);
+                model.IsAvailable = !model.IsAvailable;
+                await _productRepository.Update(model.Id, model);
                 LoadAllProductList();
                 _view.ProductIsAvailable = model.IsAvailable;
                 _view.IsSuccessful = true;
@@ -219,7 +223,7 @@ namespace LicenseHubApp.Presenters
             _view.IsEdit = true;
         }
 
-        private void OnProductSaveBtnClicked(object? sender, EventArgs e)
+        private async void OnProductSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -233,13 +237,13 @@ namespace LicenseHubApp.Presenters
                 if (_view.IsEdit)
                 {
                     model.Id = _view.ProductId;
-                    _productManager.Save(model);
+                    await _productRepository.Update(model.Id, model);
                     _view.Message = "Product changes have been saved.";
                 }
                 else
                 {
                     model.IsAvailable = true;
-                    _productManager.Add(model);
+                    await _productRepository.Create(model);
                     _view.Message = "Product has been added.";
                 }
 
@@ -259,7 +263,7 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnProductRemoveBtnClicked(object? sender, EventArgs e)
+        private async void OnProductRemoveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -273,7 +277,7 @@ namespace LicenseHubApp.Presenters
                     throw new Exception("Product has not been deleted.");
                 }
 
-                _productManager.Delete(model);
+                await _productRepository.Delete(model.Id);
                 _view.Message = "Product has been deleted.";
 
                 _view.IsSuccessful = true;
@@ -299,7 +303,7 @@ namespace LicenseHubApp.Presenters
             _view.SetReleaseViewToEditable(true);
         }
 
-        private void OnReleaseSaveBtnClicked(object? sender, EventArgs e)
+        private async void OnReleaseSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -310,7 +314,7 @@ namespace LicenseHubApp.Presenters
                     Description = _view.ReleaseDescription,
                 };
 
-                _productManager.AddRelease(_view.ProductId, model);
+                await _productRepository.CreateRelease(_view.ProductId, model);
                 _view.Message = "Release has been added.";
 
                 _view.SetReleaseViewToEditable(false);
@@ -325,7 +329,7 @@ namespace LicenseHubApp.Presenters
             }
         }
 
-        private void OnReleaseRemoveBtnClicked(object? sender, EventArgs e)
+        private async void OnReleaseRemoveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -338,7 +342,7 @@ namespace LicenseHubApp.Presenters
                     throw new Exception("Release has not been deleted.");
                 }
 
-                _productManager.RemoveRelease(_view.ProductId, model);
+                await _productRepository.DeleteRelease(_view.ProductId, model);
                 _view.Message = "Release has been deleted.";
 
                 LoadAllReleaseList();

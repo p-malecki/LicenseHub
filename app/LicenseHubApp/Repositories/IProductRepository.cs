@@ -1,10 +1,9 @@
-﻿namespace LicenseHubApp.Models
-{
-    public interface IProductRepository : IModelRepository<ProductModel>
-    {
-        bool IsNameUnique(int modelId, string modelName);
+﻿using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Models;
 
-        Task AddReleaseAsync(int productId, ProductReleaseModel releaseModel);
-        Task RemoveReleaseAsync(int productId, ProductReleaseModel releaseModel);
-    }
+public interface IProductRepository : IGenericRepository<ProductModel>
+{
+    bool IsNameUnique(int id, string name);
+    Task CreateRelease(int productId, ProductReleaseModel releaseModel);
+    Task DeleteRelease(int productId, ProductReleaseModel releaseModel);
 }

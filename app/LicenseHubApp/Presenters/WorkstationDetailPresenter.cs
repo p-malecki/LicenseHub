@@ -1,6 +1,6 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Presenters
@@ -9,7 +9,7 @@ namespace LicenseHubApp.Presenters
     {
         private readonly IWorkstationDetailView _view;
         private readonly WorkstationModel _workstation;
-        private readonly WorkstationManager _workstationManager;
+        private readonly IWorkstationRepository _workstationRepository;
         private readonly BindingSource _employeeBindingSource;
         private readonly BindingSource _workstationProductBindingSource;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToEmployeeDetailViewChanged;
@@ -20,7 +20,7 @@ namespace LicenseHubApp.Presenters
         public WorkstationDetailPresenter(
             IWorkstationDetailView view,
             WorkstationModel workstation,
-            WorkstationManager workstationManager,
+            IWorkstationRepository workstationRepository,
             EventHandler<GoToDetailViewEventArgs>? goToEmployeeDetailViewChanged,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationProductDetailViewChanged,
             EventHandler closeDetailViewClicked
@@ -28,7 +28,7 @@ namespace LicenseHubApp.Presenters
         {
             _view = view;
             _workstation = workstation;
-            _workstationManager = workstationManager;
+            _workstationRepository = workstationRepository;
             _goToEmployeeDetailViewChanged = goToEmployeeDetailViewChanged;
             _goToWorkstationProductDetailViewChanged = goToWorkstationProductDetailViewChanged;
             _closeDetailViewClicked = closeDetailViewClicked;
@@ -138,7 +138,7 @@ namespace LicenseHubApp.Presenters
                     OsBitVersion = _view.WorkstationOsBitVersion,
                 };
 
-                _workstationManager.Save(model);
+                _workstationRepository.Update(model.Id, model);
                 _view.Message = "Workstation details have been saved.";
                 _view.SetViewToEditable(false);
                 _view.IsSuccessful = true;
@@ -151,9 +151,10 @@ namespace LicenseHubApp.Presenters
                 _view.Message = ex.Message;
             }
         }
-        private void OnToggleHasFaultBtnClicked(object? sender, EventArgs e)
+        private async void OnToggleHasFaultBtnClicked(object? sender, EventArgs e)
         {
-            _workstationManager.ToggleHasFault(_workstation);
+            _workstation.HasFault = !_workstation.HasFault;
+            await _workstationRepository.Update(_workstation.Id, _workstation);
         }
         
         private EmployeeModel? GetSelectedEmployee()

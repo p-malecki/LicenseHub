@@ -2,7 +2,8 @@
 using LicenseHubApp.Models.Filters;
 using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Utils;
-using LicenseHubApp.Services.Managers;
+using Microsoft.EntityFrameworkCore;
+using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Presenters
@@ -10,9 +11,9 @@ namespace LicenseHubApp.Presenters
     public class ClientPresenter
     {
         private readonly IClientView _view;
-        private readonly CompanyManager _companyManager;
-        private readonly EmployeeManager _employeeManager;
-        private readonly WorkstationManager _workstationProductManager;
+        private readonly ICompanyRepository _companyRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        private readonly IWorkstationRepository _workstationRepository;
         private readonly BindingSource _companyBindingSource;
         private readonly BindingSource _sidePanelBindingSource;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToEmployeeDetailViewChanged;
@@ -21,17 +22,17 @@ namespace LicenseHubApp.Presenters
 
         public ClientPresenter(
             IClientView view,
-            CompanyManager companyManager,
-            EmployeeManager employeeManager,
-            WorkstationManager workstationProductManager,
+            ICompanyRepository companyRepository,
+            IEmployeeRepository employeeRepository,
+            IWorkstationRepository workstationRepository,
             EventHandler<GoToDetailViewEventArgs>? goToEmployeeDetailViewChanged,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged
             )
         {
             _view = view;
-            _companyManager = companyManager;
-            _employeeManager = employeeManager;
-            _workstationProductManager = workstationProductManager;
+            _companyRepository = companyRepository;
+            _employeeRepository = employeeRepository;
+            _workstationRepository = workstationRepository;
             _goToEmployeeDetailViewChanged = goToEmployeeDetailViewChanged;
             _goToWorkstationDetailViewChanged = goToWorkstationDetailViewChanged;
 
@@ -61,8 +62,6 @@ namespace LicenseHubApp.Presenters
             _view.SidePanelToggleIsActiveBtnClicked += OnSidePanelToggleIsActiveBtnClicked;
             _view.SidePanelGoToDetailsBtnClicked += OnSidePanelGoToDetailsBtnClicked;
             LoadAllCompanyList();
-            _employeeManager.LoadAll();
-            _workstationProductManager.LoadAll();
         }
 
         private void OnCloseRightPanelBtnClicked(object? sender, EventArgs e)
@@ -77,7 +76,7 @@ namespace LicenseHubApp.Presenters
         {
             var tmpIsEdit = _view.IsEdit;
 
-            var results = _companyManager.GetAll().ToList();
+            var results = _companyRepository.GetAll().ToList();
             if (_view.CompanySearchOnlyActive)
             {
                 results = results.Where(m => m.IsActive).ToList();
@@ -146,9 +145,9 @@ namespace LicenseHubApp.Presenters
                         "nip" => new CustomerNipFilterStrategy(),
                         _ => new CustomerNameFilterStrategy(),
                     };
-                    _companyManager.SetFilterStrategy(strategy);
+                    _companyRepository.SetFilterStrategy(strategy);
 
-                    var results = _companyManager.FilterCompany(enteredSearchValue).ToList();
+                    var results = _companyRepository.FilterCompany(enteredSearchValue).ToList();
                     if (_view.CompanySearchOnlyActive)
                         results = results.Where(m => m.IsActive).ToList();
 
@@ -193,7 +192,7 @@ namespace LicenseHubApp.Presenters
         }
 
 
-        private void OnCompanyEditSaveBtnClicked(object? sender, EventArgs e)
+        private async void OnCompanyEditSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -220,13 +219,13 @@ namespace LicenseHubApp.Presenters
                 if (_view.IsEdit)
                 {
                     model.Id = _view.CompanyId;
-                    _companyManager.Save(model);
+                    await _companyRepository.Update(model.Id, model);
                     _view.Message = "Company details have been saved.";
                 }
                 else
                 {
                     model.IsActive = true;
-                    _companyManager.Add(model);
+                    await _companyRepository.Create(model);
                     _view.Message = "Company has been added.";
                 }
 
@@ -261,7 +260,8 @@ namespace LicenseHubApp.Presenters
                     _view.IsSuccessful = true;
                     return;
                 }
-                _companyManager.ToggleIsActive(model);
+                model.IsActive = !model.IsActive;
+                _companyRepository.Update(model.Id, model);
                 ShowCurrentlySelectedCompany();
                 LoadAllCompanyList();
                 _view.IsSuccessful = true;
@@ -459,9 +459,9 @@ namespace LicenseHubApp.Presenters
                             "ip" => new EmployeeIPsFilterStrategy(),
                             _ => new EmployeeNameFilterStrategy()
                         };
-                        _employeeManager.SetFilterStrategy(strategy);
+                        _employeeRepository.SetFilterStrategy(strategy);
 
-                        var results = _employeeManager.FilterEmployee(enteredSearchValue).ToList();
+                        var results = _employeeRepository.FilterEmployee(enteredSearchValue).ToList();
                         results = results.Where(m => m.CompanyId == _view.CompanyId).ToList();
 
                         if (_view.SidePanelSearchOnlyActive)
@@ -491,9 +491,9 @@ namespace LicenseHubApp.Presenters
                             "os bit version" => new WorkstationOsBitVersionFilterStrategy(),
                             _ => new WorkstationComputerNameFilterStrategy(),
                         };
-                        _workstationProductManager.SetFilterStrategy(strategy);
+                        _workstationRepository.SetFilterStrategy(strategy);
 
-                        var results = _workstationProductManager.FilterWorkstation(enteredSearchValue).ToList();
+                        var results = _workstationRepository.FilterWorkstation(enteredSearchValue).ToList();
                         results = results.Where(m => m.CompanyId == _view.CompanyId).ToList();
 
                         if (_view.SidePanelSearchOnlyActive)
@@ -541,7 +541,7 @@ namespace LicenseHubApp.Presenters
         }
 
 
-        private void OnSidePanelEditSaveBtnClicked(object? sender, EventArgs e)
+        private async void OnSidePanelEditSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -576,14 +576,13 @@ namespace LicenseHubApp.Presenters
                         if (_view.IsEdit)
                         {
                             model.Id = _view.EmployeeId;
-                            _employeeManager.Save(model);
+                            await _employeeRepository.Update(model.Id, model);
                             _view.Message = "Employee details have been saved.";
                         }
                         else
                         {
                             model.IsActive = true;
-                            _companyManager.AddEmployee(companyId, model);
-                            _employeeManager.LoadAll();
+                            await _companyRepository.CreateEmployee(companyId, model);
                             _view.Message = "Employee has been added.";
                         }
                         break;
@@ -605,14 +604,13 @@ namespace LicenseHubApp.Presenters
                         if (_view.IsEdit)
                         {
                             model.Id = _view.WorkstationId;
-                            _workstationProductManager.Save(model);
+                            await _workstationRepository.Update(model.Id, model);
                             _view.Message = "Workstation details have been saved.";
                         }
                         else
                         {
                             model.HasFault = false;
-                            _companyManager.AddWorkstation(companyId, model);
-                            _workstationProductManager.LoadAll();
+                            await _companyRepository.CreateWorkstation(companyId, model);
                             _view.Message = "Workstation has been added.";
                         }
                         break;
@@ -637,7 +635,7 @@ namespace LicenseHubApp.Presenters
             ShowCurrentlySelectedModel(); // reset data
             _view.IsEdit = false; // turn off editable
         }
-        private void OnSidePanelToggleIsActiveBtnClicked(object? sender, EventArgs e)
+        private async void OnSidePanelToggleIsActiveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -655,7 +653,9 @@ namespace LicenseHubApp.Presenters
                             _view.IsSuccessful = true;
                             return;
                         }
-                        _employeeManager.ToggleIsActive(employeeModel);
+
+                        employeeModel.IsActive = !employeeModel.IsActive;
+                        await _employeeRepository.Update(employeeModel.Id, employeeModel);
                         break;
                     }
                     case "Workstation":
@@ -668,7 +668,8 @@ namespace LicenseHubApp.Presenters
                             _view.IsSuccessful = true;
                             return;
                         }
-                        _workstationProductManager.ToggleHasFault(workstationProductModel);
+                        workstationProductModel.HasFault = !workstationProductModel.HasFault;
+                        await _workstationRepository.Update(workstationProductModel.Id, workstationProductModel);
                         break;
                 }
 

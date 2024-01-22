@@ -1,6 +1,6 @@
 ﻿using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 using LicenseHubApp.Utils;
 using LicenseHubApp.Views.Interfaces;
 
@@ -11,7 +11,7 @@ namespace LicenseHubApp.Presenters
     {
         private readonly IOrderDetailView _view;
         private readonly OrderModel _order;
-        private readonly OrderManager _orderManager;
+        private readonly IOrderRepository _orderRepository;
         private readonly BindingSource _workstationProductBindingSource;
         private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationProductDetailViewChanged;
         private readonly EventHandler _closeDetailViewClicked;
@@ -19,14 +19,14 @@ namespace LicenseHubApp.Presenters
         public OrderDetailPresenter(
             IOrderDetailView view,
             OrderModel order,
-            OrderManager orderManager,
+            IOrderRepository orderRepository,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationProductDetailViewChanged,
             EventHandler CloseDetailViewClicked
             )
         {
             _view = view;
             _order = order;
-            _orderManager = orderManager;
+            _orderRepository = orderRepository;
             _goToWorkstationProductDetailViewChanged = goToWorkstationProductDetailViewChanged;
 
             ShowModel();
@@ -99,7 +99,7 @@ namespace LicenseHubApp.Presenters
             _view.SetViewToEditable(false);
         }
 
-        private void OnSaveBtnClicked(object? sender, EventArgs e)
+        private async void OnSaveBtnClicked(object? sender, EventArgs e)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace LicenseHubApp.Presenters
                     Description = _view.Description,
                 };
 
-                _orderManager.Save(model);
+                await _orderRepository.Update(model.Id, model);
                 _view.Message = "Order details have been saved.";
                 _view.SetViewToEditable(false);
                 _view.IsSuccessful = true;

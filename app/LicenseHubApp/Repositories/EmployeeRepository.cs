@@ -1,64 +1,39 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LicenseHubApp.Repositories.GenericRepository;
 using LicenseHubApp.Models;
+using LicenseHubApp.Models.Filters;
+using Microsoft.EntityFrameworkCore;
+namespace LicenseHubApp.Repositories;
 
-
-namespace LicenseHubApp.Repositories
+public class EmployeeRepository(DataContext context) : GenericRepository<EmployeeModel>(context), IEmployeeRepository
 {
-    public class EmployeeRepository : BaseRepository, IEmployeeRepository
+    private IFilterStrategy<EmployeeModel> _filterStrategy = new EmployeeNameFilterStrategy();
+
+
+    public new async Task Update(int id, EmployeeModel model)
     {
-        public EmployeeRepository(DataContext dataContext)
-        {
-            this.context = dataContext;
-        }
+        model.ThrowIfNotValid();
 
-        public async Task AddAsync(EmployeeModel model)
-        {
-            context.Employees.Add(model);
-            await context.SaveChangesAsync();
-        }
+        var modelToUpdate = await GetById(id) ?? throw new NullReferenceException("Model not found.");
 
-        public async Task DeleteAsync(int modelId)
-        {
-            var modelToDelete = await GetModelByIdAsync(modelId);
-            if (modelToDelete != null)
-            {
-                context.Employees.Remove(modelToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
+        modelToUpdate.Name = model.Name;
+        modelToUpdate.IsActive = model.IsActive;
+        modelToUpdate.Profession = model.Profession;
+        modelToUpdate.PhoneNumbers = model.PhoneNumbers;
+        modelToUpdate.Emails = model.Emails;
+        modelToUpdate.Websites = model.Websites;
+        modelToUpdate.IPs = model.IPs;
+        modelToUpdate.Description = model.Description;
 
-        public async Task EditAsync(int modelId, EmployeeModel updatedModel)
-        {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.Name = updatedModel.Name;
-                modelToUpdate.IsActive = updatedModel.IsActive;
-                modelToUpdate.Profession = updatedModel.Profession;
-                modelToUpdate.PhoneNumbers = updatedModel.PhoneNumbers;
-                modelToUpdate.Emails = updatedModel.Emails;
-                modelToUpdate.Websites = updatedModel.Websites;
-                modelToUpdate.IPs = updatedModel.IPs;
-                modelToUpdate.Description = updatedModel.Description;
+        await context.SaveChangesAsync();
+    }
 
-                await context.SaveChangesAsync();
-            }
-        }
+    public void SetFilterStrategy(IFilterStrategy<EmployeeModel> fs)
+    {
+        _filterStrategy = fs;
+    }
 
-        public async Task<EmployeeModel?> GetModelByIdAsync(int modelId)
-        {
-            return await context.Employees.FirstOrDefaultAsync(m => m.Id == modelId);
-        }
-
-        public async Task<IList<EmployeeModel>> GetAllAsync()
-        {
-            return await context.Employees.ToListAsync();
-        }
-
-        public bool IsIdUnique(int modelId)
-        {
-            return !context.Employees.Any(model => model.Id == modelId);
-        }
-
+    public IEnumerable<EmployeeModel> FilterEmployee(string filterValue)
+    {
+        return _filterStrategy.Filter(GetAll(), filterValue);
     }
 }

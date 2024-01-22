@@ -1,7 +1,8 @@
-﻿namespace LicenseHubApp.Models
+﻿using LicenseHubApp.Repositories;
+using LicenseHubApp.Repositories.GenericRepository;
+namespace LicenseHubApp.Models;
+
+public interface IWorkstationProductRepository : IGenericRepository<WorkstationProductModel>
 {
-    public interface IWorkstationProductRepository : IModelRepository<WorkstationProductModel>
-    {
-        
-    }
+
 }

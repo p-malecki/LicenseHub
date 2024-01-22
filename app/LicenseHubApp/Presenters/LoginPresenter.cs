@@ -2,7 +2,7 @@
 using LicenseHubApp.Views.Forms;
 using LicenseHubApp.Models;
 using LicenseHubApp.Repositories;
-using LicenseHubApp.Services.Managers;
+using LicenseHubApp.Services;
 
 
 namespace LicenseHubApp.Presenters

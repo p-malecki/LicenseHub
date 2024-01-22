@@ -1,59 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using LicenseHubApp.Repositories.GenericRepository;
 using LicenseHubApp.Models;
+using LicenseHubApp.Models.Filters;
+namespace LicenseHubApp.Repositories;
 
-
-namespace LicenseHubApp.Repositories
+public class OrderRepository(DataContext context) : GenericRepository<OrderModel>(context), IOrderRepository
 {
-    public class OrderRepository : BaseRepository, IOrderRepository
+    private IFilterStrategy<OrderModel> _filterStrategy = new OrderContractNumberFilterStrategy();
+
+    public new async Task Update(int id, OrderModel model)
     {
-        public OrderRepository(DataContext dataContext)
-        {
-            this.context = dataContext;
-        }
+        model.ThrowIfNotValid();
 
-        public async Task AddAsync(OrderModel model)
-        {
-            context.Orders.Add(model);
-            await context.SaveChangesAsync();
-        }
+        var modelToUpdate = await GetById(id) ?? throw new NullReferenceException("Model not found.");
 
-        public async Task DeleteAsync(int modelId)
-        {
-            var modelToDelete = await GetModelByIdAsync(modelId);
-            if (modelToDelete != null)
-            {
-                context.Orders.Remove(modelToDelete);
-                await context.SaveChangesAsync();
-            }
-        }
+        modelToUpdate.ContractNumber = model.ContractNumber;
+        modelToUpdate.DateOfOrder = model.DateOfOrder;
+        modelToUpdate.DateOfPayment = model.DateOfPayment;
+        modelToUpdate.Description = model.Description;
 
-        public async Task EditAsync(int modelId, OrderModel updatedModel)
-        {
-            var modelToUpdate = await GetModelByIdAsync(modelId);
-            if (modelToUpdate != null)
-            {
-                modelToUpdate.ContractNumber = updatedModel.ContractNumber;
-                modelToUpdate.DateOfOrder = updatedModel.DateOfOrder;
-                modelToUpdate.DateOfPayment = updatedModel.DateOfPayment;
-                modelToUpdate.Description = updatedModel.Description;
-
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<OrderModel?> GetModelByIdAsync(int modelId)
-        {
-            return await context.Orders.FirstOrDefaultAsync(m => m.Id == modelId);
-        }
-
-        public async Task<IList<OrderModel>> GetAllAsync()
-        {
-            return await context.Orders.ToListAsync();
-        }
-
-        public bool IsIdUnique(int modelId)
-        {
-            return !context.Orders.Any(model => model.Id == modelId);
-        }
+        await context.SaveChangesAsync();
     }
+
+    public void SetFilterStrategy(IFilterStrategy<OrderModel> fs)
+    {
+        _filterStrategy = fs;
+    }
+    public IEnumerable<OrderModel> FilterOrder(string filterValue)
+    {
+        return _filterStrategy.Filter(GetAll(), filterValue);
+    }
+
 }
