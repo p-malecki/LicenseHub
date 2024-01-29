@@ -1,16 +1,10 @@
 ﻿using LicenseHubApp.Models;
-using System.ComponentModel;
-using System.Diagnostics;
 
 namespace LicenseHubApp.Services;
 
-public class OrderBuilder : IOrderBuilder
+public class OrderBuilder
 {
-    private OrderModel _orderModel = new()
-    {
-        WorkstationProducts = new List<WorkstationProductModel>()
-    };
-
+    private OrderModel _orderModel = new();
 
     public void Reset()
     {
@@ -31,35 +25,15 @@ public class OrderBuilder : IOrderBuilder
         _orderModel.CompanyId = company.Id;
     }
 
-    public void CreateWorkstationProductData(ProductReleaseModel release, string licenseType, DateTime? registerDate, DateTime? activationDate)
+    public void AddWorkstationProduct(WorkstationProductModel workstationProduct)
     {
-        ILicense license;
-
-        switch (licenseType)
-        {
-            case "SubscriptionLicense":
-                var slc = new SubscriptionLicenseCreator();
-                license = slc.CreateLicense(registerDate, activationDate);
-                break;
-            case "PerpetualLicense":
-                var plc = new PerpetualLicenseCreator();
-                license = plc.CreateLicense(registerDate, activationDate);
-                break;
-            default:
-                throw new ArgumentException("Incorrect license type.");
-        }
-
-        var workstationProduct = new WorkstationProductModel()
-        {
-            ProductRelease = release,
-            License = license as LicenseModel,
-        };
         _orderModel.WorkstationProducts.Add(workstationProduct);
     }
 
+
     public OrderModel GetProduct()
     {
-        var result = this._orderModel;
+        var result = _orderModel;
         Reset();
         return result;
     }
