@@ -17,7 +17,7 @@ public class WorkstationProductModel : ValidatableModel, IModelWithId
 
     [ForeignKey("ReleaseId")]
     [Browsable(false)]
-    public ProductReleaseModel ProductRelease { get; set; }
+    public ProductReleaseModel? ProductRelease { get; set; }
 
     [Browsable(false)]
     public int WorkstationId { get; set; }

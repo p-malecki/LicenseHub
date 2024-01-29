@@ -2,18 +2,11 @@
 
 public partial class PerpetualLicenseModel : LicenseModel
 {
-    private PerpetualLicenseModel(DateTime? registerDate, DateTime? activationDate)
+    public PerpetualLicenseModel() // required by orm
     {
-        RegisterDate = registerDate;
-        ActivationDate = activationDate;
+        RegisterDate = null;
+        ActivationDate = null;
         ActivationCode = null;
-    }
-
-    public PerpetualLicenseModel(DateTime? registerDate, DateTime? activationDate, ActivationCodeModel code)
-    {
-        RegisterDate = registerDate;
-        ActivationDate = activationDate;
-        ActivationCode = code;
     }
 }
 

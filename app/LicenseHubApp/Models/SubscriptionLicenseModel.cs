@@ -6,25 +6,18 @@ public partial class SubscriptionLicenseModel : LicenseModel
     [DisplayName("Lease term in days")]
     public int LeaseTermInDays { get; set; }
 
-    private SubscriptionLicenseModel(DateTime? registerDate, DateTime? activationDate)
+    private SubscriptionLicenseModel() // required by orm
     {
         LeaseTermInDays = -1;
-        RegisterDate = registerDate;
-        ActivationDate = activationDate;
+        RegisterDate = null;
+        ActivationDate = null;
         ActivationCode = null;
     }
-    private SubscriptionLicenseModel(int leaseTermInDays, DateTime? registerDate, DateTime? activationDate)
+    public SubscriptionLicenseModel(int leaseTermInDays)
     {
+        LeaseTermInDays = -1;
+        RegisterDate = null;
+        ActivationDate = null;
         LeaseTermInDays = leaseTermInDays;
-        RegisterDate = registerDate;
-        ActivationDate = activationDate;
-        ActivationCode = null;
-    }
-    public SubscriptionLicenseModel(int leaseTermInDays, DateTime? registerDate, DateTime? activationDate, ActivationCodeModel code)
-    {
-        LeaseTermInDays = leaseTermInDays;
-        RegisterDate = registerDate;
-        ActivationDate = activationDate;
-        ActivationCode = code;
     }
 }
