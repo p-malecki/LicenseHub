@@ -6,7 +6,7 @@ public partial class PerpetualLicenseModel
 
     public override DateTime ExpirationDate()
     {
-        throw new NotImplementedException();
+        return DateTime.MaxValue;
     }
 }
 
