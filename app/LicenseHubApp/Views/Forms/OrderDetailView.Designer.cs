@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnEdit = new Button();
             rtxDescription = new RichTextBox();
             lblCompanyName = new Label();
             label1 = new Label();
@@ -47,17 +46,9 @@
             label5 = new Label();
             btnGoToWorkstationProduct = new Button();
             btnCloseDetailView = new Button();
+            btnEdit = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvWorkstationProductData).BeginInit();
             SuspendLayout();
-            // 
-            // btnEdit
-            // 
-            btnEdit.Location = new Point(147, 557);
-            btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(133, 48);
-            btnEdit.TabIndex = 69;
-            btnEdit.Text = "Edit";
-            btnEdit.UseVisualStyleBackColor = true;
             // 
             // rtxDescription
             // 
@@ -218,6 +209,15 @@
             btnCloseDetailView.TabIndex = 76;
             btnCloseDetailView.Text = "X";
             btnCloseDetailView.UseVisualStyleBackColor = true;
+            // 
+            // btnEdit
+            // 
+            btnEdit.Location = new Point(147, 557);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(133, 48);
+            btnEdit.TabIndex = 69;
+            btnEdit.Text = "Edit";
+            btnEdit.UseVisualStyleBackColor = true;
             // 
             // OrderDetailView
             // 

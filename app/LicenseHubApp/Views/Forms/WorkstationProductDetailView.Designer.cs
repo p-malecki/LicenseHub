@@ -365,28 +365,28 @@
             // dtpLicenseRegisterDate
             // 
             dtpLicenseRegisterDate.Enabled = false;
-            dtpLicenseRegisterDate.Location = new Point(160, 80);
+            dtpLicenseRegisterDate.Location = new Point(727, 43);
             dtpLicenseRegisterDate.Name = "dtpLicenseRegisterDate";
             dtpLicenseRegisterDate.Size = new Size(362, 31);
             dtpLicenseRegisterDate.TabIndex = 67;
             // 
             // cdrLicenseEndOfLicense
             // 
-            cdrLicenseEndOfLicense.Location = new Point(674, 213);
+            cdrLicenseEndOfLicense.Location = new Point(852, 212);
             cdrLicenseEndOfLicense.Name = "cdrLicenseEndOfLicense";
             cdrLicenseEndOfLicense.ShowToday = false;
             cdrLicenseEndOfLicense.TabIndex = 1;
             // 
             // cdrLicenseActivationDate
             // 
-            cdrLicenseActivationDate.Location = new Point(263, 213);
+            cdrLicenseActivationDate.Location = new Point(441, 212);
             cdrLicenseActivationDate.Name = "cdrLicenseActivationDate";
             cdrLicenseActivationDate.ShowToday = false;
             cdrLicenseActivationDate.TabIndex = 1;
             // 
             // txtLicenseActivationCodeGenVersion
             // 
-            txtLicenseActivationCodeGenVersion.Location = new Point(781, 83);
+            txtLicenseActivationCodeGenVersion.Location = new Point(26, 278);
             txtLicenseActivationCodeGenVersion.Name = "txtLicenseActivationCodeGenVersion";
             txtLicenseActivationCodeGenVersion.ReadOnly = true;
             txtLicenseActivationCodeGenVersion.Size = new Size(362, 31);
@@ -394,7 +394,7 @@
             // 
             // txtLicenseLeaseInDays
             // 
-            txtLicenseLeaseInDays.Location = new Point(203, 117);
+            txtLicenseLeaseInDays.Location = new Point(203, 86);
             txtLicenseLeaseInDays.Name = "txtLicenseLeaseInDays";
             txtLicenseLeaseInDays.ReadOnly = true;
             txtLicenseLeaseInDays.Size = new Size(319, 31);
@@ -403,7 +403,7 @@
             // label19
             // 
             label19.AutoSize = true;
-            label19.Location = new Point(674, 179);
+            label19.Location = new Point(852, 178);
             label19.Name = "label19";
             label19.Size = new Size(182, 25);
             label19.TabIndex = 65;
@@ -412,7 +412,7 @@
             // label18
             // 
             label18.AutoSize = true;
-            label18.Location = new Point(26, 117);
+            label18.Location = new Point(26, 86);
             label18.Name = "label18";
             label18.Size = new Size(153, 25);
             label18.TabIndex = 65;
@@ -420,7 +420,7 @@
             // 
             // txtLicenseActivationCode
             // 
-            txtLicenseActivationCode.Location = new Point(781, 46);
+            txtLicenseActivationCode.Location = new Point(26, 206);
             txtLicenseActivationCode.Name = "txtLicenseActivationCode";
             txtLicenseActivationCode.ReadOnly = true;
             txtLicenseActivationCode.Size = new Size(362, 31);
@@ -429,7 +429,7 @@
             // label15
             // 
             label15.AutoSize = true;
-            label15.Location = new Point(263, 179);
+            label15.Location = new Point(441, 178);
             label15.Name = "label15";
             label15.Size = new Size(135, 25);
             label15.TabIndex = 65;
@@ -438,7 +438,7 @@
             // label14
             // 
             label14.AutoSize = true;
-            label14.Location = new Point(26, 85);
+            label14.Location = new Point(593, 48);
             label14.Name = "label14";
             label14.Size = new Size(119, 25);
             label14.TabIndex = 65;
@@ -447,7 +447,7 @@
             // label17
             // 
             label17.AutoSize = true;
-            label17.Location = new Point(635, 86);
+            label17.Location = new Point(26, 250);
             label17.Name = "label17";
             label17.Size = new Size(108, 25);
             label17.TabIndex = 65;
@@ -456,7 +456,7 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(604, 46);
+            label13.Location = new Point(26, 178);
             label13.Name = "label13";
             label13.Size = new Size(139, 25);
             label13.TabIndex = 65;
