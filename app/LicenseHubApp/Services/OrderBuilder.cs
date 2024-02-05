@@ -29,7 +29,16 @@ public class OrderBuilder
     {
         _orderModel.WorkstationProducts.Add(workstationProduct);
     }
+    
+    public void RemoveWorkstationProduct(WorkstationProductModel workstationProduct)
+    {
+        _orderModel.WorkstationProducts.Remove(workstationProduct);
+    }
 
+    public List<WorkstationProductModel> GetAllWorkstationProducts()
+    {
+        return _orderModel.WorkstationProducts.ToList();
+    }
 
     public OrderModel GetProduct()
     {

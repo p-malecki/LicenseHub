@@ -31,21 +31,6 @@ public class WorkstationProductBuilder
         _license = new SubscriptionLicenseModel(leaseTermInDays);
     }
 
-    public void RegisterLicense(DateTime registerDate)
-    {
-        _license?.Register(registerDate);
-    }
-
-    public void ActivateLicenseWithSimpleActivationCode(DateTime activationDate, string activationCode)
-    {
-        _license?.Activate(activationDate, new ActivationCodeModel(activationCode));
-    }
-
-    public void ActivateLicenseWithGeneratedActivationCode(DateTime activationDate, IActivationCodeGenerator generator)
-    {
-        _license?.Activate(activationDate, new GeneratedActivationCodeModel(generator.Generate(), generator.GetVersion()));
-    }
-
 
     public WorkstationProductModel GetProduct()
     {

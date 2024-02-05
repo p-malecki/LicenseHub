@@ -9,5 +9,6 @@ public interface ILicense
     bool IsActive();
     DateTime ExpirationDate();
     void Register(DateTime registerDate);
-    void Activate(DateTime activationDate, ActivationCodeModel activationCode);
+    void ActivateWithSimpleActivationCode(DateTime activationDate, string activationCode);
+    void ActivateWithGeneratedActivationCode(DateTime activationDate, IActivationCodeGenerator generator);
 }
