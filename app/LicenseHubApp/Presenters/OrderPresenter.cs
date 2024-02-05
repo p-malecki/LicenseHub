@@ -12,12 +12,16 @@ namespace LicenseHubApp.Presenters
         private readonly IOrderRepository _orderRepository;
         private readonly ICompanyRepository _companyRepository;
         private readonly BindingSource _orderBindingSource;
+        private readonly EventHandler? _goToOrderCreatorViewChanged;
+        private readonly EventHandler<GoToDetailViewEventArgs>? _goToOrderDetailViewChanged;
 
-        public OrderPresenter(IOrderView view, IOrderRepository orderRepository, ICompanyRepository companyRepository)
+        public OrderPresenter(IOrderView view, IOrderRepository orderRepository, ICompanyRepository companyRepository, EventHandler? goToOrderCreatorViewChanged, EventHandler<GoToDetailViewEventArgs>? goToOrderDetailViewChanged)
         {
             _view = view;
             _orderRepository = orderRepository;
             _companyRepository = companyRepository;
+            _goToOrderCreatorViewChanged = goToOrderCreatorViewChanged;
+            _goToOrderDetailViewChanged = goToOrderDetailViewChanged;
 
             _orderBindingSource = [];
             view.SetOrderListBindingSource(_orderBindingSource);
@@ -26,7 +30,6 @@ namespace LicenseHubApp.Presenters
             _view.SearchBtnClicked += OnSearchBtnClicked;
             _view.AddBtnClicked += OnAddBtnClicked;
             _view.ShowDetailsBtnClicked += OnShowDetailsBtnClicked;
-            _view.EditBtnClicked += OnEditBtnClicked;
 
             _view.AreCompanyFiltersActive = false;
             _view.AreOrderFiltersActive = false;
@@ -125,21 +128,16 @@ namespace LicenseHubApp.Presenters
 
         private void OnAddBtnClicked(object? sender, EventArgs e)
         {
-            // TODO add order
+            _goToOrderCreatorViewChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnShowDetailsBtnClicked(object? sender, EventArgs e)
         {
-            var model = GetCurrentlySelectedOrder();
-            // TODO add order
-
-        }
-
-        private void OnEditBtnClicked(object? sender, EventArgs e)
-        {
-            var model = GetCurrentlySelectedOrder();
-            // TODO add order
-
+            var order = GetCurrentlySelectedOrder();
+            if (order != null)
+            {
+                _goToOrderCreatorViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Order = order });
+            }
         }
 
     }

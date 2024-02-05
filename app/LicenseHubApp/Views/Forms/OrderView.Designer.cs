@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            btnEdit = new Button();
             btnAdd = new Button();
             btnShowDetails = new Button();
             btnSearch = new Button();
@@ -46,15 +45,6 @@
             ((System.ComponentModel.ISupportInitialize)dgvOrderData).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
-            // 
-            // btnEdit
-            // 
-            btnEdit.Location = new Point(434, 1034);
-            btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(156, 68);
-            btnEdit.TabIndex = 24;
-            btnEdit.Text = "Edit details";
-            btnEdit.UseVisualStyleBackColor = true;
             // 
             // btnAdd
             // 
@@ -201,7 +191,6 @@
             Controls.Add(dgvOrderData);
             Controls.Add(btnAdd);
             Controls.Add(btnShowDetails);
-            Controls.Add(btnEdit);
             Name = "OrderView";
             Size = new Size(1407, 1156);
             ((System.ComponentModel.ISupportInitialize)dgvOrderData).EndInit();
@@ -212,8 +201,6 @@
         }
 
         #endregion
-
-        private Button btnEdit;
         private Button btnAdd;
         private Button btnShowDetails;
         private Button btnSearch;

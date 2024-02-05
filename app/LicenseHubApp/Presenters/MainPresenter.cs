@@ -23,6 +23,7 @@ namespace LicenseHubApp.Presenters
         private IProductReleaseRepository _releaseProductRepository;
         private event EventHandler GoToClientViewChanged;
         private event EventHandler GoToOrderViewChanged;
+        private event EventHandler GoToOrderCreatorViewChanged;
         private event EventHandler<GoToDetailViewEventArgs>? GoToEmployeeDetailViewChanged;
         private event EventHandler<GoToDetailViewEventArgs>? GoToWorkstationDetailViewChanged;
         private event EventHandler<GoToDetailViewEventArgs>? GoToOrderDetailViewChanged;
@@ -54,6 +55,7 @@ namespace LicenseHubApp.Presenters
             GoToEmployeeDetailViewChanged += OnGoToEmployeeEmployeeDetailViewChanged;
             GoToWorkstationDetailViewChanged += OnGoToWorkstationDetailViewChanged;
             GoToWorkstationProductDetailViewChanged += OnGoToWorkstationProductDetailViewChanged;
+            GoToOrderCreatorViewChanged += OnGoToOrderCreatorViewChanged;
             GoToOrderDetailViewChanged += OnGoToOrderDetailViewChanged;
 
             _view.LoggedInUser = _authenticator.GetCurrentlyLoggedUser()!.Username ?? throw new AuthenticationException("No logged-in user.");
@@ -73,8 +75,9 @@ namespace LicenseHubApp.Presenters
         private void OnOrdersBtnClicked(object? sender, EventArgs e)
         {
             var orderView = new OrderView();
-            _ = new OrderPresenter(orderView, _orderRepository, _companyRepository);
+            _ = new OrderPresenter(orderView, _orderRepository, _companyRepository, GoToOrderCreatorViewChanged, GoToOrderDetailViewChanged);
 
+            _view.OrderTabPageCollection.Clear();
             _view.OrderTabPageCollection.Add(orderView);
             orderView.Dock = DockStyle.Fill;
         }
@@ -121,6 +124,15 @@ namespace LicenseHubApp.Presenters
             _view.ClientTabPageCollection.Clear();
             _view.ClientTabPageCollection.Add(workstationDetailView);
             workstationDetailView.Dock = DockStyle.Fill;
+        }
+        private void OnGoToOrderCreatorViewChanged(object? sender, EventArgs e)
+        {
+            var orderCreatorView = new OrderCreatorView();
+            _ = new OrderCreatorPresenter(orderCreatorView, _orderRepository, _companyRepository, _productRepository, GoToOrderViewChanged);
+
+            _view.OrderTabPageCollection.Clear();
+            _view.OrderTabPageCollection.Add(orderCreatorView);
+            orderCreatorView.Dock = DockStyle.Fill;
         }
         private void OnGoToOrderDetailViewChanged(object? sender, GoToDetailViewEventArgs e)
         {

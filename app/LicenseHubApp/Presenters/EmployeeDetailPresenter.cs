@@ -12,8 +12,6 @@ namespace LicenseHubApp.Presenters
         private readonly EmployeeModel _employee;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly BindingSource _workstationBindingSource;
-        private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationDetailViewChanged;
-        private readonly EventHandler _closeDetailViewClicked;
 
 
         public EmployeeDetailPresenter(
@@ -21,14 +19,12 @@ namespace LicenseHubApp.Presenters
             EmployeeModel employee,
             IEmployeeRepository employeeRepository,
             EventHandler<GoToDetailViewEventArgs>? goToWorkstationDetailViewChanged,
-            EventHandler CloseDetailViewClicked
+            EventHandler closeDetailViewClicked
             )
         {
             _view = view;
             _employee = employee;
             _employeeRepository = employeeRepository;
-            _goToWorkstationDetailViewChanged = goToWorkstationDetailViewChanged;
-            _closeDetailViewClicked = CloseDetailViewClicked;
 
             ShowModel();
             _view.SetViewToEditable(false);
@@ -46,13 +42,13 @@ namespace LicenseHubApp.Presenters
                 var workstation = GetSelectedWorkstation();
                 if (workstation != null)
                 {
-                    _goToWorkstationDetailViewChanged?.Invoke(this,
+                    goToWorkstationDetailViewChanged?.Invoke(this,
                         new GoToDetailViewEventArgs() { Workstation = workstation });
                 }
             };
             _view.CloseDetailViewBtnClicked += delegate
             {
-                _closeDetailViewClicked.Invoke(this, EventArgs.Empty);
+                closeDetailViewClicked.Invoke(this, EventArgs.Empty);
             };
         }
 

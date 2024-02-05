@@ -21,7 +21,6 @@ public interface IOrderView
     event EventHandler SearchBtnClicked;
     event EventHandler AddBtnClicked;
     event EventHandler ShowDetailsBtnClicked;
-    event EventHandler EditBtnClicked;
 
     #endregion
 

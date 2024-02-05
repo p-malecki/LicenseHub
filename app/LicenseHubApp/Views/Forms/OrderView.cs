@@ -51,15 +51,6 @@ public partial class OrderView : UserControl, IOrderView
             }
         };
 
-        btnEdit.Click += delegate
-        {
-            EditBtnClicked?.Invoke(this, EventArgs.Empty);
-            if (!IsSuccessful)
-            {
-                MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        };
-
         txtSearchCompanyNip.KeyPress += NumbersOnlyTextBoxKeyPressed;
         txtSearchOrderContractNumber.KeyPress += NumbersOnlyTextBoxKeyPressed;
 
@@ -120,7 +111,6 @@ public partial class OrderView : UserControl, IOrderView
     public event EventHandler SearchBtnClicked;
     public event EventHandler AddBtnClicked;
     public event EventHandler ShowDetailsBtnClicked;
-    public event EventHandler EditBtnClicked;
 
     #endregion
 
@@ -136,7 +126,6 @@ public partial class OrderView : UserControl, IOrderView
     public void SetViewToSelectable(bool enabled)
     {
         btnShowDetails.Enabled = enabled;
-        btnEdit.Enabled = enabled;
     }
 
 

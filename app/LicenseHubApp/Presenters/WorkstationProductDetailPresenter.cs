@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using LicenseHubApp.Models;
 using LicenseHubApp.Views.Interfaces;
 using LicenseHubApp.Services;
@@ -12,8 +13,6 @@ namespace LicenseHubApp.Presenters
         private readonly IWorkstationProductDetailView _view;
         private readonly WorkstationProductModel _workstationProduct;
         private readonly BindingSource _employeeBindingSource;
-        private readonly EventHandler _closeDetailViewClicked;
-
 
         public WorkstationProductDetailPresenter(
             IWorkstationProductDetailView view,
@@ -23,7 +22,6 @@ namespace LicenseHubApp.Presenters
         {
             _view = view;
             _workstationProduct = workstationProduct;
-            _closeDetailViewClicked = closeDetailViewClicked;
 
             ShowModel();
 
@@ -33,19 +31,17 @@ namespace LicenseHubApp.Presenters
 
             _view.CloseDetailViewBtnClicked += delegate
             {
-                _closeDetailViewClicked.Invoke(this, EventArgs.Empty);
+                closeDetailViewClicked.Invoke(this, EventArgs.Empty);
             };
         }
 
         private void ShowModel()
         {
-            var licenseType = _workstationProduct.License.GetType().Name;
-            var isActivationCodeGenerated = (_workstationProduct.License.ActivationCode?.GetType().Name ?? "") == "GeneratedActivationCodeModel";
+            var licenseType = _workstationProduct.License?.GetType().Name;
+            var isActivationCodeGenerated = (_workstationProduct.License?.ActivationCode?.GetType().Name ?? "") == "GeneratedActivationCodeModel";
             var leaseInDays = (_workstationProduct.License as SubscriptionLicenseModel)?.LeaseTermInDays ?? 0;
 
-
             var endOfLicensePeriodDate = _workstationProduct.License.ActivationDate?.AddDays(leaseInDays) ?? DateTime.Now;
-
 
             _view.CompanyName = _workstationProduct.Order?.Company.Name ?? "";
             _view.OrderContractNumber = _workstationProduct.Order?.ContractNumber ?? "";

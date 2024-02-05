@@ -12,10 +12,6 @@ namespace LicenseHubApp.Presenters
         private readonly IWorkstationRepository _workstationRepository;
         private readonly BindingSource _employeeBindingSource;
         private readonly BindingSource _workstationProductBindingSource;
-        private readonly EventHandler<GoToDetailViewEventArgs>? _goToEmployeeDetailViewChanged;
-        private readonly EventHandler<GoToDetailViewEventArgs>? _goToWorkstationProductDetailViewChanged;
-        private readonly EventHandler _closeDetailViewClicked;
-
 
         public WorkstationDetailPresenter(
             IWorkstationDetailView view,
@@ -29,9 +25,6 @@ namespace LicenseHubApp.Presenters
             _view = view;
             _workstation = workstation;
             _workstationRepository = workstationRepository;
-            _goToEmployeeDetailViewChanged = goToEmployeeDetailViewChanged;
-            _goToWorkstationProductDetailViewChanged = goToWorkstationProductDetailViewChanged;
-            _closeDetailViewClicked = closeDetailViewClicked;
 
             ShowModel();
             _view.SetViewToEditable(false);
@@ -52,7 +45,7 @@ namespace LicenseHubApp.Presenters
                 var employee = GetSelectedEmployee();
                 if (employee != null)
                 {
-                    _goToEmployeeDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Employee = employee });
+                    goToEmployeeDetailViewChanged?.Invoke(this, new GoToDetailViewEventArgs() { Employee = employee });
                 }
             };
             _view.GoToWorkstationProductBtnClicked += delegate
@@ -60,12 +53,12 @@ namespace LicenseHubApp.Presenters
                 var workstationProduct = GetSelectedWorkstationProduct();
                 if (workstationProduct != null)
                 {
-                    _goToWorkstationProductDetailViewChanged?.Invoke(this,new GoToDetailViewEventArgs() { WorkstationProduct = workstationProduct });
+                    goToWorkstationProductDetailViewChanged?.Invoke(this,new GoToDetailViewEventArgs() { WorkstationProduct = workstationProduct });
                 }
             };
             _view.CloseDetailViewBtnClicked += delegate
             {
-                _closeDetailViewClicked.Invoke(this, EventArgs.Empty);
+                closeDetailViewClicked.Invoke(this, EventArgs.Empty);
             };
         }
 
