@@ -1,123 +1,149 @@
 ﻿using LicenseHubApp.Views.Interfaces;
+using System.Xml.Linq;
 
 namespace LicenseHubApp.Views.Forms
 {
     public partial class OrderCreatorView : UserControl, IOrderCreatorView
     {
-        private string _message;
-        private bool _isSuccessful;
-        private int _orderId;
-        private string _orderCompanySelector;
-        private string _orderCompanyName;
-        private string _orderCompanyNip;
-        private DateTime _dateOfOrder;
-        private DateTime _dateOfPayment;
-        private string _description;
-        private string _productName;
-        private string _productRelease;
-        private int _productQuantity;
-        private string _licenseType;
-        private int _licenseLeaseTermInDays;
-
         public OrderCreatorView()
         {
+            Message = "";
+
             InitializeComponent();
             AssociateAndRaiseViewEvents();
         }
 
         private void AssociateAndRaiseViewEvents()
         {
-            //btnCloseDetailView.Click += delegate
-            //{
-            //    CloseDetailViewBtnClicked?.Invoke(this, EventArgs.Empty);
-            //};
+            btnProductAdd.Click += delegate
+            {
+                ProductAddBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            btnProductRemove.Click += delegate
+            {
+                ProductRemoveBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            btnLicenseRegister.Click += delegate
+            {
+                LicenseRegisterBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            btnLicenseActivate.Click += delegate
+            {
+                LicenseActivateBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            btnOrderAdd.Click += delegate
+            {
+                OrderAddBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            btnOrderCancel.Click += delegate
+            {
+                OrderCancelBtnClicked?.Invoke(this, EventArgs.Empty);
+            };
+            rdoCompanyName.Click += delegate
+            {
+                OrderCompanyNameSelectorBtnToggled?.Invoke(this, EventArgs.Empty);
+                rdoCompanyName.Checked = true;
+                rdoCompanyNip.Checked = false;
+            };
+            rdoCompanyNip.Click += delegate
+            {
+                OrderCompanyNipSelectorBtnToggled?.Invoke(this, EventArgs.Empty);
+                rdoCompanyNip.Checked = true;
+                rdoCompanyName.Checked = false;
+            };
         }
 
 
         #region Properties
 
-        public string Message
+        public string Message { get; set; }
+
+        public bool IsSuccessful { get; set; }
+
+        public int OrderId { get; set; }
+
+        public string OrderCompanySelected
         {
-            get => _message;
-            set => _message = value;
+            get => cmbSelectedCompany.Text;
+            set => cmbSelectedCompany.Text = value;
         }
 
-        public bool IsSuccessful
+        public bool OrderIsCompanyNameSelected
         {
-            get => _isSuccessful;
-            set => _isSuccessful = value;
+            get => rdoCompanyName.Checked;
+            set
+            {
+                rdoCompanyName.Checked = value;
+                rdoCompanyNip.Checked = !value;
+                
+                cmbSelectedCompany.SelectedIndex = 0;
+            }
         }
 
-        public int OrderId
+        public bool OrderIsCompanyNipSelected
         {
-            get => _orderId;
-            set => _orderId = value;
+            get => rdoCompanyNip.Checked;
+            set
+            {
+                rdoCompanyNip.Checked = value;
+                rdoCompanyName.Checked = !value;
+
+                cmbSelectedCompany.Text = "";
+            }
         }
 
-        public string OrderCompanySelector
+        public string OrderContractNumber
         {
-            get => _orderCompanySelector;
-            set => _orderCompanySelector = value;
-        }
-
-        public string OrderCompanyName
-        {
-            get => _orderCompanyName;
-            set => _orderCompanyName = value;
-        }
-
-        public string OrderCompanyNip
-        {
-            get => _orderCompanyNip;
-            set => _orderCompanyNip = value;
+            get => txtCompanyContractNumber.Text;
+            set => txtCompanyContractNumber.Text = value;
         }
 
         public DateTime DateOfOrder
         {
-            get => _dateOfOrder;
-            set => _dateOfOrder = value;
+            get => dtpDateOfOrder.Value;
+            set => dtpDateOfOrder.Value = value;
         }
 
         public DateTime DateOfPayment
         {
-            get => _dateOfPayment;
-            set => _dateOfPayment = value;
+            get => dtpDateOfPayment.Value;
+            set => dtpDateOfPayment.Value = value;
         }
 
         public string Description
         {
-            get => _description;
-            set => _description = value;
+            get => rtxDescription.Text;
+            set => rtxDescription.Text = value;
         }
 
-        public string ProductName
+        public int ProductSelected
         {
-            get => _productName;
-            set => _productName = value;
+            get => cmbProduct.SelectedIndex;
+            set => cmbProduct.SelectedIndex = value;
         }
 
-        public string ProductRelease
+        public int ProductReleaseSelected
         {
-            get => _productRelease;
-            set => _productRelease = value;
+            get => cmbRelease.SelectedIndex;
+            set => cmbRelease.SelectedIndex = value;
         }
 
         public int ProductQuantity
         {
-            get => _productQuantity;
-            set => _productQuantity = value;
+            get => (int)nudProductQuantity.Value;
+            set => nudProductQuantity.Value = value;
         }
 
-        public string LicenseType
+        public string LicenseTypeSelected
         {
-            get => _licenseType;
-            set => _licenseType = value;
+            get => cmbLicenseType.SelectedText;
+            set => cmbLicenseType.SelectedText = value;
         }
 
         public int LicenseLeaseTermInDays
         {
-            get => _licenseLeaseTermInDays;
-            set => _licenseLeaseTermInDays = value;
+            get => (int)nudLicenseLeaseTermInDays.Value;
+            set => nudLicenseLeaseTermInDays.Value = value;
         }
 
         #endregion
@@ -128,7 +154,6 @@ namespace LicenseHubApp.Views.Forms
         public event EventHandler? OrderCompanyNameSelectorBtnToggled;
         public event EventHandler? OrderCompanyNipSelectorBtnToggled;
         public event EventHandler? ProductAddBtnClicked;
-        public event EventHandler? ProductCancelBtnClicked;
         public event EventHandler? ProductRemoveBtnClicked;
         public event EventHandler? LicenseRegisterBtnClicked;
         public event EventHandler? LicenseActivateBtnClicked;
@@ -140,14 +165,36 @@ namespace LicenseHubApp.Views.Forms
 
         #region Methods
 
+        public void SetCompanyListBindingSource(BindingSource companyList)
+        {
+            cmbSelectedCompany.DataSource = companyList;
+            cmbSelectedCompany.SelectedIndex = 0;
+        }
+        public void SetProductListBindingSource(BindingSource productList)
+        {
+            cmbProduct.DataSource = productList;
+            cmbProduct.SelectedIndex = 0;
+        }
+        public void SetProductReleaseListBindingSource(BindingSource productReleaseList)
+        {
+            cmbRelease.DataSource = productReleaseList;
+            cmbRelease.SelectedIndex = 0;
+        }
+        public void SetLicenseTypeListBindingSource(BindingSource licenseTypeList)
+        {
+            cmbLicenseType.DataSource = licenseTypeList;
+            cmbLicenseType.SelectedIndex = 0;
+        }
         public void SetWorkstationProductListBindingSource(BindingSource workstationProductList)
         {
-            throw new NotImplementedException();
+            dgvWorkstationProductData.DataSource = workstationProductList;
         }
 
         public void SetProductToSelectable(bool editable)
         {
-            throw new NotImplementedException();
+            btnProductRemove.Enabled = editable;
+            btnLicenseRegister.Enabled = editable;
+            btnLicenseActivate.Enabled = editable;
         }
 
         #endregion

@@ -9,17 +9,18 @@ public interface IOrderCreatorView
 
 
     int OrderId { get; set; }
-    string OrderCompanySelector { get; set; }
-    string OrderCompanyName { get; set; }
-    string OrderCompanyNip { get; set; }
+    string OrderCompanySelected { get; set; }
+    bool OrderIsCompanyNameSelected { get; set; }
+    string OrderContractNumber { get; set; }
+    bool OrderIsCompanyNipSelected { get; set; }
     DateTime DateOfOrder { get; set; }
     DateTime DateOfPayment { get; set; }
     string Description { get; set; }
 
-    string ProductName { get; set; }
-    string ProductRelease { get; set; }
+    int ProductSelected { get; set; }
+    int ProductReleaseSelected { get; set; }
     int ProductQuantity { get; set; }
-    string LicenseType { get; set; }
+    string LicenseTypeSelected { get; set; }
     int LicenseLeaseTermInDays { get; set; }
 
     #endregion
@@ -30,7 +31,6 @@ public interface IOrderCreatorView
     event EventHandler OrderCompanyNameSelectorBtnToggled;
     event EventHandler OrderCompanyNipSelectorBtnToggled;
     event EventHandler ProductAddBtnClicked;
-    event EventHandler ProductCancelBtnClicked;
     event EventHandler ProductRemoveBtnClicked;
     event EventHandler LicenseRegisterBtnClicked;
     event EventHandler LicenseActivateBtnClicked;
@@ -41,6 +41,11 @@ public interface IOrderCreatorView
 
 
     #region Methods
+
+    void SetCompanyListBindingSource(BindingSource companyList);
+    void SetProductListBindingSource(BindingSource productList);
+    void SetProductReleaseListBindingSource(BindingSource productReleaseList);
+    void SetLicenseTypeListBindingSource(BindingSource licenseTypeList);
 
     void SetWorkstationProductListBindingSource(BindingSource workstationProductList);
     void SetProductToSelectable(bool editable);

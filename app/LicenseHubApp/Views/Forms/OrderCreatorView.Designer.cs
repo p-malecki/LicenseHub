@@ -35,30 +35,29 @@
             rtxDescription = new RichTextBox();
             label5 = new Label();
             label14 = new Label();
-            this.btnOrderAdd = new Button();
+            btnOrderAdd = new Button();
             label2 = new Label();
             btnOrderCancel = new Button();
             label8 = new Label();
             groupBox1 = new GroupBox();
-            cmbSelectedCompany = new ComboBox();
-            rdoCompanyNip = new RadioButton();
-            rdoCompanyName = new RadioButton();
-            label1 = new Label();
             txtCompanyContractNumber = new TextBox();
+            rdoCompanyName = new RadioButton();
+            rdoCompanyNip = new RadioButton();
+            cmbSelectedCompany = new ComboBox();
+            label1 = new Label();
             groupBox2 = new GroupBox();
-            comboBox1 = new ComboBox();
-            label4 = new Label();
-            label6 = new Label();
-            comboBox2 = new ComboBox();
-            numericUpDown1 = new NumericUpDown();
-            label10 = new Label();
-            label11 = new Label();
-            cmbLicenseType = new ComboBox();
             label18 = new Label();
             nudLicenseLeaseTermInDays = new NumericUpDown();
-            groupBox3 = new GroupBox();
+            nudProductQuantity = new NumericUpDown();
+            cmbRelease = new ComboBox();
+            label6 = new Label();
             btnProductAdd = new Button();
-            btnProductCancel = new Button();
+            cmbLicenseType = new ComboBox();
+            label11 = new Label();
+            label10 = new Label();
+            cmbProduct = new ComboBox();
+            label4 = new Label();
+            groupBox3 = new GroupBox();
             btnProductRemove = new Button();
             btnLicenseRegister = new Button();
             groupBox4 = new GroupBox();
@@ -66,8 +65,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvWorkstationProductData).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudLicenseLeaseTermInDays).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudProductQuantity).BeginInit();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
             SuspendLayout();
@@ -134,13 +133,13 @@
             // 
             // btnOrderAdd
             // 
-            this.btnOrderAdd.Enabled = false;
-            this.btnOrderAdd.Location = new Point(1104, 1030);
-            this.btnOrderAdd.Name = "btnOrderAdd";
-            this.btnOrderAdd.Size = new Size(146, 75);
-            this.btnOrderAdd.TabIndex = 88;
-            this.btnOrderAdd.Text = "Add order";
-            this.btnOrderAdd.UseVisualStyleBackColor = true;
+            btnOrderAdd.Enabled = false;
+            btnOrderAdd.Location = new Point(1104, 1030);
+            btnOrderAdd.Name = "btnOrderAdd";
+            btnOrderAdd.Size = new Size(146, 75);
+            btnOrderAdd.TabIndex = 88;
+            btnOrderAdd.Text = "Add order";
+            btnOrderAdd.UseVisualStyleBackColor = true;
             // 
             // label2
             // 
@@ -190,24 +189,12 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Details";
             // 
-            // cmbSelectedCompany
+            // txtCompanyContractNumber
             // 
-            cmbSelectedCompany.FormattingEnabled = true;
-            cmbSelectedCompany.Location = new Point(47, 119);
-            cmbSelectedCompany.Name = "cmbSelectedCompany";
-            cmbSelectedCompany.Size = new Size(322, 33);
-            cmbSelectedCompany.TabIndex = 93;
-            // 
-            // rdoCompanyNip
-            // 
-            rdoCompanyNip.AutoSize = true;
-            rdoCompanyNip.Location = new Point(222, 84);
-            rdoCompanyNip.Name = "rdoCompanyNip";
-            rdoCompanyNip.Size = new Size(62, 29);
-            rdoCompanyNip.TabIndex = 94;
-            rdoCompanyNip.TabStop = true;
-            rdoCompanyNip.Text = "nip";
-            rdoCompanyNip.UseVisualStyleBackColor = true;
+            txtCompanyContractNumber.Location = new Point(47, 196);
+            txtCompanyContractNumber.Name = "txtCompanyContractNumber";
+            txtCompanyContractNumber.Size = new Size(322, 31);
+            txtCompanyContractNumber.TabIndex = 95;
             // 
             // rdoCompanyName
             // 
@@ -220,6 +207,25 @@
             rdoCompanyName.Text = "company name";
             rdoCompanyName.UseVisualStyleBackColor = true;
             // 
+            // rdoCompanyNip
+            // 
+            rdoCompanyNip.AutoSize = true;
+            rdoCompanyNip.Location = new Point(222, 84);
+            rdoCompanyNip.Name = "rdoCompanyNip";
+            rdoCompanyNip.Size = new Size(62, 29);
+            rdoCompanyNip.TabIndex = 94;
+            rdoCompanyNip.TabStop = true;
+            rdoCompanyNip.Text = "nip";
+            rdoCompanyNip.UseVisualStyleBackColor = true;
+            // 
+            // cmbSelectedCompany
+            // 
+            cmbSelectedCompany.FormattingEnabled = true;
+            cmbSelectedCompany.Location = new Point(47, 119);
+            cmbSelectedCompany.Name = "cmbSelectedCompany";
+            cmbSelectedCompany.Size = new Size(322, 33);
+            cmbSelectedCompany.TabIndex = 93;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -229,26 +235,18 @@
             label1.TabIndex = 80;
             label1.Text = "Contract number:";
             // 
-            // txtCompanyContractNumber
-            // 
-            txtCompanyContractNumber.Location = new Point(47, 196);
-            txtCompanyContractNumber.Name = "txtCompanyContractNumber";
-            txtCompanyContractNumber.Size = new Size(322, 31);
-            txtCompanyContractNumber.TabIndex = 95;
-            // 
             // groupBox2
             // 
             groupBox2.Controls.Add(label18);
             groupBox2.Controls.Add(nudLicenseLeaseTermInDays);
-            groupBox2.Controls.Add(numericUpDown1);
-            groupBox2.Controls.Add(comboBox2);
-            groupBox2.Controls.Add(btnProductCancel);
+            groupBox2.Controls.Add(nudProductQuantity);
+            groupBox2.Controls.Add(cmbRelease);
             groupBox2.Controls.Add(label6);
             groupBox2.Controls.Add(btnProductAdd);
             groupBox2.Controls.Add(cmbLicenseType);
             groupBox2.Controls.Add(label11);
             groupBox2.Controls.Add(label10);
-            groupBox2.Controls.Add(comboBox1);
+            groupBox2.Controls.Add(cmbProduct);
             groupBox2.Controls.Add(label4);
             groupBox2.Location = new Point(685, 461);
             groupBox2.Name = "groupBox2";
@@ -256,79 +254,6 @@
             groupBox2.TabIndex = 95;
             groupBox2.TabStop = false;
             groupBox2.Text = "Add product to order";
-            // 
-            // comboBox1
-            // 
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(43, 69);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(249, 33);
-            comboBox1.TabIndex = 0;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(43, 41);
-            label4.Name = "label4";
-            label4.Size = new Size(78, 25);
-            label4.TabIndex = 80;
-            label4.Text = "Product:";
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(43, 120);
-            label6.Name = "label6";
-            label6.Size = new Size(74, 25);
-            label6.TabIndex = 80;
-            label6.Text = "Release:";
-            // 
-            // comboBox2
-            // 
-            comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(43, 148);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(249, 33);
-            comboBox2.TabIndex = 0;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Location = new Point(43, 225);
-            numericUpDown1.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
-            numericUpDown1.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(249, 31);
-            numericUpDown1.TabIndex = 81;
-            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(43, 197);
-            label10.Name = "label10";
-            label10.Size = new Size(84, 25);
-            label10.TabIndex = 80;
-            label10.Text = "Quantity:";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(360, 41);
-            label11.Name = "label11";
-            label11.Size = new Size(112, 25);
-            label11.TabIndex = 80;
-            label11.Text = "License type:";
-            // 
-            // cmbLicenseType
-            // 
-            cmbLicenseType.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbLicenseType.FormattingEnabled = true;
-            cmbLicenseType.Location = new Point(360, 69);
-            cmbLicenseType.Name = "cmbLicenseType";
-            cmbLicenseType.Size = new Size(249, 33);
-            cmbLicenseType.TabIndex = 0;
             // 
             // label18
             // 
@@ -341,7 +266,6 @@
             // 
             // nudLicenseLeaseTermInDays
             // 
-            nudLicenseLeaseTermInDays.Enabled = false;
             nudLicenseLeaseTermInDays.Location = new Point(360, 150);
             nudLicenseLeaseTermInDays.Maximum = new decimal(new int[] { 3653, 0, 0, 0 });
             nudLicenseLeaseTermInDays.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
@@ -349,6 +273,88 @@
             nudLicenseLeaseTermInDays.Size = new Size(249, 31);
             nudLicenseLeaseTermInDays.TabIndex = 81;
             nudLicenseLeaseTermInDays.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // nudProductQuantity
+            // 
+            nudProductQuantity.Location = new Point(43, 225);
+            nudProductQuantity.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            nudProductQuantity.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudProductQuantity.Name = "nudProductQuantity";
+            nudProductQuantity.Size = new Size(249, 31);
+            nudProductQuantity.TabIndex = 81;
+            nudProductQuantity.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // cmbRelease
+            // 
+            cmbRelease.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbRelease.FormattingEnabled = true;
+            cmbRelease.Location = new Point(43, 148);
+            cmbRelease.Name = "cmbRelease";
+            cmbRelease.Size = new Size(249, 33);
+            cmbRelease.TabIndex = 0;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(43, 120);
+            label6.Name = "label6";
+            label6.Size = new Size(74, 25);
+            label6.TabIndex = 80;
+            label6.Text = "Release:";
+            // 
+            // btnProductAdd
+            // 
+            btnProductAdd.Location = new Point(457, 221);
+            btnProductAdd.Name = "btnProductAdd";
+            btnProductAdd.Size = new Size(152, 37);
+            btnProductAdd.TabIndex = 88;
+            btnProductAdd.Text = "Add";
+            btnProductAdd.UseVisualStyleBackColor = true;
+            // 
+            // cmbLicenseType
+            // 
+            cmbLicenseType.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLicenseType.FormattingEnabled = true;
+            cmbLicenseType.Location = new Point(360, 69);
+            cmbLicenseType.Name = "cmbLicenseType";
+            cmbLicenseType.Size = new Size(249, 33);
+            cmbLicenseType.TabIndex = 0;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(360, 41);
+            label11.Name = "label11";
+            label11.Size = new Size(112, 25);
+            label11.TabIndex = 80;
+            label11.Text = "License type:";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(43, 197);
+            label10.Name = "label10";
+            label10.Size = new Size(84, 25);
+            label10.TabIndex = 80;
+            label10.Text = "Quantity:";
+            // 
+            // cmbProduct
+            // 
+            cmbProduct.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbProduct.FormattingEnabled = true;
+            cmbProduct.Location = new Point(43, 69);
+            cmbProduct.Name = "cmbProduct";
+            cmbProduct.Size = new Size(249, 33);
+            cmbProduct.TabIndex = 0;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(43, 41);
+            label4.Name = "label4";
+            label4.Size = new Size(78, 25);
+            label4.TabIndex = 80;
+            label4.Text = "Product:";
             // 
             // groupBox3
             // 
@@ -360,28 +366,8 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Products included in this order";
             // 
-            // btnProductAdd
-            // 
-            btnProductAdd.Enabled = false;
-            btnProductAdd.Location = new Point(360, 219);
-            btnProductAdd.Name = "btnProductAdd";
-            btnProductAdd.Size = new Size(152, 37);
-            btnProductAdd.TabIndex = 88;
-            btnProductAdd.Text = "Add";
-            btnProductAdd.UseVisualStyleBackColor = true;
-            // 
-            // btnProductCancel
-            // 
-            btnProductCancel.Location = new Point(518, 219);
-            btnProductCancel.Name = "btnProductCancel";
-            btnProductCancel.Size = new Size(91, 37);
-            btnProductCancel.TabIndex = 89;
-            btnProductCancel.Text = "Cancel";
-            btnProductCancel.UseVisualStyleBackColor = true;
-            // 
             // btnProductRemove
             // 
-            btnProductRemove.Enabled = false;
             btnProductRemove.Location = new Point(145, 43);
             btnProductRemove.Name = "btnProductRemove";
             btnProductRemove.Size = new Size(368, 43);
@@ -391,7 +377,6 @@
             // 
             // btnLicenseRegister
             // 
-            btnLicenseRegister.Enabled = false;
             btnLicenseRegister.Location = new Point(145, 106);
             btnLicenseRegister.Name = "btnLicenseRegister";
             btnLicenseRegister.Size = new Size(368, 44);
@@ -413,7 +398,6 @@
             // 
             // btnLicenseActivate
             // 
-            btnLicenseActivate.Enabled = false;
             btnLicenseActivate.Location = new Point(145, 170);
             btnLicenseActivate.Name = "btnLicenseActivate";
             btnLicenseActivate.Size = new Size(368, 44);
@@ -431,7 +415,7 @@
             Controls.Add(groupBox1);
             Controls.Add(label7);
             Controls.Add(btnOrderCancel);
-            Controls.Add(this.btnOrderAdd);
+            Controls.Add(btnOrderAdd);
             Name = "OrderCreatorView";
             Size = new Size(1407, 1156);
             ((System.ComponentModel.ISupportInitialize)dgvWorkstationProductData).EndInit();
@@ -439,8 +423,8 @@
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudLicenseLeaseTermInDays).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudProductQuantity).EndInit();
             groupBox3.ResumeLayout(false);
             groupBox4.ResumeLayout(false);
             ResumeLayout(false);
@@ -459,6 +443,7 @@
         private Label label14;
         private Button btnSave;
         private Label label2;
+        private Button btnOrderAdd;
         private Button btnOrderCancel;
         private Label label8;
         private GroupBox groupBox1;
@@ -468,17 +453,16 @@
         private TextBox txtCompanyContractNumber;
         private Label label1;
         private GroupBox groupBox2;
-        private ComboBox comboBox2;
+        private ComboBox cmbRelease;
         private Label label6;
-        private ComboBox comboBox1;
+        private ComboBox cmbProduct;
         private Label label4;
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown nudProductQuantity;
         private Label label10;
         private ComboBox cmbLicenseType;
         private Label label11;
         private Label label18;
         private NumericUpDown nudLicenseLeaseTermInDays;
-        private Button btnProductCancel;
         private Button btnProductAdd;
         private GroupBox groupBox3;
         private Button btnProductRemove;
