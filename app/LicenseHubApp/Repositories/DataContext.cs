@@ -90,7 +90,7 @@ public class DataContext : DbContext
             .HasOne(m => m.License)
             .WithOne(m => m.WorkstationProduct)
             .HasForeignKey<LicenseModel>(m => m.WorkstationProductId)
-            .IsRequired();
+            .IsRequired(false);
 
         // many WorkstationProducts to one Order
         modelBuilder.Entity<OrderModel>()

@@ -21,11 +21,11 @@ public abstract partial class LicenseModel : ValidatableModel, IModelWithId, ILi
     public ActivationCodeModel? ActivationCode { get; set; }
     
     [Browsable(false)]
-    public int WorkstationProductId { get; set; }
+    public int? WorkstationProductId { get; set; }
 
     [ForeignKey("WorkstationProductId")]
     [Browsable(false)]
     [Description("WorkstationProduct that is licensed.")]
-    public WorkstationProductModel WorkstationProduct { get; set; }
+    public WorkstationProductModel? WorkstationProduct { get; set; }
 
 }
