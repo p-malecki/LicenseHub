@@ -1,5 +1,7 @@
 ﻿using LicenseHubApp.Views.Interfaces;
 using System.Xml.Linq;
+using LicenseHubApp.Models;
+using System.Windows.Forms;
 
 namespace LicenseHubApp.Views.Forms
 {
@@ -15,6 +17,10 @@ namespace LicenseHubApp.Views.Forms
 
         private void AssociateAndRaiseViewEvents()
         {
+            cmbProduct.SelectedIndexChanged += delegate
+            {
+                ProductSelectedChanged?.Invoke(this, EventArgs.Empty);
+            };
             btnProductAdd.Click += delegate
             {
                 ProductAddBtnClicked?.Invoke(this, EventArgs.Empty);
@@ -33,7 +39,17 @@ namespace LicenseHubApp.Views.Forms
             };
             btnOrderAdd.Click += delegate
             {
+                IsSuccessful = true;
                 OrderAddBtnClicked?.Invoke(this, EventArgs.Empty);
+                if (IsSuccessful)
+                {
+                    MessageBox.Show(Message, @"Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show(Message, @"Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    IsSuccessful = true;
+                }
             };
             btnOrderCancel.Click += delegate
             {
@@ -41,15 +57,11 @@ namespace LicenseHubApp.Views.Forms
             };
             rdoCompanyName.Click += delegate
             {
-                OrderCompanyNameSelectorBtnToggled?.Invoke(this, EventArgs.Empty);
-                rdoCompanyName.Checked = true;
-                rdoCompanyNip.Checked = false;
+                OrderIsCompanyNameSelected = true;
             };
             rdoCompanyNip.Click += delegate
             {
-                OrderCompanyNipSelectorBtnToggled?.Invoke(this, EventArgs.Empty);
-                rdoCompanyNip.Checked = true;
-                rdoCompanyName.Checked = false;
+                OrderIsCompanyNipSelected = true;
             };
         }
 
@@ -76,6 +88,7 @@ namespace LicenseHubApp.Views.Forms
                 rdoCompanyName.Checked = value;
                 rdoCompanyNip.Checked = !value;
                 
+                cmbSelectedCompany.DropDownStyle = ComboBoxStyle.DropDownList;
                 cmbSelectedCompany.SelectedIndex = 0;
             }
         }
@@ -85,9 +98,10 @@ namespace LicenseHubApp.Views.Forms
             get => rdoCompanyNip.Checked;
             set
             {
-                rdoCompanyNip.Checked = value;
                 rdoCompanyName.Checked = !value;
+                rdoCompanyNip.Checked = value;
 
+                cmbSelectedCompany.DropDownStyle = ComboBoxStyle.DropDown;
                 cmbSelectedCompany.Text = "";
             }
         }
@@ -136,8 +150,8 @@ namespace LicenseHubApp.Views.Forms
 
         public string LicenseTypeSelected
         {
-            get => cmbLicenseType.SelectedText;
-            set => cmbLicenseType.SelectedText = value;
+            get => cmbLicenseType.Text;
+            set => cmbLicenseType.Text = value;
         }
 
         public int LicenseLeaseTermInDays
@@ -151,8 +165,7 @@ namespace LicenseHubApp.Views.Forms
 
         #region Events
 
-        public event EventHandler? OrderCompanyNameSelectorBtnToggled;
-        public event EventHandler? OrderCompanyNipSelectorBtnToggled;
+        public event EventHandler? ProductSelectedChanged;
         public event EventHandler? ProductAddBtnClicked;
         public event EventHandler? ProductRemoveBtnClicked;
         public event EventHandler? LicenseRegisterBtnClicked;
@@ -165,29 +178,38 @@ namespace LicenseHubApp.Views.Forms
 
         #region Methods
 
-        public void SetCompanyListBindingSource(BindingSource companyList)
+        public void SetCompanyNameList(IList<CompanyModel> companyModels)
         {
-            cmbSelectedCompany.DataSource = companyList;
-            cmbSelectedCompany.SelectedIndex = 0;
+            cmbSelectedCompany.DataSource = companyModels.Select(m => m.Name).ToList();
+            if (companyModels.Count > 0)
+                cmbSelectedCompany.SelectedIndex = 0;
         }
-        public void SetProductListBindingSource(BindingSource productList)
+        public void SetProductNameList(IList<ProductModel> productModels)
         {
-            cmbProduct.DataSource = productList;
-            cmbProduct.SelectedIndex = 0;
+            cmbProduct.DataSource = productModels.Select(m => m.Name).ToList();
+            if (productModels.Count > 0)
+                cmbProduct.SelectedIndex = 0;
         }
-        public void SetProductReleaseListBindingSource(BindingSource productReleaseList)
+        public void SetProductReleaseNameList(IList<ProductReleaseModel> productReleaseModels)
         {
-            cmbRelease.DataSource = productReleaseList;
-            cmbRelease.SelectedIndex = 0;
+            cmbRelease.DataSource = productReleaseModels.Select(m => m.ReleaseNumber).ToList();
+            if (productReleaseModels.Count > 0)
+                cmbRelease.SelectedIndex = 0;
         }
         public void SetLicenseTypeListBindingSource(BindingSource licenseTypeList)
         {
             cmbLicenseType.DataSource = licenseTypeList;
-            cmbLicenseType.SelectedIndex = 0;
+            if (licenseTypeList.Count > 0)
+                cmbLicenseType.SelectedIndex = 0;
         }
         public void SetWorkstationProductListBindingSource(BindingSource workstationProductList)
         {
             dgvWorkstationProductData.DataSource = workstationProductList;
+        }
+
+        public void SetProductAddBtnState(bool enabled)
+        {
+            btnProductAdd.Enabled = enabled;
         }
 
         public void SetProductToSelectable(bool editable)
@@ -195,6 +217,11 @@ namespace LicenseHubApp.Views.Forms
             btnProductRemove.Enabled = editable;
             btnLicenseRegister.Enabled = editable;
             btnLicenseActivate.Enabled = editable;
+        }
+
+        public void SetOrderAddBtnState(bool enabled)
+        {
+            btnOrderAdd.Enabled = enabled;
         }
 
         #endregion

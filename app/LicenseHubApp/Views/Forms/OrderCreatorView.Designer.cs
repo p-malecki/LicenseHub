@@ -73,10 +73,17 @@
             // 
             // dgvWorkstationProductData
             // 
+            dgvWorkstationProductData.AllowUserToAddRows = false;
+            dgvWorkstationProductData.AllowUserToDeleteRows = false;
+            dgvWorkstationProductData.AllowUserToResizeRows = false;
             dgvWorkstationProductData.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvWorkstationProductData.Location = new Point(26, 59);
             dgvWorkstationProductData.Name = "dgvWorkstationProductData";
             dgvWorkstationProductData.RowHeadersWidth = 62;
+            dgvWorkstationProductData.ShowCellErrors = false;
+            dgvWorkstationProductData.ShowCellToolTips = false;
+            dgvWorkstationProductData.ShowEditingIcon = false;
+            dgvWorkstationProductData.ShowRowErrors = false;
             dgvWorkstationProductData.Size = new Size(526, 585);
             dgvWorkstationProductData.TabIndex = 93;
             // 

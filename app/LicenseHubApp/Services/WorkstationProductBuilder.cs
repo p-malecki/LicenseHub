@@ -36,7 +36,7 @@ public class WorkstationProductBuilder
     {
         if (_workstationProduct.ProductRelease == null)
             throw new InvalidOperationException("ProductRelease is not specified.");
-        if (_workstationProduct.License == null)
+        if (_license == null)
             throw new InvalidOperationException("License is not specified.");
 
         _workstationProduct.License = _license!;

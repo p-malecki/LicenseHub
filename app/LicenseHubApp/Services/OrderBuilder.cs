@@ -25,9 +25,10 @@ public class OrderBuilder
         _orderModel.CompanyId = company.Id;
     }
 
-    public void AddWorkstationProduct(WorkstationProductModel workstationProduct)
+    public void AddWorkstationProduct(WorkstationProductModel workstationProduct, int quantity)
     {
-        _orderModel.WorkstationProducts.Add(workstationProduct);
+        for (var i = 0; i < quantity; i++)
+            _orderModel.WorkstationProducts.Add(workstationProduct);
     }
     
     public void RemoveWorkstationProduct(WorkstationProductModel workstationProduct)

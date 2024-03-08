@@ -62,7 +62,7 @@ namespace LicenseHubApp.Presenters
         {
             try
             {
-                if (!_view.AreCompanyFiltersActive & !_view.AreOrderFiltersActive)
+                if (_view is { AreCompanyFiltersActive: false, AreOrderFiltersActive: false })
                 {
                     LoadAllOrderList();
                     _view.IsSuccessful = true;

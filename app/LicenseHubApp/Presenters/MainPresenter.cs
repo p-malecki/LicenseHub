@@ -18,9 +18,11 @@ namespace LicenseHubApp.Presenters
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
         private IWorkstationRepository _workstationRepository;
+        private IWorkstationProductRepository _workstationProductRepository;
         private IOrderRepository _orderRepository;
         private IProductRepository _productRepository;
         private IProductReleaseRepository _releaseProductRepository;
+        private ILicenseRepository _licenseRepository;
         private event EventHandler GoToClientViewChanged;
         private event EventHandler GoToOrderViewChanged;
         private event EventHandler GoToOrderCreatorViewChanged;
@@ -40,9 +42,14 @@ namespace LicenseHubApp.Presenters
             _companyRepository = new CompanyRepository(_dataContext);
             _employeeRepository = new EmployeeRepository(_dataContext);
             _workstationRepository = new WorkstationRepository(_dataContext);
+            _workstationProductRepository = new WorkstationProductRepository(_dataContext);
             _orderRepository = new OrderRepository(_dataContext);
             _productRepository = new ProductRepository(_dataContext);
             _releaseProductRepository = new ProductReleaseRepository(_dataContext);
+            _licenseRepository = new LicenseRepository(new PerpetualLicenseRepository(_dataContext),
+                new SubscriptionLicenseRepository(_dataContext));
+
+            _ = _releaseProductRepository.GetAll(); // load releases
 
             _view.ClientsBtnClicked += OnClientsBtnClicked;
             _view.OrdersBtnClicked += OnOrdersBtnClicked;
@@ -128,7 +135,7 @@ namespace LicenseHubApp.Presenters
         private void OnGoToOrderCreatorViewChanged(object? sender, EventArgs e)
         {
             var orderCreatorView = new OrderCreatorView();
-            _ = new OrderCreatorPresenter(orderCreatorView, _orderRepository, _companyRepository, _productRepository, GoToOrderViewChanged);
+            _ = new OrderCreatorPresenter(orderCreatorView, _orderRepository, _companyRepository, _productRepository, _workstationProductRepository, _licenseRepository, GoToOrderViewChanged);
 
             _view.OrderTabPageCollection.Clear();
             _view.OrderTabPageCollection.Add(orderCreatorView);

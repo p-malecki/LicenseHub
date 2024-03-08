@@ -1,4 +1,7 @@
-﻿using LicenseHubApp.Models;
+﻿using System.Data;
+using System.Data.Entity.Core.Metadata.Edm;
+using System.Windows.Forms;
+using LicenseHubApp.Models;
 using LicenseHubApp.Models.Filters;
 using LicenseHubApp.Repositories;
 using LicenseHubApp.Services;
@@ -13,27 +16,49 @@ namespace LicenseHubApp.Presenters
         private readonly IOrderRepository _orderRepository;
         private readonly ICompanyRepository _companyRepository;
         private readonly IProductRepository _productRepository;
+        private readonly IWorkstationProductRepository _workstationProductRepository;
+        private readonly ILicenseRepository _licenseRepository;
+        private List<CompanyModel> _companyList;
+        private List<ProductModel> _productList;
+        private List<ProductReleaseModel> _productReleaseList;
+        private List<WorkstationProductModel> _workstationProductList;
         private readonly BindingSource _workstationProductBindingSource;
         private readonly WorkstationProductBuilder _workstationProductBuilder;
         private readonly OrderBuilder _orderBuilder;
+        private readonly EventHandler? _goToOrderViewChanged;
 
-        public OrderCreatorPresenter(IOrderCreatorView view, IOrderRepository orderRepository, ICompanyRepository companyRepository, IProductRepository productRepository, EventHandler closeCreatorViewClicked)
+        public OrderCreatorPresenter(
+            IOrderCreatorView view,
+            IOrderRepository orderRepository,
+            ICompanyRepository companyRepository,
+            IProductRepository productRepository,
+            IWorkstationProductRepository workstationProductRepository,
+            ILicenseRepository licenseRepository,
+            EventHandler closeCreatorViewClicked
+            )
         {
             _view = view;
             _orderRepository = orderRepository;
             _companyRepository = companyRepository;
             _productRepository = productRepository;
+            _workstationProductRepository = workstationProductRepository;
+            _licenseRepository = licenseRepository;
             _workstationProductBuilder = new WorkstationProductBuilder();
             _orderBuilder = new OrderBuilder();
 
+            _companyList = [];
+            _productList = [];
+            _productReleaseList = [];
+            _workstationProductList = [];
+            _workstationProductBindingSource = [];
             LoadCompanies();
             LoadProducts();
             LoadProductReleases();
             _view.SetLicenseTypeListBindingSource(["PerpetualLicense", "SubscriptionLicense"]); // TODO refactor license types
-            _workstationProductBindingSource = [];
             _view.SetWorkstationProductListBindingSource(_workstationProductBindingSource);
 
-            _view.ProductAddBtnClicked += OnProductAddBtnClicked;
+            _view.ProductSelectedChanged += OnProductSelectedChanged;
+            _view.ProductAddBtnClicked += OnAddBtnClicked;
             _view.ProductRemoveBtnClicked += OnProductRemoveBtnClicked;
             _view.LicenseRegisterBtnClicked += OnLicenseRegisterBtnClicked;
             _view.LicenseActivateBtnClicked += OnLicenseActivateBtnClicked;
@@ -42,34 +67,35 @@ namespace LicenseHubApp.Presenters
             _view.OrderIsCompanyNameSelected = true;
             _view.SetProductToSelectable(false);
 
+            _goToOrderViewChanged = closeCreatorViewClicked;
             _view.OrderCancelBtnClicked += delegate
             {
                 closeCreatorViewClicked.Invoke(this, EventArgs.Empty);
             };
+
         }
 
         private void LoadCompanies()
         {
-            var models = _companyRepository.GetAll();
-            var names = models.Select(m => m.Name).ToList();
-            _view.SetCompanyListBindingSource(new BindingSource() { DataSource = names });
+            _companyList = _companyRepository.GetAll().ToList();
+            _view.SetCompanyNameList(_companyList);
         }
 
         private void LoadProducts()
         {
-            var models = _productRepository.GetAll();
-            var names = models.Select(m => m.Name).ToList();
-            _view.SetProductListBindingSource(new BindingSource() { DataSource = names });
+            _productList = _productRepository.GetAll().ToList();
+            _view.SetProductNameList(_productList);
+            _view.SetProductAddBtnState(_productList.Count > 0);
         }
 
         private void LoadProductReleases()
         {
-            var productId = _view.ProductSelected;
-            var selectedProduct = _productRepository.GetById(productId).Result;
-
-            if (selectedProduct == null) return;
-            var names = selectedProduct.Releases.Select(m => m.ReleaseNumber).ToList();
-            _view.SetProductReleaseListBindingSource(new BindingSource() { DataSource = names });
+            if (_productList.Count == 0) return;
+            var productListIndex = _view.ProductSelected;
+            var selectedProduct = _productList[productListIndex];
+            _productReleaseList = selectedProduct.Releases.ToList();
+            _view.SetProductReleaseNameList(_productReleaseList);
+            _view.SetProductAddBtnState(_productReleaseList?.Count > 0);
         }
 
         private CompanyModel? GetCurrentlySelectedCompany()
@@ -90,24 +116,26 @@ namespace LicenseHubApp.Presenters
 
         private WorkstationProductModel? GetCurrentlySelectedWorkstationProduct()
         {
-            if (_workstationProductBindingSource.Count == 0)
-            {
-                _view.SetProductToSelectable(false);
-                return null;
-            }
+            if (_workstationProductBindingSource.Count == 0) return null;
 
-            _view.SetProductToSelectable(true);
-            return (WorkstationProductModel)_workstationProductBindingSource.Current;
+            if (_workstationProductBindingSource.Current is DataRowView drv)
+            {
+                var id = drv.Row.Table.Rows.IndexOf(drv.Row);
+                return _workstationProductList[id];
+            }
+            return null;
         }
 
-
-        private void OnProductAddBtnClicked(object? sender, EventArgs e)
+        private void OnProductSelectedChanged(object? sender, EventArgs e)
         {
-            var productId = _view.ProductSelected;
-            var releaseId = _view.ProductReleaseSelected;
-            var selectedRelease = _productRepository.GetById(productId).Result?.Releases.ToList()[releaseId];
+            LoadProductReleases();
+        }
 
-            if (selectedRelease == null) return;
+        private void OnAddBtnClicked(object? sender, EventArgs e)
+        {
+            var releaseListIndex = _view.ProductReleaseSelected;
+            var selectedRelease = _productReleaseList[releaseListIndex];
+            _workstationProductBuilder.Reset();
             _workstationProductBuilder.AddRelease(selectedRelease);
             
             switch (_view.LicenseTypeSelected)
@@ -120,8 +148,14 @@ namespace LicenseHubApp.Presenters
                     break;
             }
 
-            _orderBuilder.AddWorkstationProduct(_workstationProductBuilder.GetProduct());
-            _workstationProductBindingSource.DataSource = _orderBuilder.GetAllWorkstationProducts();
+            _orderBuilder.AddWorkstationProduct(_workstationProductBuilder.GetProduct(), _view.ProductQuantity);
+
+            _workstationProductList = _orderBuilder.GetAllWorkstationProducts();
+            var dt = MakeOrderProductDataTable(_workstationProductList);
+            _workstationProductBindingSource.DataSource = dt;
+
+            _view.SetProductToSelectable(true);
+            _view.SetOrderAddBtnState(true);
         }
 
         private void OnProductRemoveBtnClicked(object? sender, EventArgs e)
@@ -129,7 +163,16 @@ namespace LicenseHubApp.Presenters
             var selectedWorkstationProduct = GetCurrentlySelectedWorkstationProduct();
             if (selectedWorkstationProduct == null) return;
 
+            _workstationProductList.Remove(selectedWorkstationProduct);
             _orderBuilder.RemoveWorkstationProduct(selectedWorkstationProduct);
+            var dt = MakeOrderProductDataTable(_workstationProductList);
+            _workstationProductBindingSource.DataSource = dt;
+
+            if (_workstationProductList.Count == 0)
+            {
+                _view.SetProductToSelectable(false);
+                _view.SetOrderAddBtnState(false);
+            }
         }
 
         private void OnLicenseRegisterBtnClicked(object? sender, EventArgs e)
@@ -153,19 +196,82 @@ namespace LicenseHubApp.Presenters
             throw new NotImplementedException();
         }
 
-        private void OnOrderAddBtnClicked(object? sender, EventArgs e)
+        private async void OnOrderAddBtnClicked(object? sender, EventArgs e)
         {
             var company = GetCurrentlySelectedCompany();
             var contractNumber = _view.OrderContractNumber;
-            if (company == null || string.IsNullOrWhiteSpace(contractNumber)) return;
+            if (company == null || string.IsNullOrWhiteSpace(contractNumber))
+            {
+                _view.IsSuccessful = false;
+                _view.Message = "Set correct order data.";
+                return;
+            }
 
             _orderBuilder.SetCompanyData(company);
             _orderBuilder.SetOrderData(contractNumber, _view.DateOfOrder, _view.DateOfPayment, _view.Description);
-            // TODO add date validation in order creation
 
-            var newOrder = _orderBuilder.GetProduct();
-            _orderRepository.Create(newOrder);
+            try
+            {
+                var orderModel = _orderBuilder.GetProduct();
+                foreach (var workstationProduct in orderModel.WorkstationProducts)
+                {
+                    if (workstationProduct.License != null)
+                    {
+                        await _licenseRepository.Create(workstationProduct.License);
+                    }
+                    await _workstationProductRepository.Create(workstationProduct);
+                }
+
+                await _orderRepository.Create(orderModel);
+                _view.Message = "Order has been added.";
+            }
+            catch (Exception ex)
+            {
+                _view.IsSuccessful = false;
+                _view.Message = ex.Message;
+            }
+
+            _goToOrderViewChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        private static DataTable MakeOrderProductDataTable(List<WorkstationProductModel> workstationProducts)
+        {
+            var table = new DataTable();
+
+            var column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Product",
+            };
+            table.Columns.Add(column);
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "Release",
+            };
+            table.Columns.Add(column);
+            column = new DataColumn
+            {
+                DataType = Type.GetType("System.String"),
+                ColumnName = "License",
+            };
+            table.Columns.Add(column);
+
+            foreach (var wp in workstationProducts)
+            {
+                var row = table.NewRow();
+                row["Product"] = wp.ProductRelease?.Product.Name ?? "";
+                row["Release"] = wp.ProductRelease?.ReleaseNumber ?? "";
+                row["License"] = wp.License switch
+                {
+                    PerpetualLicenseModel => "Perpetual",
+                    SubscriptionLicenseModel => "Subscription",
+                    _ => "other"
+                };
+                table.Rows.Add(row);
+            }
+
+            return table;
+        }
     }
 }

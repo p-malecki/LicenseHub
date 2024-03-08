@@ -1,4 +1,6 @@
-﻿namespace LicenseHubApp.Views.Interfaces;
+﻿using LicenseHubApp.Models;
+
+namespace LicenseHubApp.Views.Interfaces;
 
 public interface IOrderCreatorView
 {
@@ -28,8 +30,7 @@ public interface IOrderCreatorView
 
     #region Events
 
-    event EventHandler OrderCompanyNameSelectorBtnToggled;
-    event EventHandler OrderCompanyNipSelectorBtnToggled;
+    event EventHandler ProductSelectedChanged;
     event EventHandler ProductAddBtnClicked;
     event EventHandler ProductRemoveBtnClicked;
     event EventHandler LicenseRegisterBtnClicked;
@@ -42,13 +43,15 @@ public interface IOrderCreatorView
 
     #region Methods
 
-    void SetCompanyListBindingSource(BindingSource companyList);
-    void SetProductListBindingSource(BindingSource productList);
-    void SetProductReleaseListBindingSource(BindingSource productReleaseList);
+    void SetCompanyNameList(IList<CompanyModel> companyModels);
+    void SetProductNameList(IList<ProductModel> productModels);
+    void SetProductReleaseNameList(IList<ProductReleaseModel> productReleaseModels);
     void SetLicenseTypeListBindingSource(BindingSource licenseTypeList);
 
     void SetWorkstationProductListBindingSource(BindingSource workstationProductList);
+    void SetProductAddBtnState(bool enabled);
     void SetProductToSelectable(bool editable);
+    void SetOrderAddBtnState(bool enabled);
 
     #endregion
 }

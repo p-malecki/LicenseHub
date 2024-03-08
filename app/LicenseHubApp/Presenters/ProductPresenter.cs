@@ -61,6 +61,7 @@ namespace LicenseHubApp.Presenters
 
             _view.IsEdit = tmpIsEdit;
         }
+
         private void LoadAllReleaseList()
         {
             var tmpIsEdit = _view.IsEdit;
