@@ -1,15 +1,16 @@
 
 # About LicenseHub project
 
-The LicenseHub is a software solution designed to centralize management of software licenses and license tracking while also providing simple customer management functionalities.
+The LicenseHub is a software solution designed to centralize the management of software licenses and license tracking
+while also providing simple customer management functionalities.
 
-The intended users of the system are small business owners and entrepreneurs who with limited resources and seek an
-solution to provide both license and customer management.
+The intended users of the system are small business owners and entrepreneurs who have limited resources
+and seek a solution to provide both licenses and customer management.
 
-In the future the software will interface with external systems, primarily the clients' software applications
-using the server. These interfaces enable license verification, software updates, user notifications, and general data synchronization.
+In the future, the software will interface with external systems, primarily the clients' software applications using the server.
+These interfaces enable license verification, software updates, user notifications, and general data synchronization.
 
-Currently in phase of implementation.
+Currently in the phase of implementation.
 
 ### UML deployment diagram:
 ![UML deployment diagram](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/diagrams/uml_deployment_diagram.png?token=GHSAT0AAAAAACGZ7M33EOB3NZVEPO46TKGWZQBSN6Q)
