@@ -7,7 +7,7 @@ namespace LicenseHubApp.Services;
 
 public class WorkstationProductBuilder
 {
-    private WorkstationProductModel _workstationProduct = new ();
+    private WorkstationProductModel _workstationProduct = new();
     private LicenseModel? _license;
 
     public void Reset()
@@ -18,17 +18,17 @@ public class WorkstationProductBuilder
 
     public void AddRelease(ProductReleaseModel release)
     {
+        _workstationProduct.ReleaseId = release.Id;
         _workstationProduct.ProductRelease = release;
     }
 
-    public void AddPerpetualLicense()
+    public void AddLicense(string licenseType, int leaseTermInDays)
     {
-        _license = new PerpetualLicenseModel();
-    }
-
-    public void AddSubscriptionLicense(int leaseTermInDays)
-    {
-        _license = new SubscriptionLicenseModel(leaseTermInDays);
+        _license = new LicenseModel
+        {
+            LeaseTermInDays = (licenseType == "Subscription") ? leaseTermInDays : 0
+            // TODO add activation code, generated or passed manually 
+        };
     }
 
 
@@ -39,6 +39,8 @@ public class WorkstationProductBuilder
         if (_license == null)
             throw new InvalidOperationException("License is not specified.");
 
+        _workstationProduct.Workstation = null;
+        _workstationProduct.Order = null;
         _workstationProduct.License = _license!;
         var result = _workstationProduct;
 

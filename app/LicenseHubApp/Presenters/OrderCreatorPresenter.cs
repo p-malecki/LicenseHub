@@ -54,10 +54,11 @@ namespace LicenseHubApp.Presenters
             LoadCompanies();
             LoadProducts();
             LoadProductReleases();
-            _view.SetLicenseTypeListBindingSource(["PerpetualLicense", "SubscriptionLicense"]); // TODO refactor license types
+            _view.SetLicenseTypeListBindingSource(["Subscription", "Perpetual"]);
             _view.SetWorkstationProductListBindingSource(_workstationProductBindingSource);
 
             _view.ProductSelectedChanged += OnProductSelectedChanged;
+            _view.LicenseTypeSelectedChanged += OnLicenseTypeSelectedChanged;
             _view.ProductAddBtnClicked += OnAddBtnClicked;
             _view.ProductRemoveBtnClicked += OnProductRemoveBtnClicked;
             _view.LicenseRegisterBtnClicked += OnLicenseRegisterBtnClicked;
@@ -131,22 +132,19 @@ namespace LicenseHubApp.Presenters
             LoadProductReleases();
         }
 
+        private void OnLicenseTypeSelectedChanged(object? sender, EventArgs e)
+        {
+            _view.SetLicenseLeaseTermInDaysState(_view.LicenseTypeSelected == "Subscription");
+        }
+
         private void OnAddBtnClicked(object? sender, EventArgs e)
         {
             var releaseListIndex = _view.ProductReleaseSelected;
             var selectedRelease = _productReleaseList[releaseListIndex];
             _workstationProductBuilder.Reset();
             _workstationProductBuilder.AddRelease(selectedRelease);
-            
-            switch (_view.LicenseTypeSelected)
-            {
-                case "PerpetualLicense":
-                    _workstationProductBuilder.AddPerpetualLicense();
-                    break;
-                case "SubscriptionLicense":
-                    _workstationProductBuilder.AddSubscriptionLicense(_view.LicenseLeaseTermInDays);
-                    break;
-            }
+            _workstationProductBuilder.AddLicense(_view.LicenseTypeSelected, _view.LicenseLeaseTermInDays);
+
 
             _orderBuilder.AddWorkstationProduct(_workstationProductBuilder.GetProduct(), _view.ProductQuantity);
 
@@ -262,12 +260,10 @@ namespace LicenseHubApp.Presenters
                 var row = table.NewRow();
                 row["Product"] = wp.ProductRelease?.Product.Name ?? "";
                 row["Release"] = wp.ProductRelease?.ReleaseNumber ?? "";
-                row["License"] = wp.License switch
-                {
-                    PerpetualLicenseModel => "Perpetual",
-                    SubscriptionLicenseModel => "Subscription",
-                    _ => "other"
-                };
+                if (wp.License is not null)
+                    row["License"] = (wp.License.IsPerpetual()) ? "Perpetual" : "Subscription";
+                else
+                    row["License"] = "";
                 table.Rows.Add(row);
             }
 

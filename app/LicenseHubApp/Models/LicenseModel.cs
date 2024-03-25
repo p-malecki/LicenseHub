@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace LicenseHubApp.Models;
 
 
-public abstract partial class LicenseModel : ValidatableModel, IModelWithId, ILicense
+public partial class LicenseModel : ValidatableModel, IModelWithId, ILicense
 {
     [Key]
     [DisplayName("LicenseID")]
@@ -19,7 +19,10 @@ public abstract partial class LicenseModel : ValidatableModel, IModelWithId, ILi
 
     [DisplayName("Activation code")]
     public ActivationCodeModel? ActivationCode { get; set; }
-    
+
+    [DisplayName("Lease term in days")]
+    public int LeaseTermInDays { get; set; }
+
     [Browsable(false)]
     public int? WorkstationProductId { get; set; }
 

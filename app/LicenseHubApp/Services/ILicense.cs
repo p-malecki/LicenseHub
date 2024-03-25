@@ -6,6 +6,7 @@ public interface ILicense
     DateTime? RegisterDate { get; }
     DateTime? ActivationDate { get; }
     ActivationCodeModel? ActivationCode { get; }
+    bool IsPerpetual();
     bool IsActive();
     DateTime ExpirationDate();
     void Register(DateTime registerDate);

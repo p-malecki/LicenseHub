@@ -29,14 +29,8 @@ public class DataContext : DbContext
     {
         //// TPC mapping
         //  use the OfType<TEntity> method to query for particular type
-
-        modelBuilder.Entity<LicenseModel>().UseTpcMappingStrategy();
-        modelBuilder.Entity<SubscriptionLicenseModel>().ToTable("SubscriptionLicenses");
-        modelBuilder.Entity<PerpetualLicenseModel>().ToTable("PerpetualLicenses");
-
         modelBuilder.Entity<ActivationCodeModel>().UseTpcMappingStrategy();
         modelBuilder.Entity<GeneratedActivationCodeModel>().ToTable("GeneratedActivationCodes");
-
 
 
         //// relationships

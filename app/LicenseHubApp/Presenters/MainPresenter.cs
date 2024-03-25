@@ -46,8 +46,7 @@ namespace LicenseHubApp.Presenters
             _orderRepository = new OrderRepository(_dataContext);
             _productRepository = new ProductRepository(_dataContext);
             _releaseProductRepository = new ProductReleaseRepository(_dataContext);
-            _licenseRepository = new LicenseRepository(new PerpetualLicenseRepository(_dataContext),
-                new SubscriptionLicenseRepository(_dataContext));
+            _licenseRepository = new LicenseRepository(_dataContext);
 
             _ = _releaseProductRepository.GetAll(); // load releases
 

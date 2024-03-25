@@ -28,7 +28,7 @@ public class OrderBuilder
     public void AddWorkstationProduct(WorkstationProductModel workstationProduct, int quantity)
     {
         for (var i = 0; i < quantity; i++)
-            _orderModel.WorkstationProducts.Add(workstationProduct);
+            _orderModel.WorkstationProducts.Add(workstationProduct); // TODO add copy constructor to insert multiple workstationProduct copies
     }
     
     public void RemoveWorkstationProduct(WorkstationProductModel workstationProduct)

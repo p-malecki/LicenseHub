@@ -21,6 +21,10 @@ namespace LicenseHubApp.Views.Forms
             {
                 ProductSelectedChanged?.Invoke(this, EventArgs.Empty);
             };
+            cmbLicenseType.SelectedIndexChanged += delegate
+            {
+                LicenseTypeSelectedChanged?.Invoke(this, EventArgs.Empty);
+            };
             btnProductAdd.Click += delegate
             {
                 ProductAddBtnClicked?.Invoke(this, EventArgs.Empty);
@@ -166,6 +170,7 @@ namespace LicenseHubApp.Views.Forms
         #region Events
 
         public event EventHandler? ProductSelectedChanged;
+        public event EventHandler? LicenseTypeSelectedChanged;
         public event EventHandler? ProductAddBtnClicked;
         public event EventHandler? ProductRemoveBtnClicked;
         public event EventHandler? LicenseRegisterBtnClicked;
@@ -205,6 +210,10 @@ namespace LicenseHubApp.Views.Forms
         public void SetWorkstationProductListBindingSource(BindingSource workstationProductList)
         {
             dgvWorkstationProductData.DataSource = workstationProductList;
+        }
+        public void SetLicenseLeaseTermInDaysState(bool enabled)
+        {
+            nudLicenseLeaseTermInDays.Enabled = enabled;
         }
 
         public void SetProductAddBtnState(bool enabled)

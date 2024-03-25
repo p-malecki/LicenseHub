@@ -37,9 +37,8 @@ namespace LicenseHubApp.Presenters
 
         private void ShowModel()
         {
-            var licenseType = _workstationProduct.License?.GetType().Name;
             var isActivationCodeGenerated = (_workstationProduct.License?.ActivationCode?.GetType().Name ?? "") == "GeneratedActivationCodeModel";
-            var leaseInDays = (_workstationProduct.License as SubscriptionLicenseModel)?.LeaseTermInDays ?? 0;
+            var leaseInDays = ((_workstationProduct.License?.LeaseTermInDays > 0) ? _workstationProduct.License?.LeaseTermInDays : 0) ?? 0;
 
             var endOfLicensePeriodDate = _workstationProduct.License.ActivationDate?.AddDays(leaseInDays) ?? DateTime.Now;
 
@@ -53,7 +52,7 @@ namespace LicenseHubApp.Presenters
             _view.ReleaseNumber = _workstationProduct.ProductRelease.ReleaseNumber;
             _view.ReleaseInstallerVerificationPasscode = _workstationProduct.ProductRelease.InstallerVerificationPasscode;
             _view.ReleaseDescription = _workstationProduct.ProductRelease.Description;
-            _view.LicenseType = licenseType;
+            _view.LicenseType = _workstationProduct.License.IsPerpetual() ? "Perpetual" : "Subscription";
             _view.LicenseRegisterDate = _workstationProduct.License.RegisterDate ?? DateTime.Now; // TODO turn off RegisterDate when not set 
             _view.LicenseLeaseInDays = leaseInDays;
             _view.LicenseActivationCode = _workstationProduct.License.ActivationCode?.Code ?? "";

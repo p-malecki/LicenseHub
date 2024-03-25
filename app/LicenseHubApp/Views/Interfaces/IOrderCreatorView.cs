@@ -31,6 +31,7 @@ public interface IOrderCreatorView
     #region Events
 
     event EventHandler ProductSelectedChanged;
+    event EventHandler LicenseTypeSelectedChanged;
     event EventHandler ProductAddBtnClicked;
     event EventHandler ProductRemoveBtnClicked;
     event EventHandler LicenseRegisterBtnClicked;
@@ -49,6 +50,7 @@ public interface IOrderCreatorView
     void SetLicenseTypeListBindingSource(BindingSource licenseTypeList);
 
     void SetWorkstationProductListBindingSource(BindingSource workstationProductList);
+    void SetLicenseLeaseTermInDaysState(bool enabled);
     void SetProductAddBtnState(bool enabled);
     void SetProductToSelectable(bool editable);
     void SetOrderAddBtnState(bool enabled);
