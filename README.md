@@ -13,25 +13,29 @@ These interfaces enable license verification, software updates, user notificatio
 Currently in the phase of implementation.
 
 ### UML deployment diagram:
-![UML deployment diagram](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/diagrams/uml_deployment_diagram.png?token=GHSAT0AAAAAACGZ7M33EOB3NZVEPO46TKGWZQBSN6Q)
+![UML deployment diagram](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/diagrams/uml_deployment_diagram.png)
+
 
 ### UML use case diagram:
-![UML use case diagram](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/diagrams/uml_use_case.png?token=GHSAT0AAAAAACGZ7M33RWCCRYJIYSOUZU2WZQBSOBQ)
+![UML use case diagram](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/diagrams/uml_use_case.png)
 
 ### UML sequence diagram for registration and activation process:
-![UML sequence diagram for registration and activation process](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/diagrams/uml_sequence_diagram_registration_and_activation_process.png?token=GHSAT0AAAAAACGZ7M33MKZCGO4G32A76D7KZQBSN7Q)
+![UML sequence diagram for registration and activation process](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/diagrams/uml_sequence_diagram_registration_and_activation_process.png)
+
+
 ## Screenshots
 
-![Client view](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/screenshots/2024-03-25%2015_29_59-LicenseHub.jpg?token=GHSAT0AAAAAACGZ7M33VHT7HNRRCLJMUGRWZQBTFRQ)
+![Client view](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/screenshots/2024-03-25%2015_29_37-LicenseHub.jpg)
 
-![Employee detail view](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/screenshots/2024-03-25%2015_30_49-LicenseHub.jpg?token=GHSAT0AAAAAACGZ7M323NBSBW3AEJCALZAKZQBTFVQ)
+![Employee detail view](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/screenshots/2024-03-25%2015_30_11-LicenseHub.jpg)
 
-![Product view](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/screenshots/2024-03-25%2015_31_16-LicenseHub.jpg?token=GHSAT0AAAAAACGZ7M32INXY5SHBHHQOUEU6ZQBTFWQ)
+![Product view](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/screenshots/2024-03-25%2015_31_16-LicenseHub.jpg)
 
 
-![Order creator view](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/screenshots/2024-03-25%2015_32_13-LicenseHub.jpg?token=GHSAT0AAAAAACGZ7M324XXODH3LFKCLDLJKZQBTFXQ)
+![Order creator view](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/screenshots/2024-03-25%2015_32_13-LicenseHub.jpg)
 
-![User management view](https://raw.githubusercontent.com/p-malecki/LicenseHub/main/screenshots/2024-03-25%2015_32_48-UserManagementFormView.jpg?token=GHSAT0AAAAAACGZ7M32TETTYQLQPULRFURCZQBTFYQ)
+![User management view](https://raw.githubusercontent.com/p-malecki/LicenseHub/refs/heads/main/screenshots/2024-03-25%2015_32_48-UserManagementFormView.jpg)
+
 ## Appendix
 
 Design and architectural patterns that I used:
